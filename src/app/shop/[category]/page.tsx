@@ -1,4 +1,4 @@
-import { AtelierCard } from "@/components/house/AtelierCard";
+import { AtelierCard, shopTileGrid } from "@/components/house/AtelierCard";
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
 import { kindFromPath, kindLabels } from "@/data/seed-catalog";
 import { getProducts } from "@/lib/catalog";
@@ -24,7 +24,7 @@ export default async function CategoryPage({ params }: PageProps) {
           Other fragrance formats — attars, mists, and the like. Not makeup.
         </p>
       ) : null}
-      <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className={`mt-8 ${shopTileGrid}`}>
         {products.map((product) => (
           <AtelierCard key={product.id} product={product} />
         ))}

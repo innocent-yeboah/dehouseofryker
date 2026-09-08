@@ -1,4 +1,4 @@
-import { AtelierCard } from "@/components/house/AtelierCard";
+import { AtelierCard, shopTileGrid } from "@/components/house/AtelierCard";
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
 import { kindLabels, kindPaths } from "@/data/seed-catalog";
 import { getProducts } from "@/lib/catalog";
@@ -31,7 +31,7 @@ export default async function ShopPage() {
         return (
           <section key={kind} className="mt-12">
             <h2 className="font-serif text-2xl">{kindLabels[kind]}</h2>
-            <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={`mt-4 ${shopTileGrid}`}>
               {group.map((product) => (
                 <AtelierCard key={product.id} product={product} />
               ))}

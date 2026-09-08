@@ -1,44 +1,51 @@
 import Link from "next/link";
 import { availabilityFor, availabilityLabel } from "@/lib/availability";
 import { formatGhs, sizeLabel } from "@/lib/money";
-import { kindLabels, kindPaths } from "@/data/seed-catalog";
 import type { Product } from "@/types/shop";
 
 type AtelierCardProps = {
   product: Product;
 };
 
+/** Dense tile grid: two-up on phones, five-up on large screens. */
+export const shopTileGrid = "grid grid-cols-2 gap-1.5 sm:grid-cols-3 lg:grid-cols-5 lg:gap-2";
+
 export function AtelierCard({ product }: AtelierCardProps) {
   const first = product.variants[0];
   const status = first ? availabilityFor(first) : "unavailable";
   const from = first ? Math.min(...product.variants.map((item) => item.priceGhs)) : 0;
+  const photo = product.images[0];
+  const unavailable = status === "unavailable";
 
   return (
-    <article className="group flex flex-col border border-soft-gold/70 bg-white p-4 shadow-sm transition-transform duration-300 motion-safe:hover:-translate-y-0.5">
-      <div className="mb-4 flex aspect-square items-center justify-center bg-ivory sm:aspect-[4/5]">
-        <span className="font-serif text-4xl text-house-gold">{product.name.charAt(0)}</span>
-      </div>
-      <p className="text-xs uppercase tracking-[0.2em] text-muted">
-        {kindLabels[product.kind]}
-      </p>
-      <h2 className="mt-1 font-serif text-2xl text-ink">
-        <Link href={`/product/${product.slug}`} className="hover:text-deep-gold">
-          {product.name}
-        </Link>
-      </h2>
-      <ScentNote className="mt-2 line-clamp-3">{product.description}</ScentNote>
-      <p className="mt-3 text-sm text-deep-gold">{availabilityLabel(status)}</p>
-      {first ? (
-        <p className="mt-1 text-sm text-ink">
-          From {formatGhs(from)}
-          {first.sizeMl ? ` · ${sizeLabel(first.sizeMl)}` : ""}
-        </p>
-      ) : null}
+    <article className="h-full min-w-0">
       <Link
-        href={`/shop/${kindPaths[product.kind]}`}
-        className="mt-auto pt-4 text-xs uppercase tracking-widest text-muted hover:text-deep-gold"
+        href={`/product/${product.slug}`}
+        className={`flex h-full flex-col overflow-hidden border border-soft-gold/70 bg-white ${
+          unavailable ? "opacity-70" : ""
+        }`}
       >
-        View collection
+        <div className="flex aspect-square shrink-0 items-center justify-center overflow-hidden bg-ivory">
+          {photo ? (
+            <img src={photo} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <span className="font-serif text-2xl text-house-gold sm:text-3xl" aria-hidden="true">
+              {product.name.charAt(0)}
+            </span>
+          )}
+        </div>
+        <div className="flex h-[5.5rem] shrink-0 flex-col px-2 py-1.5">
+          <h2 className="line-clamp-2 font-serif text-[13px] leading-snug text-ink">{product.name}</h2>
+          {first ? (
+            <p className="mt-auto text-sm font-medium leading-none text-deep-gold">{formatGhs(from)}</p>
+          ) : (
+            <span className="mt-auto" />
+          )}
+          <p className="mt-1 line-clamp-1 text-[10px] leading-tight text-muted">
+            {availabilityLabel(status)}
+            {first?.sizeMl ? ` · ${sizeLabel(first.sizeMl)}` : ""}
+          </p>
+        </div>
       </Link>
     </article>
   );

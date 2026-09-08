@@ -1,4 +1,4 @@
-import { AtelierCard } from "@/components/house/AtelierCard";
+import { AtelierCard, shopTileGrid } from "@/components/house/AtelierCard";
 import { HouseHero } from "@/components/house/HouseHero";
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
 import { getFeatured, getProducts } from "@/lib/catalog";
@@ -13,7 +13,7 @@ export default async function HomePage() {
     <StorefrontChrome fullBleed={<HouseHero />}>
       <section>
         <h2 className="font-serif text-2xl sm:text-3xl">In the house</h2>
-        <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className={`mt-4 ${shopTileGrid}`}>
           {featured.map((product) => (
             <AtelierCard key={product.id} product={product} />
           ))}
@@ -38,7 +38,7 @@ export default async function HomePage() {
             Boxes and pouches you can add to the cart. For your own brand on a bottle, WhatsApp a
             branding job.
           </p>
-          <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={`mt-4 ${shopTileGrid}`}>
             {readyPackaging.map((product) => (
               <AtelierCard key={product.id} product={product} />
             ))}

@@ -1,7 +1,8 @@
 export const site = {
   name: "De House of Ryker",
-  tagline: "Oils, sprays, and the Accra shop — gold on ivory.",
-  heroPromise: "The collection, from the Accra shop.",
+  tagline:
+    "House oils and sprays, mixed in our Accra shop. Shop what is ready, or WhatsApp a custom blend and pay when you smell it.",
+  heroPromise: "Smell it here. Wear it as yours.",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "233000000000",
   momoMerchant: process.env.NEXT_PUBLIC_MOMO_MERCHANT ?? "233000000000",
   address: process.env.NEXT_PUBLIC_SHOP_ADDRESS ?? "Accra, Ghana",
