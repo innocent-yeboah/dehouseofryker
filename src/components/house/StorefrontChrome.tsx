@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export function HouseFooter() {
   return (
-    <footer className="mt-16 border-t border-soft-gold/70 bg-white">
+    <footer className="mt-10 border-t border-soft-gold/70 bg-white sm:mt-16">
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-3">
         <div>
           <p className="font-serif text-xl text-ink">{site.name}</p>
@@ -48,7 +48,7 @@ export function StorefrontChrome({
     <>
       <HouseNav />
       {fullBleed}
-      <main className="mx-auto min-h-[50vh] max-w-6xl px-4 py-8">{children}</main>
+      <main className="mx-auto min-h-[50vh] max-w-6xl px-4 py-6 sm:py-8">{children}</main>
       <HouseFooter />
     </>
   );

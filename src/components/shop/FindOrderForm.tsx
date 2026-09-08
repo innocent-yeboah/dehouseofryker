@@ -38,7 +38,7 @@ export function FindOrderForm() {
         <input required name="code" placeholder="DH-XXXX" className="mt-1 w-full border border-soft-gold bg-white px-3 py-2" />
       </label>
       {error ? <p className="text-sm text-deep-gold">{error}</p> : null}
-      <button type="submit" className="bg-house-gold px-6 py-3 text-sm font-medium text-ink">
+      <button type="submit" className="w-full bg-house-gold px-6 py-3 text-sm font-medium text-ink sm:w-auto">
         Find order
       </button>
     </form>

@@ -15,7 +15,7 @@ export default async function OrderPage({ params, searchParams }: PageProps) {
   if (!t) {
     return (
       <StorefrontChrome>
-        <h1 className="font-serif text-4xl">Look up this order</h1>
+        <h1 className="font-serif text-3xl sm:text-4xl">Look up this order</h1>
         <p className="mt-3 text-sm text-muted">
           The order code alone is not enough. Use find my order with your phone.
         </p>

@@ -12,7 +12,7 @@ export default async function HomePage() {
   return (
     <StorefrontChrome fullBleed={<HouseHero />}>
       <section>
-        <h2 className="font-serif text-3xl">In the house</h2>
+        <h2 className="font-serif text-2xl sm:text-3xl">In the house</h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {featured.map((product) => (
             <AtelierCard key={product.id} product={product} />
@@ -33,7 +33,7 @@ export default async function HomePage() {
 
       {readyPackaging.length > 0 ? (
         <section className="mt-12">
-          <h2 className="font-serif text-3xl">Ready packaging</h2>
+          <h2 className="font-serif text-2xl sm:text-3xl">Ready packaging</h2>
           <p className="mt-2 text-sm text-muted">
             Boxes and pouches you can add to the cart. For your own brand on a bottle, WhatsApp a
             branding job.

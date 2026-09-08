@@ -12,7 +12,7 @@ export function GoldMark({ className = "", showWord = true }: GoldMarkProps) {
         alt={showWord ? "De House of Ryker" : ""}
         width={160}
         height={160}
-        className="h-12 w-auto sm:h-14"
+        className="h-10 w-auto max-w-[7.5rem] object-contain sm:h-14 sm:max-w-[10rem]"
       />
     </span>
   );

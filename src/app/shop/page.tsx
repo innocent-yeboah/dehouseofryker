@@ -12,13 +12,13 @@ export default async function ShopPage() {
 
   return (
     <StorefrontChrome>
-      <h1 className="font-serif text-4xl">Shop</h1>
+      <h1 className="font-serif text-3xl sm:text-4xl">Shop</h1>
       <p className="mt-2 max-w-2xl text-sm text-muted">
         House names only. Custom inspired-by blends are on WhatsApp, not in this cart.
       </p>
       <div className="mt-6 flex flex-wrap gap-3 text-sm">
         {order.map((kind) => (
-          <Link key={kind} href={`/shop/${kindPaths[kind]}`} className="border border-soft-gold px-3 py-1">
+          <Link key={kind} href={`/shop/${kindPaths[kind]}`} className="inline-flex min-h-11 items-center border border-soft-gold px-3 py-2">
             {kindLabels[kind]}
           </Link>
         ))}

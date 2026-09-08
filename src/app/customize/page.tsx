@@ -8,14 +8,14 @@ export default function CustomizePage() {
 
   return (
     <StorefrontChrome>
-      <h1 className="font-serif text-4xl">Custom blend</h1>
+      <h1 className="font-serif text-3xl sm:text-4xl">Custom blend</h1>
       <p className="mt-4 max-w-xl text-lg leading-relaxed text-ink">{copy.customWhatsapp}</p>
       <p className="mt-4 max-w-xl text-sm text-muted">
         Same price as that size in the shop. Often ready the same day. If we cannot match it, we
         offer the closest house blend and wait for you to say yes before we make it. Public product
         names stay ours — never another house’s trademark.
       </p>
-      <a href={href} className="mt-8 inline-block bg-house-gold px-6 py-3 text-sm font-medium text-ink">
+      <a href={href} className="mt-8 inline-block w-full bg-house-gold px-6 py-3 text-center text-sm font-medium text-ink sm:w-auto">
         WhatsApp a custom request
       </a>
     </StorefrontChrome>

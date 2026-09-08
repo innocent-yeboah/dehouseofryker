@@ -27,7 +27,7 @@ export default async function AdminLoginPage({
             className="mt-1 w-full border border-soft-gold bg-white px-3 py-2"
           />
         </label>
-        <button type="submit" className="bg-house-gold px-6 py-3 text-sm font-medium text-ink">
+        <button type="submit" className="w-full bg-house-gold px-6 py-3 text-sm font-medium text-ink">
           Enter
         </button>
       </form>

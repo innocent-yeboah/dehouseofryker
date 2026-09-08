@@ -83,7 +83,7 @@ export function CartView({ products }: { products: Product[] }) {
       </ul>
       <p className="mt-6 text-lg">Products total {formatGhs(total)}</p>
       <p className="mt-1 text-sm text-muted">Delivery is never included here.</p>
-      <Link href="/checkout" className="mt-6 inline-block bg-house-gold px-6 py-3 text-sm font-medium text-ink">
+      <Link href="/checkout" className="mt-6 inline-block w-full bg-house-gold px-6 py-3 text-center text-sm font-medium text-ink sm:w-auto">
         Checkout
       </Link>
     </div>

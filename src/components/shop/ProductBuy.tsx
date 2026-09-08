@@ -69,7 +69,7 @@ export function ProductBuy({ product }: { product: Product }) {
       ) : (
         <button
           type="button"
-          className="bg-house-gold px-6 py-3 text-sm font-medium text-ink hover:bg-deep-gold hover:text-white"
+          className="w-full bg-house-gold px-6 py-3 text-sm font-medium text-ink sm:w-auto hover:bg-deep-gold hover:text-white"
           onClick={() => {
             const result = add(variant.id, 1, variant.maxRetailQty);
             setMessage(result.ok ? "Added to cart." : result.message ?? "Could not add.");

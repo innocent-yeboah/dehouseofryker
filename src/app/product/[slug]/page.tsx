@@ -25,7 +25,7 @@ export default async function ProductPage({ params }: PageProps) {
           <span className="font-serif text-7xl text-house-gold">{product.name.charAt(0)}</span>
         </div>
         <div>
-          <h1 className="font-serif text-4xl">{product.name}</h1>
+          <h1 className="font-serif text-3xl sm:text-4xl">{product.name}</h1>
           <ScentNote className="mt-4">{product.description}</ScentNote>
           <ProductBuy product={product} />
           <p className="mt-8 text-sm text-muted">

@@ -15,7 +15,7 @@ export function AtelierCard({ product }: AtelierCardProps) {
 
   return (
     <article className="group flex flex-col border border-soft-gold/70 bg-white p-4 shadow-sm transition-transform duration-300 motion-safe:hover:-translate-y-0.5">
-      <div className="mb-4 flex aspect-[4/5] items-center justify-center bg-ivory">
+      <div className="mb-4 flex aspect-square items-center justify-center bg-ivory sm:aspect-[4/5]">
         <span className="font-serif text-4xl text-house-gold">{product.name.charAt(0)}</span>
       </div>
       <p className="text-xs uppercase tracking-[0.2em] text-muted">

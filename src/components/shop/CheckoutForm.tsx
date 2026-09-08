@@ -207,7 +207,7 @@ export function CheckoutForm({ paymentMode, merchantNumber }: CheckoutFormProps)
       <button
         type="submit"
         disabled={busy}
-        className="bg-house-gold px-6 py-3 text-sm font-medium text-ink disabled:opacity-60"
+        className="w-full bg-house-gold px-6 py-3 text-sm font-medium text-ink sm:w-auto disabled:opacity-60"
       >
         {busy ? "Placing order…" : "Place order"}
       </button>

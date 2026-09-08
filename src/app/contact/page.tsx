@@ -4,7 +4,7 @@ import { site, whatsappHref } from "@/lib/site";
 export default function ContactPage() {
   return (
     <StorefrontChrome>
-      <h1 className="font-serif text-4xl">Contact</h1>
+      <h1 className="font-serif text-3xl sm:text-4xl">Contact</h1>
       <p className="mt-4 text-sm">
         {site.address}
         <br />

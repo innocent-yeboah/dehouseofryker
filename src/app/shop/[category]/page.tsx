@@ -18,7 +18,7 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <StorefrontChrome>
-      <h1 className="font-serif text-4xl">{kindLabels[kind]}</h1>
+      <h1 className="font-serif text-3xl sm:text-4xl">{kindLabels[kind]}</h1>
       {kind === "format" ? (
         <p className="mt-2 text-sm text-muted">
           Other fragrance formats — attars, mists, and the like. Not makeup.
