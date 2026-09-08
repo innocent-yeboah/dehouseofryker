@@ -1,6 +1,7 @@
 export const site = {
   name: "De House of Ryker",
   tagline: "Oils, sprays, and the Accra shop — gold on ivory.",
+  heroPromise: "The collection, from the Accra shop.",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "233000000000",
   momoMerchant: process.env.NEXT_PUBLIC_MOMO_MERCHANT ?? "233000000000",
   address: process.env.NEXT_PUBLIC_SHOP_ADDRESS ?? "Accra, Ghana",
@@ -23,4 +24,6 @@ export const copy = {
     "Tell us the scent you have in mind on WhatsApp. Come smell it, then pay at the shop. This is not an online purchase.",
   returns:
     "We do not take back opened fragrance, for hygiene. If we sent the wrong item or it arrived damaged, we will replace it.",
+  heroFulfillment:
+    "Accra pickup or Ghana delivery — products only at checkout.",
 } as const;

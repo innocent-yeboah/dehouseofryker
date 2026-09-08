@@ -37,11 +37,18 @@ export function HouseFooter() {
   );
 }
 
-export function StorefrontChrome({ children }: { children: React.ReactNode }) {
+export function StorefrontChrome({
+  children,
+  fullBleed,
+}: {
+  children: React.ReactNode;
+  fullBleed?: React.ReactNode;
+}) {
   return (
     <>
       <HouseNav />
-      <main className="mx-auto min-h-[70vh] max-w-6xl px-4 py-10">{children}</main>
+      {fullBleed}
+      <main className="mx-auto min-h-[50vh] max-w-6xl px-4 py-8">{children}</main>
       <HouseFooter />
     </>
   );
