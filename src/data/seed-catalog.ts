@@ -7,11 +7,13 @@ import type { Product, Variant } from "@/types/shop";
  * priceGhs and stockOnHand are PLACEHOLDERS. The owner has not set final Accra prices.
  * Mask sachets, lip masks, the eye-mask sachet, and the KORMESIC soaps use the same
  * placeholder band as the other format SKUs (about 40–55 GHS, near the 100 g scrubs).
- * Perfume oils (Play Blue, the crystal flacon, and the YZS bottles) use a placeholder
- * band of about 80–120 GHS. They are not Accra prices.
+ * Perfume oils (Play Blue, the crystal flacon, the YZS bottles, and Veyes 9 am) use a
+ * placeholder band of about 80–150 GHS. They are not Accra prices.
  * Spray sizeMl is a visual estimate (50): the photos do not show a printed volume.
  * Scrub tubes and the shea soap are sold by weight (100 g), so sizeMl is null and sizeText is "100 g".
- * The niacinamide soap is 110 g. Lip masks are 4.5 g sachets. Play Blue is 100 g.
+ * The niacinamide soap is 110 g. FAYANKÔU lip masks and the SADOER orange lip mask are 4.5 g sachets.
+ * SADOER strawberry and POUQUR cherry pink lip masks are one sachet (no printed net on the tile).
+ * Eye masks are one sachet, two patches. Play Blue is 100 g. Veyes 9 am is 100 ml.
  * Masks use sizeText "25 ml" (Net 25 ml sachets). YZS bottles and the crystal flacon use "50 ml".
  *
  * White Tea Mist is the house title for the white-tea hair & body mist bottle.
@@ -897,6 +899,100 @@ export const seedProducts: Product[] = [
     variants: [
       unit(1054, 54, "DHR-OIL-YZS-RBY-50", 98, 7, {
         sizeText: "50 ml",
+      }),
+    ],
+  },
+  {
+    id: 55,
+    name: "SADOER Sweet Strawberry Lip Mask",
+    slug: "lip-sadoer-strawberry",
+    description:
+      "SADOER sweet strawberry lip mask, Sweet Fruit series. One sachet.",
+    kind: "format",
+    images: [photo("lip-sadoer-strawberry.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1055, 55, "DHR-LIP-SAD-STR", 48, 12, {
+        sizeText: "one sachet",
+      }),
+    ],
+  },
+  {
+    id: 56,
+    name: "POUQUR Cherry Pink Lip Mask",
+    slug: "lip-pouqur-cherry-pink",
+    description: "POUQUR cherry pink lip mask, Fruit series. One sachet.",
+    kind: "format",
+    images: [photo("lip-pouqur-cherry-pink.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1056, 56, "DHR-LIP-POU-PNK", 46, 11, {
+        sizeText: "one sachet",
+      }),
+    ],
+  },
+  {
+    id: 57,
+    name: "POUQUR Aloe Vera Collagen Eye Mask",
+    slug: "eye-pouqur-aloe-collagen",
+    description:
+      "POUQUR aloe vera collagen eye mask, Eye Care series. One sachet, two patches.",
+    kind: "format",
+    images: [photo("eye-pouqur-aloe-collagen.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1057, 57, "DHR-EYE-POU-ALOE", 50, 10, {
+        sizeText: "1 sachet (2 patches)",
+      }),
+    ],
+  },
+  {
+    id: 58,
+    name: "SADOER Hyaluronic Acid Delicate Moisturizing Eye Mask",
+    slug: "eye-sadoer-hyaluronic",
+    description:
+      "SADOER hyaluronic acid delicate moisturizing eye mask. One sachet, two patches.",
+    kind: "format",
+    images: [photo("eye-sadoer-hyaluronic.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1058, 58, "DHR-EYE-SAD-HA", 52, 9, {
+        sizeText: "1 sachet (2 patches)",
+      }),
+    ],
+  },
+  {
+    id: 59,
+    name: "SADOER Orange Moisturizing Lip Mask",
+    slug: "lip-sadoer-orange",
+    description:
+      "SADOER orange moisturizing lip mask, Fruit series. One 4.5 g sachet.",
+    kind: "format",
+    images: [photo("lip-sadoer-orange.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1059, 59, "DHR-LIP-SAD-ORG-45", 49, 10, {
+        sizeText: "4.5 g",
+      }),
+    ],
+  },
+  {
+    id: 60,
+    name: "Veyes \"9 am\" Eau de Parfum 100 ml",
+    slug: "perfume-veyes-9am",
+    description: "Veyes 9 am eau de parfum. 100 ml.",
+    kind: "oil",
+    images: [photo("perfume-veyes-9am.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1060, 60, "DHR-OIL-VEYES-100", 120, 6, {
+        sizeText: "100 ml",
       }),
     ],
   },
