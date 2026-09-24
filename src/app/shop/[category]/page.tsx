@@ -22,8 +22,14 @@ export default async function CategoryPage({ params }: PageProps) {
       <h1 className="font-serif text-3xl sm:text-4xl">{kindLabels[kind]}</h1>
       {kind === "format" ? (
         <p className="mt-2 max-w-2xl text-sm text-muted">
-          KÖRMESIC face scrubs (100 g), PUQIANNA facial masks (25 ml), KORMESIC soap (100 g),
-          and alcohol-free hair and body mists (290 ml).
+          KÖRMESIC face scrubs (100 g), PUQIANNA facial masks (25 ml), KORMESIC soap,
+          HANYUTANG eye masks, FAYANKÔU lip masks, and alcohol-free hair and body mists (290 ml).
+        </p>
+      ) : null}
+      {kind === "oil" ? (
+        <p className="mt-2 max-w-2xl text-sm text-muted">
+          Almas Play Blue concentrated perfume oil (100 g), Crystal Amber inspired perfume, and YZS
+          50 ml eaux de parfum.
         </p>
       ) : null}
       {products.length === 0 ? (

@@ -21,6 +21,9 @@ export function HouseFooter() {
             <Link href="/shop" className="hover:text-house-gold">
               All products
             </Link>
+            <Link href={`/shop/${kindPaths.oil}`} className="hover:text-house-gold">
+              {kindLabels.oil}
+            </Link>
             <Link href={`/shop/${kindPaths.spray}`} className="hover:text-house-gold">
               {kindLabels.spray}
             </Link>

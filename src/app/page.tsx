@@ -66,6 +66,12 @@ export default async function HomePage() {
           products={products.filter((item) => item.kind === "format")}
         />
 
+        <ProductRail
+          title={kindLabels.oil}
+          href={`/shop/${kindPaths.oil}`}
+          products={products.filter((item) => item.kind === "oil")}
+        />
+
         <section className="mx-auto grid max-w-7xl gap-4 px-3 py-6 sm:px-4 lg:grid-cols-[280px_1fr]">
           <Link
             href="/customize"

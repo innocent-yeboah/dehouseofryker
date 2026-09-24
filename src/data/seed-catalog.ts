@@ -5,16 +5,22 @@ import type { Product, Variant } from "@/types/shop";
  * referenced as root-relative paths so Next.js serves them on Vercel.
  *
  * priceGhs and stockOnHand are PLACEHOLDERS. The owner has not set final Accra prices.
- * Mask sachets and the KORMESIC soap use the same placeholder band as the other
- * format SKUs (about 40–55 GHS, near the 100 g scrubs). They are not Accra prices.
+ * Mask sachets, lip masks, the eye-mask sachet, and the KORMESIC soaps use the same
+ * placeholder band as the other format SKUs (about 40–55 GHS, near the 100 g scrubs).
+ * Perfume oils (Play Blue, the crystal flacon, and the YZS bottles) use a placeholder
+ * band of about 80–120 GHS. They are not Accra prices.
  * Spray sizeMl is a visual estimate (50): the photos do not show a printed volume.
- * Scrub tubes and the soap are sold by weight (100 g), so sizeMl is null and sizeText is "100 g".
- * Masks use sizeText "25 ml" (Net 25 ml sachets).
+ * Scrub tubes and the shea soap are sold by weight (100 g), so sizeMl is null and sizeText is "100 g".
+ * The niacinamide soap is 110 g. Lip masks are 4.5 g sachets. Play Blue is 100 g.
+ * Masks use sizeText "25 ml" (Net 25 ml sachets). YZS bottles and the crystal flacon use "50 ml".
  *
  * White Tea Mist is the house title for the white-tea hair & body mist bottle.
- * Finished scrubs, mists, masks, and soap are not blend-to-order (blendWhenZero: false).
+ * Crystal Amber Inspired Perfume is the house title for the faceted crystal bottle.
+ * Do not sell that flacon under the name printed on the glass.
+ * Finished scrubs, mists, masks, lip masks, the eye mask, soap, and perfume oils
+ * are not blend-to-order (blendWhenZero: false).
  * The two glass sprays keep the house spray pattern (blendWhenZero: true).
- * Featured masks are a small set only: 24K Gold, Niacinamide, and Coffee, plus the KORMESIC soap.
+ * Featured masks are a small set only: 24K Gold, Niacinamide, and Coffee, plus the KORMESIC soaps.
  */
 
 const photo = (file: string) => `/products/${file}`;
@@ -679,6 +685,218 @@ export const seedProducts: Product[] = [
     variants: [
       unit(1040, 40, "DHR-SOAP-WHITE-100", 52, 14, {
         sizeText: "100 g",
+      }),
+    ],
+  },
+  {
+    id: 41,
+    name: "KORMESIC Niacinamide Whitening Soap",
+    slug: "kormesic-niacinamide-whitening-soap",
+    description: "KORMESIC niacinamide deep-cleaning whitening soap. A 110 g bar.",
+    kind: "format",
+    images: [photo("soap-kormesic-niacinamide.png")],
+    active: true,
+    featured: true,
+    variants: [
+      unit(1041, 41, "DHR-SOAP-NIAC-110", 54, 12, {
+        sizeText: "110 g",
+      }),
+    ],
+  },
+  {
+    id: 42,
+    name: "HANYUTANG Crystal Collagen Eye Mask",
+    slug: "hanyutang-crystal-collagen-eye-mask",
+    description:
+      "HANYUTANG crystal collagen gold-powder eye mask. One sachet, two patches.",
+    kind: "format",
+    images: [photo("eye-hanyutang-collagen.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1042, 42, "DHR-EYE-COLLAGEN-2", 48, 10, {
+        sizeText: "1 sachet (2 patches)",
+      }),
+    ],
+  },
+  {
+    id: 43,
+    name: "FAYANKÔU Cherry Moisturizing Soft Lip Mask",
+    slug: "fayankou-cherry-lip-mask",
+    description: "FAYANKÔU moisturizing soft lip mask, Cherry. One 4.5 g sachet.",
+    kind: "format",
+    images: [photo("lip-cherry.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1043, 43, "DHR-LIP-CHERRY-45", 44, 14, {
+        sizeText: "4.5 g",
+      }),
+    ],
+  },
+  {
+    id: 44,
+    name: "FAYANKÔU Avocado Moisturizing Soft Lip Mask",
+    slug: "fayankou-avocado-lip-mask",
+    description: "FAYANKÔU moisturizing soft lip mask, Avocado. One 4.5 g sachet.",
+    kind: "format",
+    images: [photo("lip-avocado.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1044, 44, "DHR-LIP-AVO-45", 42, 11, {
+        sizeText: "4.5 g",
+      }),
+    ],
+  },
+  {
+    id: 45,
+    name: "FAYANKÔU Strawberry Moisturizing Soft Lip Mask",
+    slug: "fayankou-strawberry-lip-mask",
+    description: "FAYANKÔU moisturizing soft lip mask, Strawberry. One 4.5 g sachet.",
+    kind: "format",
+    images: [photo("lip-strawberry.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1045, 45, "DHR-LIP-STRAW-45", 44, 13, {
+        sizeText: "4.5 g",
+      }),
+    ],
+  },
+  {
+    id: 46,
+    name: "FAYANKÔU Aloe Moisturizing Soft Lip Mask",
+    slug: "fayankou-aloe-lip-mask",
+    description: "FAYANKÔU moisturizing soft lip mask, Aloe. One 4.5 g sachet.",
+    kind: "format",
+    images: [photo("lip-aloe.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1046, 46, "DHR-LIP-ALOE-45", 42, 12, {
+        sizeText: "4.5 g",
+      }),
+    ],
+  },
+  {
+    id: 47,
+    name: "FAYANKÔU Honey Orange Moisturizing Soft Lip Mask",
+    slug: "fayankou-honey-orange-lip-mask",
+    description: "FAYANKÔU moisturizing soft lip mask, Honey Orange. One 4.5 g sachet.",
+    kind: "format",
+    images: [photo("lip-honey.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1047, 47, "DHR-LIP-HONEY-45", 45, 10, {
+        sizeText: "4.5 g",
+      }),
+    ],
+  },
+  {
+    id: 48,
+    name: "FAYANKÔU Blueberry Moisturizing Soft Lip Mask",
+    slug: "fayankou-blueberry-lip-mask",
+    description: "FAYANKÔU moisturizing soft lip mask, Blueberry. One 4.5 g sachet.",
+    kind: "format",
+    images: [photo("lip-blueberry.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1048, 48, "DHR-LIP-BLUE-45", 44, 9, {
+        sizeText: "4.5 g",
+      }),
+    ],
+  },
+  {
+    id: 49,
+    name: "Almas Play Blue Perfume Oil",
+    slug: "almas-play-blue-perfume-oil",
+    description: "Almas Play Blue concentrated perfume oil. A 100 g bottle.",
+    kind: "oil",
+    images: [photo("oil-play-blue.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1049, 49, "DHR-OIL-PLAYBLUE-100", 110, 8, {
+        sizeText: "100 g",
+      }),
+    ],
+  },
+  {
+    id: 50,
+    name: "Crystal Amber Inspired Perfume",
+    slug: "crystal-amber-inspired-perfume",
+    description:
+      "House title for a faceted crystal bottle of amber perfume with a glass stopper, Mouslhorov-style flacon. About 50 ml.",
+    kind: "oil",
+    images: [photo("perfume-caron-mouslhorov.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1050, 50, "DHR-OIL-AMBER-50", 120, 6, {
+        sizeText: "50 ml",
+      }),
+    ],
+  },
+  {
+    id: 51,
+    name: "YZS White 50 ml",
+    slug: "yzs-white-50ml",
+    description: "YZS White eau de parfum in a white bottle. 50 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-white.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1051, 51, "DHR-OIL-YZS-WHT-50", 95, 8, {
+        sizeText: "50 ml",
+      }),
+    ],
+  },
+  {
+    id: 52,
+    name: "YZS Peach 50 ml",
+    slug: "yzs-peach-50ml",
+    description: "YZS Peach eau de parfum in a peach bottle. 50 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-peach.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1052, 52, "DHR-OIL-YZS-PCH-50", 90, 7, {
+        sizeText: "50 ml",
+      }),
+    ],
+  },
+  {
+    id: 53,
+    name: "YZS Black 50 ml",
+    slug: "yzs-black-50ml",
+    description: "YZS Black eau de parfum in a black bottle. 50 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-black.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1053, 53, "DHR-OIL-YZS-BLK-50", 100, 8, {
+        sizeText: "50 ml",
+      }),
+    ],
+  },
+  {
+    id: 54,
+    name: "YZS Ruby 50 ml",
+    slug: "yzs-ruby-50ml",
+    description: "YZS Ruby eau de parfum in a ruby bottle. 50 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-ruby.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1054, 54, "DHR-OIL-YZS-RBY-50", 98, 7, {
+        sizeText: "50 ml",
       }),
     ],
   },
