@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { kindPaths } from "@/data/seed-catalog";
+import { kindLabels, kindPaths } from "@/data/seed-catalog";
 
 const slides = [
   {
@@ -14,9 +14,9 @@ const slides = [
   },
   {
     eyebrow: "Skin and scent",
-    title: "Scrubs and hair & body mists from the house",
+    title: "Scrubs, masks, soap, and hair & body mists",
     href: `/shop/${kindPaths.format}`,
-    cta: "Shop scrubs & mists",
+    cta: `Shop ${kindLabels.format.toLowerCase()}`,
     tone: "from-[#f4ead4] via-[#efe0c0] to-[#e8d5a3] text-ink",
   },
   {

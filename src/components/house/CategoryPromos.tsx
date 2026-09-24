@@ -12,7 +12,7 @@ const promos: { href: string; eyebrow: string; title: string; cta: string; tone:
   {
     href: `/shop/${kindPaths.format}`,
     eyebrow: "On the shelf",
-    title: "Scrubs and mists",
+    title: "Skin care & mists",
     cta: `Shop ${kindLabels.format}`,
     tone: "bg-[#efe6d4] text-ink",
   },

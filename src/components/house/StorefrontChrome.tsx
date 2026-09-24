@@ -1,5 +1,6 @@
 import { HouseNav } from "@/components/house/HouseNav";
 import { MobileDock } from "@/components/house/MobileDock";
+import { kindLabels, kindPaths } from "@/data/seed-catalog";
 import { site, whatsappHref } from "@/lib/site";
 import Link from "next/link";
 
@@ -20,11 +21,11 @@ export function HouseFooter() {
             <Link href="/shop" className="hover:text-house-gold">
               All products
             </Link>
-            <Link href="/shop/sprays" className="hover:text-house-gold">
-              Sprays
+            <Link href={`/shop/${kindPaths.spray}`} className="hover:text-house-gold">
+              {kindLabels.spray}
             </Link>
-            <Link href="/shop/formats" className="hover:text-house-gold">
-              Scrubs & mists
+            <Link href={`/shop/${kindPaths.format}`} className="hover:text-house-gold">
+              {kindLabels.format}
             </Link>
             <Link href="/customize" className="hover:text-house-gold">
               Custom blend

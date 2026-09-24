@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { GoldMark } from "@/components/house/GoldMark";
+import { kindLabels, kindPaths } from "@/data/seed-catalog";
 import { site } from "@/lib/site";
 import { useCart } from "@/store/cart";
 
@@ -28,8 +29,8 @@ const mainLinks = [
 ];
 
 const shopByKind = [
-  { href: "/shop/sprays", label: "Sprays" },
-  { href: "/shop/formats", label: "Scrubs & mists" },
+  { href: `/shop/${kindPaths.spray}`, label: kindLabels.spray },
+  { href: `/shop/${kindPaths.format}`, label: kindLabels.format },
 ];
 
 function formatHotline(raw: string): string {
