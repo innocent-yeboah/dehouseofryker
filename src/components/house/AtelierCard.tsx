@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { ProductImage } from "@/components/house/ProductImage";
 import { availabilityFor, availabilityLabel } from "@/lib/availability";
-import { formatGhs, sizeLabel } from "@/lib/money";
+import { formatGhs, variantSizeLabel } from "@/lib/money";
 import { whatsappHref } from "@/lib/site";
 import { useCart } from "@/store/cart";
 import type { Product } from "@/types/shop";
@@ -24,21 +25,31 @@ export function AtelierCard({ product }: AtelierCardProps) {
   const add = useCart((state) => state.add);
   const [message, setMessage] = useState<string | null>(null);
 
+  const size = first ? variantSizeLabel(first) : "";
   const wa = whatsappHref(
-    `Hello, I am interested in ${product.name}${first?.sizeMl ? ` (${first.sizeMl}ml)` : ""}.`,
+    `Hello, I am interested in ${product.name}${size && size !== "One size" ? ` (${size})` : ""}.`,
   );
 
   return (
     <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm">
       <Link href={`/product/${product.slug}`} className={unavailable ? "opacity-70" : ""}>
-        <div className="flex aspect-square items-center justify-center overflow-hidden bg-[#f7f3ea]">
-          {photo ? (
-            <img src={photo} alt="" className="h-full w-full object-cover" />
-          ) : (
-            <span className="font-serif text-3xl text-house-gold" aria-hidden="true">
-              {product.name.charAt(0)}
-            </span>
-          )}
+        <div className="relative aspect-square overflow-hidden bg-white">
+          <div className="absolute inset-3">
+            {photo ? (
+              <ProductImage
+                src={photo}
+                alt={product.name}
+                sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+              />
+            ) : (
+              <span
+                className="absolute inset-0 flex items-center justify-center font-serif text-3xl text-house-gold"
+                aria-hidden="true"
+              >
+                {product.name.charAt(0)}
+              </span>
+            )}
+          </div>
         </div>
         <div className="px-3 pt-3">
           <h2 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-ink">
@@ -49,7 +60,7 @@ export function AtelierCard({ product }: AtelierCardProps) {
           ) : null}
           <p className="mt-1 line-clamp-1 text-[11px] text-muted">
             {availabilityLabel(status)}
-            {first?.sizeMl ? ` · ${sizeLabel(first.sizeMl)}` : ""}
+            {size && size !== "One size" ? ` · ${size}` : ""}
           </p>
         </div>
       </Link>

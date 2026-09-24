@@ -6,9 +6,8 @@ export default function AboutPage() {
     <StorefrontChrome>
       <h1 className="font-serif text-3xl sm:text-4xl">The house</h1>
       <p className="mt-4 max-w-xl text-sm leading-relaxed text-muted">
-        {site.name} is an Accra perfume house. We blend oils and sprays, fill other formats, and
-        keep empty bottles and packaging for people who work with scent. Walk in, or order ready
-        stock here.
+        {site.name} is an Accra perfume house. The shelf holds glass sprays, face scrubs, and
+        hair and body mists. Walk in, or order ready stock here. Custom blends stay on WhatsApp.
       </p>
       <p className="mt-4 text-sm">
         {site.address}

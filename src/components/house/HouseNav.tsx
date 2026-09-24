@@ -28,11 +28,8 @@ const mainLinks = [
 ];
 
 const shopByKind = [
-  { href: "/shop/oils", label: "Oils" },
   { href: "/shop/sprays", label: "Sprays" },
-  { href: "/shop/formats", label: "Other formats" },
-  { href: "/shop/bottles", label: "Empty bottles" },
-  { href: "/shop/packaging", label: "Packaging" },
+  { href: "/shop/formats", label: "Scrubs & mists" },
 ];
 
 function formatHotline(raw: string): string {

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { availabilityFor, availabilityLabel } from "@/lib/availability";
-import { formatGhs, sizeLabel } from "@/lib/money";
+import { formatGhs, variantSizeLabel } from "@/lib/money";
 import { copy, whatsappHref } from "@/lib/site";
 import { useCart } from "@/store/cart";
 import type { Product } from "@/types/shop";
@@ -41,7 +41,7 @@ export function ProductBuy({ product }: { product: Product }) {
                   checked={item.id === variant.id}
                   onChange={() => setVariantId(item.id)}
                 />
-                {sizeLabel(item.sizeMl)} · {formatGhs(item.priceGhs)}
+                {variantSizeLabel(item)} · {formatGhs(item.priceGhs)}
                 <span className="block text-xs text-muted">{availabilityLabel(itemStatus)}</span>
               </label>
             );

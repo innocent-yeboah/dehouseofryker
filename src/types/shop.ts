@@ -27,6 +27,8 @@ export type Variant = {
   id: number;
   productId: number;
   sizeMl: number | null;
+  /** Display size when it is not millilitres, for example a 100 g tube. */
+  sizeText?: string;
   sku: string;
   priceGhs: number;
   stockOnHand: number;

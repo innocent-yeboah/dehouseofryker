@@ -2,7 +2,7 @@ import { WalkInForm } from "@/components/admin/OwnerOps";
 import { requireOwner } from "@/lib/require-owner";
 import { availabilityFor, availabilityLabel, shelfQty } from "@/lib/availability";
 import { getProducts } from "@/lib/catalog";
-import { formatGhs, sizeLabel } from "@/lib/money";
+import { formatGhs, variantSizeLabel } from "@/lib/money";
 
 export default async function AdminProductsPage() {
   await requireOwner();
@@ -32,7 +32,7 @@ export default async function AdminProductsPage() {
               product.variants.map((variant) => (
                 <tr key={variant.id} className="border-b border-soft-gold/40">
                   <td className="py-2">{product.name}</td>
-                  <td>{sizeLabel(variant.sizeMl)}</td>
+                  <td>{variantSizeLabel(variant)}</td>
                   <td>{formatGhs(variant.priceGhs)}</td>
                   <td>{variant.stockOnHand}</td>
                   <td>{variant.stockReserved}</td>

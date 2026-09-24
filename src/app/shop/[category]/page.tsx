@@ -20,15 +20,19 @@ export default async function CategoryPage({ params }: PageProps) {
     <StorefrontChrome>
       <h1 className="font-serif text-3xl sm:text-4xl">{kindLabels[kind]}</h1>
       {kind === "format" ? (
-        <p className="mt-2 text-sm text-muted">
-          Other fragrance formats — attars, mists, and the like. Not makeup.
+        <p className="mt-2 max-w-2xl text-sm text-muted">
+          KÖRMESIC face scrubs (100 g) and alcohol-free hair and body mists (290 ml).
         </p>
       ) : null}
-      <div className={`mt-8 ${shopTileGrid}`}>
-        {products.map((product) => (
-          <AtelierCard key={product.id} product={product} />
-        ))}
-      </div>
+      {products.length === 0 ? (
+        <p className="mt-8 text-sm text-muted">Nothing in this category right now.</p>
+      ) : (
+        <div className={`mt-8 ${shopTileGrid}`}>
+          {products.map((product) => (
+            <AtelierCard key={product.id} product={product} />
+          ))}
+        </div>
+      )}
     </StorefrontChrome>
   );
 }

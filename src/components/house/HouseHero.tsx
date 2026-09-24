@@ -6,32 +6,18 @@ import { kindPaths } from "@/data/seed-catalog";
 
 const slides = [
   {
-    eyebrow: "Soft on skin, strong in Accra",
-    title: "House perfume oils, ready on the shelf",
-    href: `/shop/${kindPaths.oil}`,
-    cta: "Shop oils",
-    tone: "from-[#f4ead4] via-[#efe0c0] to-[#e8d5a3] text-ink",
-  },
-  {
     eyebrow: "Spray and go",
-    title: "House sprays mixed in our Accra shop",
+    title: "Blue and red glass sprays, ready on the shelf",
     href: `/shop/${kindPaths.spray}`,
     cta: "Shop sprays",
     tone: "from-[#2a231c] via-[#1a1612] to-[#3d3228] text-white",
   },
   {
-    eyebrow: "Other formats",
-    title: "Mists, attars, and formats beyond the bottle",
+    eyebrow: "Skin and scent",
+    title: "Scrubs and hair & body mists from the house",
     href: `/shop/${kindPaths.format}`,
-    cta: "Shop formats",
-    tone: "from-[#8c6a2b] via-[#c6a15b] to-[#8c6a2b] text-white",
-  },
-  {
-    eyebrow: "Empty bottles & packaging",
-    title: "Fill, gift, or brand — ready stock in the house",
-    href: `/shop/${kindPaths.packaging}`,
-    cta: "Shop packaging",
-    tone: "from-[#fbf7ef] via-[#f6edd8] to-[#e8d5a3] text-ink",
+    cta: "Shop scrubs & mists",
+    tone: "from-[#f4ead4] via-[#efe0c0] to-[#e8d5a3] text-ink",
   },
   {
     eyebrow: "Custom blend",

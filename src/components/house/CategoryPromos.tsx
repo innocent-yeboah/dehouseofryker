@@ -1,30 +1,33 @@
 import Link from "next/link";
 import { kindLabels, kindPaths } from "@/data/seed-catalog";
-import type { ProductKind } from "@/types/shop";
 
-const promos: { kind: ProductKind; eyebrow: string; title: string; tone: string }[] = [
+const promos: { href: string; eyebrow: string; title: string; cta: string; tone: string }[] = [
   {
-    kind: "oil",
-    eyebrow: "On the shelf",
-    title: "Perfume oils",
-    tone: "bg-[#efe6d4] text-ink",
-  },
-  {
-    kind: "spray",
+    href: `/shop/${kindPaths.spray}`,
     eyebrow: "House sprays",
-    title: "Sprays to wear",
+    title: "Glass sprays",
+    cta: `Shop ${kindLabels.spray}`,
     tone: "bg-[#1a1612] text-white",
   },
   {
-    kind: "empty_bottle",
-    eyebrow: "Fill your own",
-    title: "Empty bottles",
+    href: `/shop/${kindPaths.format}`,
+    eyebrow: "On the shelf",
+    title: "Scrubs and mists",
+    cta: `Shop ${kindLabels.format}`,
+    tone: "bg-[#efe6d4] text-ink",
+  },
+  {
+    href: "/shop",
+    eyebrow: "The catalog",
+    title: "Shop the house",
+    cta: "See every product",
     tone: "bg-[#c6a15b] text-ink",
   },
   {
-    kind: "packaging",
-    eyebrow: "Gift ready",
-    title: "Packaging",
+    href: "/customize",
+    eyebrow: "Custom blend",
+    title: "Smell it, then pay",
+    cta: "Start on WhatsApp",
     tone: "bg-[#8c6a2b] text-white",
   },
 ];
@@ -35,13 +38,13 @@ export function CategoryPromos() {
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {promos.map((item) => (
           <Link
-            key={item.kind}
-            href={`/shop/${kindPaths[item.kind]}`}
+            key={item.href}
+            href={item.href}
             className={`rounded-2xl px-5 py-6 transition-transform motion-safe:hover:-translate-y-0.5 ${item.tone}`}
           >
             <p className="text-[11px] uppercase tracking-[0.18em] opacity-80">{item.eyebrow}</p>
             <h2 className="mt-2 font-serif text-2xl">{item.title}</h2>
-            <p className="mt-4 text-sm font-medium opacity-90">Shop {kindLabels[item.kind]} →</p>
+            <p className="mt-4 text-sm font-medium opacity-90">{item.cta} →</p>
           </Link>
         ))}
       </div>

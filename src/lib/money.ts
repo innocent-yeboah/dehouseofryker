@@ -12,3 +12,14 @@ export function sizeLabel(sizeMl: number | null): string {
   }
   return `${sizeMl}ml`;
 }
+
+export function variantSizeLabel(variant: {
+  sizeMl: number | null;
+  sizeText?: string | null;
+}): string {
+  const text = variant.sizeText?.trim();
+  if (text) {
+    return text;
+  }
+  return sizeLabel(variant.sizeMl);
+}

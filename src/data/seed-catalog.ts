@@ -1,339 +1,235 @@
-import type { Product } from "@/types/shop";
+import type { Product, Variant } from "@/types/shop";
 
 /**
- * House catalog placeholders until the owner supplies real names, sizes, prices, and photos.
- * Names are original to De House of Ryker — never designer trademarks.
+ * Photographed retail catalog. Studio shots live in `public/products/` and are
+ * referenced as root-relative paths so Next.js serves them on Vercel.
+ *
+ * priceGhs and stockOnHand are PLACEHOLDERS. The owner has not set final Accra prices.
+ * Spray sizeMl is a visual estimate (50): the photos do not show a printed volume.
+ * Scrub tubes are sold by weight (100 g), so sizeMl is null and sizeText is "100 g".
+ *
+ * White Tea Mist is the house title for the white-tea hair & body mist bottle.
+ * Finished scrubs and mists are not blend-to-order (blendWhenZero: false).
+ * The two glass sprays keep the house spray pattern (blendWhenZero: true).
  */
+
+const photo = (file: string) => `/products/${file}`;
+
+function unit(
+  id: number,
+  productId: number,
+  sku: string,
+  priceGhs: number,
+  stockOnHand: number,
+  options: {
+    sizeMl?: number | null;
+    sizeText?: string;
+    blendWhenZero?: boolean;
+    maxRetailQty?: number;
+  } = {},
+): Variant {
+  return {
+    id,
+    productId,
+    sizeMl: options.sizeMl ?? null,
+    sizeText: options.sizeText,
+    sku,
+    priceGhs,
+    stockOnHand,
+    stockReserved: 0,
+    blendWhenZero: options.blendWhenZero ?? false,
+    maxRetailQty: options.maxRetailQty ?? 6,
+  };
+}
+
 export const seedProducts: Product[] = [
   {
     id: 1,
-    name: "Dawn Amber",
-    slug: "dawn-amber",
+    name: "Blue Glass Spray",
+    slug: "blue-glass-spray",
     description:
-      "A warm oil with honeyed amber and a quiet citrus lift. A house take on a popular sweet-amber mood — our own blend, made in Accra.",
-    kind: "oil",
-    images: [],
+      "A slender glass atomizer with a blue gradient, clear at the collar and deep cobalt at the base. Ready to wear from the house.",
+    kind: "spray",
+    images: [photo("spray-blue.png")],
     active: true,
     featured: true,
     variants: [
-      {
-        id: 11,
-        productId: 1,
-        sizeMl: 6,
-        sku: "DHR-OIL-DAWN-6",
-        priceGhs: 80,
-        stockOnHand: 12,
-        stockReserved: 0,
+      unit(1001, 1, "DHR-SPY-BLUE-50", 180, 8, {
+        sizeMl: 50,
         blendWhenZero: true,
-        maxRetailQty: 8,
-      },
-      {
-        id: 12,
-        productId: 1,
-        sizeMl: 15,
-        sku: "DHR-OIL-DAWN-15",
-        priceGhs: 160,
-        stockOnHand: 8,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 8,
-      },
+        maxRetailQty: 4,
+      }),
     ],
   },
   {
     id: 2,
-    name: "River Smoke",
-    slug: "river-smoke",
+    name: "Red Glass Spray",
+    slug: "red-glass-spray",
     description:
-      "Woody oil with a soft smoky dry-down. For evenings and cloth that holds scent.",
-    kind: "oil",
-    images: [],
+      "A slender glass atomizer with a red gradient, clear at the collar and deep crimson at the base. Ready to wear from the house.",
+    kind: "spray",
+    images: [photo("spray-red.png")],
     active: true,
-    featured: true,
+    featured: false,
     variants: [
-      {
-        id: 21,
-        productId: 2,
-        sizeMl: 6,
-        sku: "DHR-OIL-RIVER-6",
-        priceGhs: 85,
-        stockOnHand: 10,
-        stockReserved: 0,
+      unit(1002, 2, "DHR-SPY-RED-50", 180, 6, {
+        sizeMl: 50,
         blendWhenZero: true,
-        maxRetailQty: 8,
-      },
-      {
-        id: 22,
-        productId: 2,
-        sizeMl: 15,
-        sku: "DHR-OIL-RIVER-15",
-        priceGhs: 170,
-        stockOnHand: 6,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 8,
-      },
+        maxRetailQty: 4,
+      }),
     ],
   },
   {
     id: 3,
-    name: "Golden Dust",
-    slug: "golden-dust",
+    name: "24K Gold Exfoliating Scrub",
+    slug: "24k-gold-exfoliating-scrub",
     description:
-      "Soft spice and vanilla musk in oil. Everyday gold for skin.",
-    kind: "oil",
-    images: [],
+      "KÖRMESIC 24K gold exfoliating scrub cleanser. A 100 g tube for the face.",
+    kind: "format",
+    images: [photo("scrub-24k-gold.png")],
     active: true,
-    featured: false,
+    featured: true,
     variants: [
-      {
-        id: 31,
-        productId: 3,
-        sizeMl: 6,
-        sku: "DHR-OIL-DUST-6",
-        priceGhs: 75,
-        stockOnHand: 0,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 8,
-      },
-      {
-        id: 32,
-        productId: 3,
-        sizeMl: 15,
-        sku: "DHR-OIL-DUST-15",
-        priceGhs: 150,
-        stockOnHand: 4,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 8,
-      },
+      unit(1003, 3, "DHR-SCRUB-GOLD-100", 55, 16, {
+        sizeText: "100 g",
+        maxRetailQty: 6,
+      }),
     ],
   },
   {
     id: 4,
-    name: "Ivory Rain",
-    slug: "ivory-rain",
+    name: "Vitamin C Exfoliating Scrub",
+    slug: "vitamin-c-exfoliating-scrub",
     description:
-      "A bright spray with clean florals and a cool finish. House interpretation of a popular fresh mood.",
-    kind: "spray",
-    images: [],
+      "KÖRMESIC VC (vitamin C) exfoliating scrub cleanser. A 100 g tube for the face.",
+    kind: "format",
+    images: [photo("scrub-vc.png")],
     active: true,
-    featured: true,
+    featured: false,
     variants: [
-      {
-        id: 41,
-        productId: 4,
-        sizeMl: 50,
-        sku: "DHR-SPY-IVORY-50",
-        priceGhs: 220,
-        stockOnHand: 7,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 4,
-      },
-      {
-        id: 42,
-        productId: 4,
-        sizeMl: 100,
-        sku: "DHR-SPY-IVORY-100",
-        priceGhs: 380,
-        stockOnHand: 3,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 4,
-      },
+      unit(1004, 4, "DHR-SCRUB-VC-100", 50, 14, {
+        sizeText: "100 g",
+        maxRetailQty: 6,
+      }),
     ],
   },
   {
     id: 5,
-    name: "Accra Heat",
-    slug: "accra-heat",
+    name: "Avocado Exfoliating Scrub",
+    slug: "avocado-exfoliating-scrub",
     description:
-      "Spiced spray for warm days. Pepper, woods, and a little sweetness.",
-    kind: "spray",
-    images: [],
+      "KÖRMESIC avocado exfoliating scrub cleanser. A 100 g tube for the face.",
+    kind: "format",
+    images: [photo("scrub-avocado.png")],
     active: true,
     featured: false,
     variants: [
-      {
-        id: 51,
-        productId: 5,
-        sizeMl: 50,
-        sku: "DHR-SPY-HEAT-50",
-        priceGhs: 230,
-        stockOnHand: 5,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 4,
-      },
+      unit(1005, 5, "DHR-SCRUB-AVO-100", 48, 12, {
+        sizeText: "100 g",
+        maxRetailQty: 6,
+      }),
     ],
   },
   {
     id: 6,
-    name: "Quiet Gold",
-    slug: "quiet-gold",
+    name: "Sexy Bomb Hair & Body Mist",
+    slug: "sexy-bomb-hair-body-mist",
     description:
-      "Soft skin-musk spray. Close, calm, and long on cloth.",
-    kind: "spray",
-    images: [],
+      "Kormesic alcohol-free hair and body mist, Sexy Bomb. 290 ml.",
+    kind: "format",
+    images: [photo("mist-sexy-bomb.png")],
     active: true,
     featured: true,
     variants: [
-      {
-        id: 61,
-        productId: 6,
-        sizeMl: 50,
-        sku: "DHR-SPY-QUIET-50",
-        priceGhs: 210,
-        stockOnHand: 0,
-        stockReserved: 0,
-        blendWhenZero: true,
-        maxRetailQty: 4,
-      },
+      unit(1006, 6, "DHR-MIST-SEXY-290", 85, 10, {
+        sizeMl: 290,
+        maxRetailQty: 6,
+      }),
     ],
   },
   {
     id: 7,
-    name: "Silk Musk",
-    slug: "silk-musk",
+    name: "White Tea Mist",
+    slug: "white-tea-mist",
     description:
-      "Concentrated attar-style oil. A small bottle, a full trail.",
+      "Kormesic alcohol-free hair and body mist with a soft white-tea scent. 290 ml.",
     kind: "format",
-    images: [],
+    images: [photo("mist-hilton-white-tea.png")],
     active: true,
-    featured: false,
+    featured: true,
     variants: [
-      {
-        id: 71,
-        productId: 7,
-        sizeMl: 3,
-        sku: "DHR-FMT-SILK-3",
-        priceGhs: 90,
-        stockOnHand: 9,
-        stockReserved: 0,
-        blendWhenZero: true,
+      unit(1007, 7, "DHR-MIST-WTEA-290", 85, 9, {
+        sizeMl: 290,
         maxRetailQty: 6,
-      },
+      }),
     ],
   },
   {
     id: 8,
-    name: "Mist of Ivory",
-    slug: "mist-of-ivory",
+    name: "Encounter Huayang Hair & Body Mist",
+    slug: "encounter-huayang-hair-body-mist",
     description:
-      "Light body mist for day. Same house family as Ivory Rain, softer.",
+      "Kormesic alcohol-free hair and body mist, Encounter Huayang. 290 ml.",
     kind: "format",
-    images: [],
+    images: [photo("mist-encounter-huayang.png")],
     active: true,
     featured: false,
     variants: [
-      {
-        id: 81,
-        productId: 8,
-        sizeMl: 100,
-        sku: "DHR-FMT-MIST-100",
-        priceGhs: 140,
-        stockOnHand: 11,
-        stockReserved: 0,
-        blendWhenZero: true,
+      unit(1008, 8, "DHR-MIST-HUAYANG-290", 85, 8, {
+        sizeMl: 290,
         maxRetailQty: 6,
-      },
+      }),
     ],
   },
   {
     id: 9,
-    name: "3ml roller bottle",
-    slug: "empty-roller-3ml",
+    name: "Tropical Fruits Hair & Body Mist",
+    slug: "tropical-fruits-hair-body-mist",
     description:
-      "Empty glass roller for oils. Small retail pack — for a carton, WhatsApp the house.",
-    kind: "empty_bottle",
-    images: [],
+      "Kormesic alcohol-free hair and body mist, Tropical Fruits. 290 ml.",
+    kind: "format",
+    images: [photo("mist-tropical-fruits.png")],
     active: true,
     featured: false,
     variants: [
-      {
-        id: 91,
-        productId: 9,
-        sizeMl: 3,
-        sku: "DHR-BTL-ROLL-3",
-        priceGhs: 12,
-        stockOnHand: 40,
-        stockReserved: 0,
-        blendWhenZero: false,
+      unit(1009, 9, "DHR-MIST-TROPIC-290", 80, 11, {
+        sizeMl: 290,
         maxRetailQty: 6,
-      },
+      }),
     ],
   },
   {
     id: 10,
-    name: "50ml spray bottle",
-    slug: "empty-spray-50ml",
+    name: "Orange Green Hair & Body Mist",
+    slug: "orange-green-hair-body-mist",
     description:
-      "Empty spray bottle for house or home filling. Cartons are wholesale — message us.",
-    kind: "empty_bottle",
-    images: [],
+      "Kormesic alcohol-free hair and body mist, Orange Green. 290 ml.",
+    kind: "format",
+    images: [photo("mist-orange-green.png")],
     active: true,
     featured: false,
     variants: [
-      {
-        id: 101,
-        productId: 10,
-        sizeMl: 50,
-        sku: "DHR-BTL-SPY-50",
-        priceGhs: 28,
-        stockOnHand: 24,
-        stockReserved: 0,
-        blendWhenZero: false,
+      unit(1010, 10, "DHR-MIST-OGREEN-290", 80, 7, {
+        sizeMl: 290,
         maxRetailQty: 6,
-      },
+      }),
     ],
   },
   {
     id: 11,
-    name: "Gold gift box",
-    slug: "gold-gift-box",
+    name: "Pink Meets Hair & Body Mist",
+    slug: "pink-meets-hair-body-mist",
     description:
-      "Ready packaging: ivory board with a gold rule. Fits a 15ml oil or 50ml spray.",
-    kind: "packaging",
-    images: [],
+      "Kormesic alcohol-free hair and body mist, Pink Meets. 290 ml.",
+    kind: "format",
+    images: [photo("mist-pink-meets.png")],
     active: true,
     featured: false,
     variants: [
-      {
-        id: 111,
-        productId: 11,
-        sizeMl: null,
-        sku: "DHR-PKG-BOX-1",
-        priceGhs: 35,
-        stockOnHand: 18,
-        stockReserved: 0,
-        blendWhenZero: false,
-        maxRetailQty: 8,
-      },
-    ],
-  },
-  {
-    id: 12,
-    name: "Ivory pouch",
-    slug: "ivory-pouch",
-    description: "Soft pouch for gifting a bottle from the house.",
-    kind: "packaging",
-    images: [],
-    active: true,
-    featured: false,
-    variants: [
-      {
-        id: 121,
-        productId: 12,
-        sizeMl: null,
-        sku: "DHR-PKG-POUCH-1",
-        priceGhs: 18,
-        stockOnHand: 0,
-        stockReserved: 0,
-        blendWhenZero: false,
-        maxRetailQty: 8,
-      },
+      unit(1011, 11, "DHR-MIST-PINK-290", 80, 10, {
+        sizeMl: 290,
+        maxRetailQty: 6,
+      }),
     ],
   },
 ];
@@ -341,7 +237,7 @@ export const seedProducts: Product[] = [
 export const kindLabels: Record<Product["kind"], string> = {
   oil: "Oils",
   spray: "Sprays",
-  format: "Other formats",
+  format: "Scrubs & mists",
   empty_bottle: "Empty bottles",
   packaging: "Packaging",
 };

@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { availabilityFor, availabilityLabel } from "@/lib/availability";
-import { formatGhs, sizeLabel } from "@/lib/money";
+import { formatGhs, variantSizeLabel } from "@/lib/money";
 import { useCart } from "@/store/cart";
 import type { Product } from "@/types/shop";
 
@@ -55,7 +55,7 @@ export function CartView({ products }: { products: Product[] }) {
                   {product.name}
                 </Link>
                 <p className="text-sm text-muted">
-                  {sizeLabel(variant.sizeMl)} · {availabilityLabel(status)}
+                  {variantSizeLabel(variant)} · {availabilityLabel(status)}
                 </p>
               </div>
               <div className="flex items-center gap-3">

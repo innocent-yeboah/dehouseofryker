@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s · De House of Ryker",
   },
   description:
-    "Accra perfume house. Smell house oils and sprays in the shop, or order ready stock for Ghana pickup and delivery.",
+    "Accra perfume house. Glass sprays, face scrubs, and hair and body mists — ready stock for Ghana pickup and delivery.",
 };
 
 export default function RootLayout({

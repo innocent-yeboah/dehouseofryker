@@ -1,7 +1,7 @@
 import { availabilityFor, shelfQty } from "@/lib/availability";
 import { applyStock, findVariant, newId, newOrderCode, newViewToken, phonesMatch, withState } from "@/lib/local-db";
 import { seedProducts } from "@/data/seed-catalog";
-import { sizeLabel } from "@/lib/money";
+import { variantSizeLabel } from "@/lib/money";
 import type {
   CartLine,
   Fulfillment,
@@ -80,7 +80,7 @@ export async function createOrder(input: {
         variantId: variant.id,
         productName: product.name,
         sku: variant.sku,
-        sizeLabel: sizeLabel(variant.sizeMl),
+        sizeLabel: variantSizeLabel(variant),
         qty: line.qty,
         unitPriceGhs: unit,
         availabilitySnapshot: snapshot,

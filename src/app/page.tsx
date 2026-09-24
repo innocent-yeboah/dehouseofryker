@@ -59,7 +59,11 @@ export default async function HomePage() {
 
         <TrustStrip />
 
-        <ProductRail title={kindLabels.oil} href={`/shop/${kindPaths.oil}`} products={byKind("oil")} />
+        <ProductRail
+          title={kindLabels.format}
+          href={`/shop/${kindPaths.format}`}
+          products={products.filter((item) => item.kind === "format")}
+        />
 
         <section className="mx-auto grid max-w-7xl gap-4 px-3 py-6 sm:px-4 lg:grid-cols-[280px_1fr]">
           <Link
@@ -77,18 +81,20 @@ export default async function HomePage() {
               Start on WhatsApp
             </span>
           </Link>
-          <div className={shopTileGrid}>
-            {byKind("spray").map((product) => (
-              <AtelierCard key={product.id} product={product} />
-            ))}
+          <div>
+            <div className="mb-5 flex items-end justify-between gap-4">
+              <h2 className="font-serif text-2xl text-ink sm:text-3xl">{kindLabels.spray}</h2>
+              <Link href={`/shop/${kindPaths.spray}`} className="shrink-0 text-sm font-medium text-deep-gold">
+                Shop more →
+              </Link>
+            </div>
+            <div className={shopTileGrid}>
+              {byKind("spray").map((product) => (
+                <AtelierCard key={product.id} product={product} />
+              ))}
+            </div>
           </div>
         </section>
-
-        <ProductRail
-          title={kindLabels.packaging}
-          href={`/shop/${kindPaths.packaging}`}
-          products={byKind("packaging")}
-        />
 
         <section className="mx-auto max-w-7xl px-3 py-10 text-center sm:px-4">
           <p className="text-sm text-muted">

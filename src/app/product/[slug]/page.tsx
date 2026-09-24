@@ -1,4 +1,5 @@
 import { ScentNote } from "@/components/house/AtelierCard";
+import { ProductImage } from "@/components/house/ProductImage";
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
 import { ProductBuy } from "@/components/shop/ProductBuy";
 import { kindLabels } from "@/data/seed-catalog";
@@ -17,12 +18,29 @@ export default async function ProductPage({ params }: PageProps) {
     notFound();
   }
 
+  const photo = product.images[0];
+  const customKind =
+    product.kind === "spray" ? "spray" : product.kind === "format" ? "scent" : "oil";
+
   return (
     <StorefrontChrome>
       <p className="text-xs uppercase tracking-[0.2em] text-muted">{kindLabels[product.kind]}</p>
       <div className="mt-4 grid gap-10 lg:grid-cols-2">
-        <div className="flex min-h-80 items-center justify-center border border-soft-gold bg-white">
-          <span className="font-serif text-7xl text-house-gold">{product.name.charAt(0)}</span>
+        <div className="relative aspect-square overflow-hidden rounded-xl border border-soft-gold bg-white">
+          <div className="absolute inset-6 sm:inset-10">
+            {photo ? (
+              <ProductImage
+                src={photo}
+                alt={product.name}
+                sizes="(min-width: 1024px) 42vw, 100vw"
+                priority
+              />
+            ) : (
+              <span className="absolute inset-0 flex items-center justify-center font-serif text-7xl text-house-gold">
+                {product.name.charAt(0)}
+              </span>
+            )}
+          </div>
         </div>
         <div>
           <h1 className="font-serif text-3xl sm:text-4xl">{product.name}</h1>
@@ -33,7 +51,7 @@ export default async function ProductPage({ params }: PageProps) {
             <a
               className="text-deep-gold"
               href={whatsappHref(
-                `Hello, I would like a custom ${product.kind === "spray" ? "spray" : "oil"} inspired by a scent I will describe. Size: tell me what you have. Product I was looking at: ${product.name}.`,
+                `Hello, I would like a custom ${customKind} inspired by a scent I will describe. Size: tell me what you have. Product I was looking at: ${product.name}.`,
               )}
             >
               WhatsApp the house

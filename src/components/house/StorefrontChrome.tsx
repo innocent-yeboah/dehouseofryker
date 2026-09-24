@@ -10,7 +10,7 @@ export function HouseFooter() {
         <div className="md:col-span-1">
           <p className="font-serif text-2xl">{site.name}</p>
           <p className="mt-3 text-sm leading-relaxed text-white/70">
-            Accra perfume house. Oils, sprays, other formats, empty bottles, and ready packaging.
+            Accra perfume house. Glass sprays, face scrubs, and hair and body mists.
             Custom blends by WhatsApp — pay when you smell them.
           </p>
         </div>
@@ -20,11 +20,11 @@ export function HouseFooter() {
             <Link href="/shop" className="hover:text-house-gold">
               All products
             </Link>
-            <Link href="/shop/oils" className="hover:text-house-gold">
-              Oils
-            </Link>
             <Link href="/shop/sprays" className="hover:text-house-gold">
               Sprays
+            </Link>
+            <Link href="/shop/formats" className="hover:text-house-gold">
+              Scrubs & mists
             </Link>
             <Link href="/customize" className="hover:text-house-gold">
               Custom blend

@@ -15,6 +15,7 @@ export default async function ShopPage({ searchParams }: PageProps) {
   const { q } = await searchParams;
   const query = (q ?? "").trim().toLowerCase();
   const products = await getProducts();
+  const stockedKinds = order.filter((kind) => products.some((item) => item.kind === kind));
   const filtered = query
     ? products.filter(
         (item) =>
@@ -39,7 +40,7 @@ export default async function ShopPage({ searchParams }: PageProps) {
         </p>
       ) : null}
       <div className="mt-6 flex flex-wrap gap-3 text-sm">
-        {order.map((kind) => (
+        {stockedKinds.map((kind) => (
           <Link
             key={kind}
             href={`/shop/${kindPaths[kind]}`}
@@ -56,7 +57,7 @@ export default async function ShopPage({ searchParams }: PageProps) {
           ))}
         </div>
       ) : (
-        order.map((kind) => {
+        stockedKinds.map((kind) => {
           const group = filtered.filter((item) => item.kind === kind);
           if (group.length === 0) {
             return null;

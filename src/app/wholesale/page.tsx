@@ -13,7 +13,7 @@ export default function WholesalePage() {
       <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-4">
         <a
           href={whatsappHref(
-            "Hello, I would like wholesale. I am a shop/reseller. What I need (oils / sprays / empty bottles / packaging) and roughly how many: ____.",
+            "Hello, I would like wholesale. I am a shop/reseller. What I need (sprays / scrubs / hair and body mists) and roughly how many: ____.",
           )}
           className="bg-house-gold px-6 py-3 text-center text-sm font-medium text-ink"
         >
