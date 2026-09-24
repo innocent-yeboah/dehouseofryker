@@ -31,22 +31,21 @@ export function AtelierCard({ product }: AtelierCardProps) {
     <article className="@container flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm">
       <Link href={`/product/${product.slug}`} className={unavailable ? "opacity-70" : ""}>
         <div className="relative aspect-square overflow-hidden bg-white">
-          <div className="absolute inset-1.5 @[14rem]:inset-3">
-            {photo ? (
-              <ProductImage
-                src={photo}
-                alt={product.name}
-                sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 22vw, (min-width: 768px) 30vw, 46vw"
-              />
-            ) : (
-              <span
-                className="absolute inset-0 flex items-center justify-center font-serif text-2xl text-house-gold @[14rem]:text-3xl"
-                aria-hidden="true"
-              >
-                {product.name.charAt(0)}
-              </span>
-            )}
-          </div>
+          {photo ? (
+            <ProductImage
+              src={photo}
+              alt={product.name}
+              sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 22vw, (min-width: 768px) 30vw, 46vw"
+              zoom
+            />
+          ) : (
+            <span
+              className="absolute inset-0 flex items-center justify-center font-serif text-2xl text-house-gold @[14rem]:text-3xl"
+              aria-hidden="true"
+            >
+              {product.name.charAt(0)}
+            </span>
+          )}
         </div>
         <div className="px-2 pt-2 @[14rem]:px-3 @[14rem]:pt-3">
           <h2 className="line-clamp-3 min-h-12 text-[13px] font-medium leading-tight text-ink @[14rem]:line-clamp-2 @[14rem]:min-h-10 @[14rem]:text-sm @[14rem]:leading-snug">
