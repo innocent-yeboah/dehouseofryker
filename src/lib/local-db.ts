@@ -1,5 +1,6 @@
 import { randomBytes, randomInt } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
 import path from "node:path";
 import { seedProducts } from "@/data/seed-catalog";
 import type { Order, Product, Variant, WalkInSale } from "@/types/shop";
@@ -15,8 +16,45 @@ type LocalState = {
   walkIns: WalkInSale[];
 };
 
-const dataDir = path.join(process.cwd(), ".data");
-const statePath = path.join(dataDir, "state.json");
+/**
+ * Project `.data` is writable in local dev and read-only on Vercel (EROFS).
+ * Catalog GETs must not mkdir/write it: that 500s /shop and /product while the
+ * prerendered homepage stays up. Mutations try the project directory, then
+ * os.tmpdir(), and only after the in-memory state actually changes.
+ */
+const projectDir = path.join(process.cwd(), ".data");
+const fallbackDir = path.join(tmpdir(), "dehouseofryker");
+const stateFileName = "state.json";
+
+/** Directory that last accepted a write in this process, if any. */
+let preferredDir: string | null = null;
+
+function stateFile(dir: string): string {
+  return path.join(dir, stateFileName);
+}
+
+function uniqueDirs(dirs: Array<string | null>): string[] {
+  const seen = new Set<string>();
+  const unique: string[] = [];
+  for (const dir of dirs) {
+    if (!dir || seen.has(dir)) {
+      continue;
+    }
+    seen.add(dir);
+    unique.push(dir);
+  }
+  return unique;
+}
+
+function isReadOnlyFs(error: unknown): boolean {
+  const code = (error as NodeJS.ErrnoException).code;
+  return code === "EROFS" || code === "EACCES" || code === "EPERM";
+}
+
+function isMissingFile(error: unknown): boolean {
+  const code = (error as NodeJS.ErrnoException).code;
+  return code === "ENOENT" || code === "ENOTDIR";
+}
 
 function defaultStock(): Record<string, StockRow> {
   const stock: Record<string, StockRow> = {};
@@ -38,22 +76,42 @@ function emptyState(): LocalState {
 let writeQueue: Promise<void> = Promise.resolve();
 
 async function readState(): Promise<LocalState> {
-  try {
-    const raw = await readFile(statePath, "utf8");
-    const parsed = JSON.parse(raw) as LocalState;
-    return {
-      stock: { ...defaultStock(), ...parsed.stock },
-      orders: parsed.orders ?? [],
-      walkIns: parsed.walkIns ?? [],
-    };
-  } catch {
-    return emptyState();
+  for (const dir of uniqueDirs([preferredDir, projectDir, fallbackDir])) {
+    try {
+      const raw = await readFile(stateFile(dir), "utf8");
+      const parsed = JSON.parse(raw) as LocalState;
+      return {
+        stock: { ...defaultStock(), ...parsed.stock },
+        orders: parsed.orders ?? [],
+        walkIns: parsed.walkIns ?? [],
+      };
+    } catch (error) {
+      if (isMissingFile(error) || isReadOnlyFs(error) || error instanceof SyntaxError) {
+        continue;
+      }
+      throw error;
+    }
   }
+  return emptyState();
 }
 
 async function writeState(state: LocalState): Promise<void> {
-  await mkdir(dataDir, { recursive: true });
-  await writeFile(statePath, JSON.stringify(state, null, 2), "utf8");
+  let lastError: unknown;
+  for (const dir of uniqueDirs([preferredDir, projectDir, fallbackDir])) {
+    try {
+      await mkdir(dir, { recursive: true });
+      await writeFile(stateFile(dir), JSON.stringify(state, null, 2), "utf8");
+      preferredDir = dir;
+      return;
+    } catch (error) {
+      if (isReadOnlyFs(error)) {
+        lastError = error;
+        continue;
+      }
+      throw error;
+    }
+  }
+  throw lastError instanceof Error ? lastError : new Error("Could not persist shop state.");
 }
 
 export async function withState<T>(
@@ -61,8 +119,11 @@ export async function withState<T>(
 ): Promise<T> {
   const run = writeQueue.then(async () => {
     const state = await readState();
+    const before = JSON.stringify(state);
     const result = await fn(state);
-    await writeState(state);
+    if (JSON.stringify(state) !== before) {
+      await writeState(state);
+    }
     return result;
   });
   writeQueue = run.then(
