@@ -7,8 +7,22 @@ import type { ProductKind } from "@/types/shop";
 
 const order: ProductKind[] = ["oil", "spray", "format", "empty_bottle", "packaging"];
 
-export default async function ShopPage() {
+type PageProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export default async function ShopPage({ searchParams }: PageProps) {
+  const { q } = await searchParams;
+  const query = (q ?? "").trim().toLowerCase();
   const products = await getProducts();
+  const filtered = query
+    ? products.filter(
+        (item) =>
+          item.name.toLowerCase().includes(query) ||
+          item.description.toLowerCase().includes(query) ||
+          kindLabels[item.kind].toLowerCase().includes(query),
+      )
+    : products;
 
   return (
     <StorefrontChrome>
@@ -16,29 +30,52 @@ export default async function ShopPage() {
       <p className="mt-2 max-w-2xl text-sm text-muted">
         House names only. Custom inspired-by blends are on WhatsApp, not in this cart.
       </p>
+      {query ? (
+        <p className="mt-3 text-sm text-deep-gold">
+          Showing results for “{q}”.{" "}
+          <Link href="/shop" className="underline">
+            Clear search
+          </Link>
+        </p>
+      ) : null}
       <div className="mt-6 flex flex-wrap gap-3 text-sm">
         {order.map((kind) => (
-          <Link key={kind} href={`/shop/${kindPaths[kind]}`} className="inline-flex min-h-11 items-center border border-soft-gold px-3 py-2">
+          <Link
+            key={kind}
+            href={`/shop/${kindPaths[kind]}`}
+            className="inline-flex min-h-11 items-center rounded-full border border-soft-gold bg-white px-4 py-2"
+          >
             {kindLabels[kind]}
           </Link>
         ))}
       </div>
-      {order.map((kind) => {
-        const group = products.filter((item) => item.kind === kind);
-        if (group.length === 0) {
-          return null;
-        }
-        return (
-          <section key={kind} className="mt-12">
-            <h2 className="font-serif text-2xl">{kindLabels[kind]}</h2>
-            <div className={`mt-4 ${shopTileGrid}`}>
-              {group.map((product) => (
-                <AtelierCard key={product.id} product={product} />
-              ))}
-            </div>
-          </section>
-        );
-      })}
+      {query ? (
+        <div className={`mt-8 ${shopTileGrid}`}>
+          {filtered.map((product) => (
+            <AtelierCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        order.map((kind) => {
+          const group = filtered.filter((item) => item.kind === kind);
+          if (group.length === 0) {
+            return null;
+          }
+          return (
+            <section key={kind} className="mt-12">
+              <h2 className="font-serif text-2xl">{kindLabels[kind]}</h2>
+              <div className={`mt-4 ${shopTileGrid}`}>
+                {group.map((product) => (
+                  <AtelierCard key={product.id} product={product} />
+                ))}
+              </div>
+            </section>
+          );
+        })
+      )}
+      {filtered.length === 0 ? (
+        <p className="mt-8 text-sm text-muted">No products matched that search.</p>
+      ) : null}
     </StorefrontChrome>
   );
 }

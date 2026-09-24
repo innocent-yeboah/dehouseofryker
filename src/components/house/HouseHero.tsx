@@ -1,76 +1,92 @@
-import { kindLabels, kindPaths } from "@/data/seed-catalog";
-import { site } from "@/lib/site";
-import type { ProductKind } from "@/types/shop";
-import Link from "next/link";
+"use client";
 
-const categories: { kind: ProductKind; letter: string }[] = [
-  { kind: "oil", letter: "O" },
-  { kind: "spray", letter: "S" },
-  { kind: "format", letter: "F" },
-  { kind: "empty_bottle", letter: "B" },
-  { kind: "packaging", letter: "P" },
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { kindPaths } from "@/data/seed-catalog";
+
+const slides = [
+  {
+    eyebrow: "Soft on skin, strong in Accra",
+    title: "House perfume oils, ready on the shelf",
+    href: `/shop/${kindPaths.oil}`,
+    cta: "Shop oils",
+    tone: "from-[#f4ead4] via-[#efe0c0] to-[#e8d5a3] text-ink",
+  },
+  {
+    eyebrow: "Spray and go",
+    title: "House sprays mixed in our Accra shop",
+    href: `/shop/${kindPaths.spray}`,
+    cta: "Shop sprays",
+    tone: "from-[#2a231c] via-[#1a1612] to-[#3d3228] text-white",
+  },
+  {
+    eyebrow: "Other formats",
+    title: "Mists, attars, and formats beyond the bottle",
+    href: `/shop/${kindPaths.format}`,
+    cta: "Shop formats",
+    tone: "from-[#8c6a2b] via-[#c6a15b] to-[#8c6a2b] text-white",
+  },
+  {
+    eyebrow: "Empty bottles & packaging",
+    title: "Fill, gift, or brand — ready stock in the house",
+    href: `/shop/${kindPaths.packaging}`,
+    cta: "Shop packaging",
+    tone: "from-[#fbf7ef] via-[#f6edd8] to-[#e8d5a3] text-ink",
+  },
+  {
+    eyebrow: "Custom blend",
+    title: "Tell us the scent. Smell it. Pay at the shop.",
+    href: "/customize",
+    cta: "WhatsApp a blend",
+    tone: "from-[#1a1612] via-[#2c241c] to-[#8c6a2b] text-white",
+  },
 ];
 
 export function HouseHero() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const id = window.setInterval(() => {
+      setIndex((current) => (current + 1) % slides.length);
+    }, 5500);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const slide = slides[index] ?? slides[0];
+
   return (
-    <div className="border-b border-soft-gold/70">
-      <section className="bg-[linear-gradient(180deg,#fbf7ef_0%,#f4ead4_55%,#fbf7ef_100%)]">
-        <div className="mx-auto grid max-w-6xl items-center gap-5 px-4 py-5 sm:gap-8 sm:py-10 lg:min-h-[64vh] lg:grid-cols-2 lg:gap-10 lg:py-14">
-          <div className="order-2 lg:order-1">
-            <p className="text-xs uppercase tracking-[0.25em] text-deep-gold">Accra perfume house</p>
-            <h1 className="mt-2 font-serif text-[1.75rem] leading-tight text-ink sm:mt-3 sm:text-5xl md:text-6xl">
-              {site.heroPromise}
-            </h1>
-            <p className="mt-3 max-w-md text-sm leading-relaxed text-muted sm:mt-4 sm:text-lg">{site.tagline}</p>
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap">
-              <Link
-                href="/shop"
-                className="bg-house-gold px-6 py-3 text-center text-sm font-medium text-ink transition-opacity motion-safe:hover:opacity-90"
-              >
-                Shop the collection
-              </Link>
-              <Link
-                href="/customize"
-                className="border border-house-gold px-6 py-3 text-center text-sm text-deep-gold transition-colors motion-safe:hover:bg-white"
-              >
-                Custom blend
-              </Link>
-            </div>
-          </div>
-          <div className="order-1 flex justify-center lg:order-2 lg:justify-end">
-            <img
-              src="/brand/dhr-monogram.png"
-              alt=""
-              width={420}
-              height={420}
-              className="max-h-24 w-auto object-contain sm:max-h-48 lg:max-h-80"
-            />
+    <section className="bg-[#f3f1ec] px-3 py-4 sm:px-4 sm:py-6">
+      <div className="mx-auto max-w-7xl">
+        <div
+          className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${slide.tone} px-6 py-10 sm:px-10 sm:py-14 lg:min-h-[22rem] lg:px-14 lg:py-16`}
+        >
+          <p className="text-xs uppercase tracking-[0.22em] opacity-80 sm:text-sm">{slide.eyebrow}</p>
+          <h1 className="mt-3 max-w-xl font-serif text-3xl leading-tight sm:text-4xl lg:text-5xl">
+            {slide.title}
+          </h1>
+          <Link
+            href={slide.href}
+            className="mt-8 inline-flex rounded-full bg-white px-6 py-3 text-sm font-medium text-ink shadow-sm transition-opacity motion-safe:hover:opacity-90"
+          >
+            {slide.cta}
+          </Link>
+
+          <div className="mt-8 flex gap-2" aria-label="Hero slides">
+            {slides.map((item, i) => (
+              <button
+                key={item.title}
+                type="button"
+                aria-label={`Show slide ${i + 1}`}
+                aria-current={i === index ? "true" : undefined}
+                className={`h-2.5 w-2.5 rounded-full ${
+                  i === index ? "bg-house-gold ring-2 ring-house-gold/40" : "bg-current/30"
+                }`}
+                onClick={() => setIndex(i)}
+              />
+            ))}
           </div>
         </div>
-      </section>
-
-      <nav aria-label="Shop by category" className="bg-white">
-        <ul className="mx-auto flex max-w-6xl snap-x snap-mandatory gap-3 overflow-x-auto overscroll-x-contain px-4 py-4 sm:py-5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          {categories.map((item) => (
-            <li key={item.kind} className="w-[5.75rem] shrink-0 snap-start sm:w-auto sm:min-w-[7.5rem] sm:flex-1">
-              <Link
-                href={`/shop/${kindPaths[item.kind]}`}
-                className="flex min-h-11 flex-col items-center border border-soft-gold bg-ivory px-2 py-3 text-center sm:px-3 sm:py-4 motion-safe:hover:-translate-y-0.5 motion-safe:hover:transition-transform"
-              >
-                <span
-                  className="flex h-10 w-10 items-center justify-center border border-house-gold font-serif text-xl text-deep-gold sm:h-12 sm:w-12 sm:text-2xl"
-                  aria-hidden="true"
-                >
-                  {item.letter}
-                </span>
-                <span className="mt-2 text-center text-[11px] leading-tight tracking-wide text-ink sm:text-xs">
-                  {kindLabels[item.kind]}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+      </div>
+    </section>
   );
 }

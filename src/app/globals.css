@@ -13,13 +13,13 @@
 
 html {
   color: var(--color-ink);
-  background: var(--color-ivory);
+  background: #f3f1ec;
   overflow-x: clip;
 }
 
 body {
   font-family: var(--font-sans);
-  background: var(--color-ivory);
+  background: #f3f1ec;
   color: var(--color-ink);
 }
 
