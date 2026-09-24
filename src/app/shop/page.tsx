@@ -1,4 +1,5 @@
-import { AtelierCard, shopTileGrid } from "@/components/house/AtelierCard";
+import { AtelierCard } from "@/components/house/AtelierCard";
+import { shopTileGrid } from "@/components/house/shop-grid";
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
 import { kindLabels, kindPaths } from "@/data/seed-catalog";
 import { getProducts } from "@/lib/catalog";

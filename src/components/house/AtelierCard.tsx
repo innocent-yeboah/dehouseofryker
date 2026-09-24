@@ -13,9 +13,6 @@ type AtelierCardProps = {
   product: Product;
 };
 
-/** Dense tile grid: two-up on phones, five-up on large screens. */
-export const shopTileGrid = "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5";
-
 export function AtelierCard({ product }: AtelierCardProps) {
   const first = product.variants[0];
   const status = first ? availabilityFor(first) : "unavailable";
@@ -31,19 +28,19 @@ export function AtelierCard({ product }: AtelierCardProps) {
   );
 
   return (
-    <article className="flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm">
+    <article className="@container flex h-full min-w-0 flex-col overflow-hidden rounded-xl border border-black/5 bg-white shadow-sm">
       <Link href={`/product/${product.slug}`} className={unavailable ? "opacity-70" : ""}>
         <div className="relative aspect-square overflow-hidden bg-white">
-          <div className="absolute inset-3">
+          <div className="absolute inset-1.5 @[14rem]:inset-3">
             {photo ? (
               <ProductImage
                 src={photo}
                 alt={product.name}
-                sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
+                sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 22vw, (min-width: 768px) 30vw, 46vw"
               />
             ) : (
               <span
-                className="absolute inset-0 flex items-center justify-center font-serif text-3xl text-house-gold"
+                className="absolute inset-0 flex items-center justify-center font-serif text-2xl text-house-gold @[14rem]:text-3xl"
                 aria-hidden="true"
               >
                 {product.name.charAt(0)}
@@ -51,50 +48,60 @@ export function AtelierCard({ product }: AtelierCardProps) {
             )}
           </div>
         </div>
-        <div className="px-3 pt-3">
-          <h2 className="line-clamp-2 min-h-[2.5rem] text-sm font-medium leading-snug text-ink">
+        <div className="px-2 pt-2 @[14rem]:px-3 @[14rem]:pt-3">
+          <h2 className="line-clamp-3 min-h-12 text-[13px] font-medium leading-tight text-ink @[14rem]:line-clamp-2 @[14rem]:min-h-10 @[14rem]:text-sm @[14rem]:leading-snug">
             {product.name}
           </h2>
           {first ? (
-            <p className="mt-1 text-base font-semibold text-ink">{formatGhs(from)}</p>
+            <p className="mt-1 text-sm font-semibold leading-none text-ink @[14rem]:text-base">
+              {formatGhs(from)}
+            </p>
           ) : null}
-          <p className="mt-1 line-clamp-1 text-[11px] text-muted">
+          <p className="mt-1 line-clamp-1 text-[10px] leading-tight text-muted @[14rem]:text-[11px]">
             {availabilityLabel(status)}
             {size && size !== "One size" ? ` · ${size}` : ""}
           </p>
         </div>
       </Link>
 
-      <div className="mt-auto flex flex-col gap-2 p-3 pt-3">
+      <div className="mt-auto flex items-stretch gap-1.5 p-2 @[14rem]:gap-2 @[14rem]:p-3">
         {unavailable || !first ? (
           <a
             href={wa}
-            className="rounded-full border border-soft-gold px-3 py-2 text-center text-xs font-medium text-deep-gold"
+            className="inline-flex min-h-10 w-full items-center justify-center rounded-full border border-soft-gold px-2 text-center text-[11px] font-medium text-deep-gold @[14rem]:text-xs"
           >
-            Buy via WhatsApp
+            <span className="@[12rem]:hidden">WhatsApp</span>
+            <span className="hidden @[12rem]:inline">Buy via WhatsApp</span>
           </a>
         ) : (
           <>
             <button
               type="button"
-              className="rounded-full bg-deep-gold px-3 py-2 text-xs font-medium text-white transition-opacity motion-safe:hover:opacity-90"
+              className="inline-flex min-h-10 min-w-0 flex-1 items-center justify-center rounded-full bg-deep-gold px-2 text-[11px] font-medium whitespace-nowrap text-white transition-opacity motion-safe:hover:opacity-90 @[14rem]:px-3 @[14rem]:text-xs"
               onClick={() => {
                 const result = add(first.id, 1, first.maxRetailQty);
                 setMessage(result.ok ? "Added to cart." : result.message ?? "Could not add.");
               }}
             >
-              Add to cart
+              <span className="@[10rem]:hidden">Add</span>
+              <span className="hidden @[10rem]:inline">Add to cart</span>
             </button>
             <a
               href={wa}
-              className="rounded-full border border-soft-gold px-3 py-2 text-center text-xs font-medium text-deep-gold"
+              aria-label="Buy via WhatsApp"
+              className="inline-flex min-h-10 min-w-10 shrink-0 items-center justify-center rounded-full border border-soft-gold px-2 text-[11px] font-semibold text-deep-gold @[14rem]:min-w-0 @[14rem]:flex-1 @[14rem]:font-medium"
             >
-              Buy via WhatsApp
+              <span className="@[14rem]:hidden">WA</span>
+              <span className="hidden @[14rem]:inline">WhatsApp</span>
             </a>
           </>
         )}
-        {message ? <p className="text-[11px] text-muted">{message}</p> : null}
       </div>
+      {message ? (
+        <p className="line-clamp-2 px-2 pb-2 text-[10px] leading-tight text-muted @[14rem]:px-3">
+          {message}
+        </p>
+      ) : null}
     </article>
   );
 }

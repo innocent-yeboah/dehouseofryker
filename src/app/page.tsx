@@ -1,4 +1,5 @@
-import { AtelierCard, shopTileGrid } from "@/components/house/AtelierCard";
+import { AtelierCard } from "@/components/house/AtelierCard";
+import { shopTileGrid } from "@/components/house/shop-grid";
 import { CategoryPromos } from "@/components/house/CategoryPromos";
 import { HouseHero } from "@/components/house/HouseHero";
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
