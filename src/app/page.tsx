@@ -49,7 +49,7 @@ export default async function HomePage() {
       fullBleed={
         <>
           <HouseHero />
-          <div className="bg-[#f3f1ec] pb-6 pt-2">
+          <div className="bg-[#f3f1ec] pb-6 pt-4">
             <CategoryPromos />
           </div>
         </>
