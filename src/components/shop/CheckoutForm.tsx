@@ -189,8 +189,8 @@ export function CheckoutForm({ paymentMode, merchantNumber }: CheckoutFormProps)
       {payment === "merchant_reference" ? (
         <div className="text-sm">
           <p>
-            Send the product total to MTN MoMo merchant <strong>{merchantNumber}</strong>, then enter
-            the reference from your SMS. We will confirm it in the house before we pack.
+            Send the product total by MTN MoMo to <strong>{merchantNumber}</strong>, then enter the
+            reference from your SMS. We will confirm it in the house before we pack.
           </p>
           <label className="mt-3 block">
             MoMo reference

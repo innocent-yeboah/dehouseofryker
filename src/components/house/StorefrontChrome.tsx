@@ -97,9 +97,9 @@ export function StorefrontChrome({
       <HouseNav departments={menu.departments} quick={menu.quick} />
       {fullBleed}
       {contained ? (
-        <main className="mx-auto min-h-[50vh] max-w-7xl px-4 py-6 pb-24 sm:py-8 md:pb-8">{children}</main>
+        <main className="mx-auto min-h-[50vh] max-w-7xl px-4 py-6 pb-[calc(10.5rem+env(safe-area-inset-bottom))] sm:py-8 md:pb-8">{children}</main>
       ) : (
-        <main className="min-h-[50vh] pb-24 md:pb-0">{children}</main>
+        <main className="min-h-[50vh] pb-[calc(10.5rem+env(safe-area-inset-bottom))] md:pb-0">{children}</main>
       )}
       <HouseFooter />
       <MobileDock />

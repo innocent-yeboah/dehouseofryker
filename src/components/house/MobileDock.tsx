@@ -30,7 +30,7 @@ export function MobileDock() {
     <>
       <a
         href={whatsappHref("Hello, I have a question about De House of Ryker.")}
-        className="fixed bottom-20 left-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold text-white shadow-lg md:bottom-6"
+        className="fixed left-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-[#25D366] text-sm font-semibold text-white shadow-lg bottom-[calc(6rem+env(safe-area-inset-bottom))] md:bottom-[calc(1.5rem+env(safe-area-inset-bottom))]"
         aria-label="WhatsApp the house"
       >
         WA

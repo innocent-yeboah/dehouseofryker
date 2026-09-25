@@ -108,7 +108,8 @@ export async function POST(request: Request) {
             code: order.code,
             viewToken: order.viewToken,
             status: order.status,
-            warning: "Order is saved. MoMo prompt failed — pay the merchant number and tell us the reference.",
+            warning:
+              "Order is saved. The MoMo prompt failed — send the product total by MTN MoMo and tell us the reference.",
           },
           { status: 201 },
         );

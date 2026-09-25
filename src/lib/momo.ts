@@ -12,7 +12,7 @@ export function paymentMode(): "momo_api" | "merchant_pay" {
 
 /**
  * MTN MoMo Collections RequestToPay (sandbox) when keys exist.
- * Without keys, checkout uses pay-to-merchant + reference.
+ * Without keys, checkout asks the customer to send MoMo to the shop number and enter the reference.
  */
 export async function requestToPay(input: {
   amountGhs: number;
@@ -37,7 +37,7 @@ export async function requestToPay(input: {
     },
   });
   if (!tokenRes.ok) {
-    return { ok: false, message: "Could not start MoMo. Try pay-to-merchant." };
+    return { ok: false, message: "Could not start MoMo. Send the total by MTN MoMo and share the reference." };
   }
   const tokenJson = (await tokenRes.json()) as { access_token?: string };
   const access = tokenJson.access_token;
