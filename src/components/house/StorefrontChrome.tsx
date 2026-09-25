@@ -1,17 +1,18 @@
 import { HouseNav } from "@/components/house/HouseNav";
 import { MobileDock } from "@/components/house/MobileDock";
-import { kindLabels, kindPaths } from "@/data/seed-catalog";
+import { storefrontMenu } from "@/lib/ia";
 import { site, whatsappHref } from "@/lib/site";
 import Link from "next/link";
 
 export function HouseFooter() {
+  const menu = storefrontMenu();
   return (
     <footer className="mt-10 border-t border-black/5 bg-ink text-white sm:mt-16">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4">
         <div className="md:col-span-1">
           <p className="font-serif text-2xl">{site.name}</p>
           <p className="mt-3 text-sm leading-relaxed text-white/70">
-            Accra perfume house. Glass sprays, face scrubs, and hair and body mists.
+            Accra perfume house. Fragrance, skincare, and wellness on the shelf.
             Custom blends by WhatsApp — pay when you smell them.
           </p>
         </div>
@@ -21,18 +22,16 @@ export function HouseFooter() {
             <Link href="/shop" className="hover:text-house-gold">
               All products
             </Link>
-            <Link href={`/shop/${kindPaths.oil}`} className="hover:text-house-gold">
-              {kindLabels.oil}
-            </Link>
-            <Link href={`/shop/${kindPaths.spray}`} className="hover:text-house-gold">
-              {kindLabels.spray}
-            </Link>
-            <Link href={`/shop/${kindPaths.format}`} className="hover:text-house-gold">
-              {kindLabels.format}
-            </Link>
-            <Link href={`/shop/${kindPaths.wellness}`} className="hover:text-house-gold">
-              {kindLabels.wellness}
-            </Link>
+            {menu.departments.map((department) => (
+              <Link key={department.href} href={department.href} className="hover:text-house-gold">
+                {department.label}
+              </Link>
+            ))}
+            {menu.quick.map((link) => (
+              <Link key={link.href} href={link.href} className="hover:text-house-gold">
+                {link.label}
+              </Link>
+            ))}
             <Link href="/customize" className="hover:text-house-gold">
               Custom blend
             </Link>
@@ -86,9 +85,10 @@ export function StorefrontChrome({
   /** When false, children span full width (homepage rails). */
   contained?: boolean;
 }) {
+  const menu = storefrontMenu();
   return (
     <>
-      <HouseNav />
+      <HouseNav departments={menu.departments} quick={menu.quick} />
       {fullBleed}
       {contained ? (
         <main className="mx-auto min-h-[50vh] max-w-7xl px-4 py-6 pb-24 sm:py-8 md:pb-8">{children}</main>

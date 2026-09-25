@@ -2,21 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { kindLabels, kindPaths } from "@/data/seed-catalog";
 
 const slides = [
   {
-    eyebrow: "Spray and go",
-    title: "Blue and red glass sprays, ready on the shelf",
-    href: `/shop/${kindPaths.spray}`,
-    cta: "Shop sprays",
+    eyebrow: "Fragrance",
+    title: "Perfumes, perfume oils, and attars",
+    href: "/shop/fragrance",
+    cta: "Shop fragrance",
     tone: "from-[#2a231c] via-[#1a1612] to-[#3d3228] text-white",
   },
   {
     eyebrow: "Skin and scent",
     title: "Scrubs, masks, soap, and hair & body mists",
-    href: `/shop/${kindPaths.format}`,
-    cta: `Shop ${kindLabels.format.toLowerCase()}`,
+    href: "/shop/skincare",
+    cta: "Shop skincare",
     tone: "from-[#f4ead4] via-[#efe0c0] to-[#e8d5a3] text-ink",
   },
   {

@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
-import { kindPaths, seedProducts } from "@/data/seed-catalog";
+import { seedProducts } from "@/data/seed-catalog";
+import { listingPaths } from "@/lib/ia";
 import { site } from "@/lib/site";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -12,7 +13,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       : configured;
   const paths = [
     "",
-    "/shop",
     "/about",
     "/contact",
     "/policies",
@@ -21,7 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/customize",
     "/cart",
     "/order/find",
-    ...Object.values(kindPaths).map((category) => `/shop/${category}`),
+    ...listingPaths(),
     ...seedProducts.filter((item) => item.active).map((item) => `/product/${item.slug}`),
   ];
 

@@ -1,4 +1,10 @@
+import { taxonomyById } from "@/data/taxonomy";
 import type { Product, Variant } from "@/types/shop";
+
+type CatalogSeed = Omit<
+  Product,
+  "department" | "section" | "brand" | "size" | "displayName" | "bestSeller" | "addedRank"
+>;
 
 /**
  * Photographed retail catalog. Studio shots live in `public/products/` and are
@@ -82,7 +88,7 @@ function unit(
   };
 }
 
-export const seedProducts: Product[] = [
+const catalogEntries: CatalogSeed[] = [
   {
     id: 1,
     name: "Blue Glass Spray",
@@ -1837,6 +1843,52 @@ export const seedProducts: Product[] = [
     ],
   },
 ];
+
+function withTaxonomy(entry: (typeof catalogEntries)[number]): Product {
+  const meta = taxonomyById[entry.id];
+  if (!meta) {
+    throw new Error(`Missing catalog taxonomy for product ${entry.id} (${entry.slug})`);
+  }
+  return {
+    ...entry,
+    department: meta.department,
+    section: meta.section,
+    brand: meta.brand,
+    size: meta.size,
+    displayName: meta.displayName,
+    // TODO: owner to pick best sellers
+    bestSeller: false,
+    addedRank: entry.id,
+  };
+}
+
+export const seedProducts: Product[] = catalogEntries.map(withTaxonomy);
+
+{
+  const ids = new Set<number>();
+  const titles = new Set<string>();
+  for (const product of seedProducts) {
+    if (ids.has(product.id)) {
+      throw new Error(`Duplicate product id ${product.id}`);
+    }
+    ids.add(product.id);
+    if (titles.has(product.displayName)) {
+      throw new Error(`Duplicate display name: ${product.displayName}`);
+    }
+    titles.add(product.displayName);
+    if (!product.brand || !product.displayName) {
+      throw new Error(`Product ${product.id} is missing a brand or display name`);
+    }
+  }
+  for (const id of Object.keys(taxonomyById)) {
+    if (!ids.has(Number(id))) {
+      throw new Error(`Taxonomy entry ${id} does not match a product`);
+    }
+  }
+  if (seedProducts.length !== 96) {
+    throw new Error(`Expected 96 products, found ${seedProducts.length}`);
+  }
+}
 
 export const kindLabels: Record<Product["kind"], string> = {
   oil: "Oils",

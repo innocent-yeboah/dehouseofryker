@@ -66,7 +66,7 @@ export async function createOrder(input: {
       const { product, variant } = found;
       if (line.qty > variant.maxRetailQty) {
         throw new ShopError(
-          `${product.name} is limited to ${variant.maxRetailQty} per order. For more, WhatsApp the house.`,
+          `${product.displayName} is limited to ${variant.maxRetailQty} per order. For more, WhatsApp the house.`,
         );
       }
       const stock = state.stock[String(variant.id)];
@@ -78,7 +78,7 @@ export async function createOrder(input: {
       goodsTotalGhs += unit * line.qty;
       items.push({
         variantId: variant.id,
-        productName: product.name,
+        productName: product.displayName,
         sku: variant.sku,
         sizeLabel: variantSizeLabel(variant),
         qty: line.qty,

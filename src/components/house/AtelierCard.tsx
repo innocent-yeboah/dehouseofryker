@@ -24,7 +24,7 @@ export function AtelierCard({ product }: AtelierCardProps) {
 
   const size = first ? variantSizeLabel(first) : "";
   const wa = whatsappHref(
-    `Hello, I am interested in ${product.name}${size && size !== "One size" ? ` (${size})` : ""}.`,
+    `Hello, I am interested in ${product.displayName}.`,
   );
 
   return (
@@ -34,7 +34,7 @@ export function AtelierCard({ product }: AtelierCardProps) {
           {photo ? (
             <ProductImage
               src={photo}
-              alt={product.name}
+                alt={product.displayName}
               sizes="(min-width: 1280px) 18vw, (min-width: 1024px) 22vw, (min-width: 768px) 30vw, 46vw"
               zoom
             />
@@ -43,13 +43,13 @@ export function AtelierCard({ product }: AtelierCardProps) {
               className="absolute inset-0 flex items-center justify-center font-serif text-2xl text-house-gold @[14rem]:text-3xl"
               aria-hidden="true"
             >
-              {product.name.charAt(0)}
+              {product.displayName.charAt(0)}
             </span>
           )}
         </div>
         <div className="px-2 pt-2 @[14rem]:px-3 @[14rem]:pt-3">
           <h2 className="line-clamp-3 min-h-12 text-[13px] font-medium leading-tight text-ink @[14rem]:line-clamp-2 @[14rem]:min-h-10 @[14rem]:text-sm @[14rem]:leading-snug">
-            {product.name}
+            {product.displayName}
           </h2>
           {first ? (
             <p className="mt-1 text-sm font-semibold leading-none text-ink @[14rem]:text-base">

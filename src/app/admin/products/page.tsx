@@ -31,7 +31,7 @@ export default async function AdminProductsPage() {
             {products.flatMap((product) =>
               product.variants.map((variant) => (
                 <tr key={variant.id} className="border-b border-soft-gold/40">
-                  <td className="py-2">{product.name}</td>
+                  <td className="py-2">{product.displayName}</td>
                   <td>{variantSizeLabel(variant)}</td>
                   <td>{formatGhs(variant.priceGhs)}</td>
                   <td>{variant.stockOnHand}</td>

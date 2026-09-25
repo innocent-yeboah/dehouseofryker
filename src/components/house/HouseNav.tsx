@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { GoldMark } from "@/components/house/GoldMark";
-import { kindLabels, kindPaths } from "@/data/seed-catalog";
+import type { NavGroup } from "@/lib/ia";
 import { site } from "@/lib/site";
 import { useCart } from "@/store/cart";
 
@@ -20,19 +20,9 @@ const utilityRight = [
   { href: "/policies", label: "Policies" },
 ];
 
-const mainLinks = [
-  { href: "/", label: "Home" },
+const utilityExtras = [
   { href: "/shop", label: "Shop" },
   { href: "/customize", label: "Custom blend" },
-  { href: "/about", label: "About Us" },
-  { href: "/contact", label: "Contact Us" },
-];
-
-const shopByKind = [
-  { href: `/shop/${kindPaths.oil}`, label: kindLabels.oil },
-  { href: `/shop/${kindPaths.spray}`, label: kindLabels.spray },
-  { href: `/shop/${kindPaths.format}`, label: kindLabels.format },
-  { href: `/shop/${kindPaths.wellness}`, label: kindLabels.wellness },
 ];
 
 function formatHotline(raw: string): string {
@@ -43,12 +33,18 @@ function formatHotline(raw: string): string {
   return raw;
 }
 
-export function HouseNav() {
+export function HouseNav({
+  departments,
+  quick,
+}: {
+  departments: NavGroup[];
+  quick: Array<{ href: string; label: string }>;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const countStored = useCart((state) => state.lines.reduce((sum, line) => sum + line.qty, 0));
   const [open, setOpen] = useState(false);
-  const [kindsOpen, setKindsOpen] = useState(false);
+  const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
   const hotline = formatHotline(site.whatsapp);
@@ -60,7 +56,7 @@ export function HouseNav() {
 
   useEffect(() => {
     setOpen(false);
-    setKindsOpen(false);
+    setOpenMenu(null);
   }, [pathname]);
 
   if (pathname.startsWith("/admin")) {
@@ -80,7 +76,11 @@ export function HouseNav() {
           <nav className="flex flex-wrap items-center gap-x-3 gap-y-1" aria-label="Utility">
             {utilityLeft.map((link, index) => (
               <span key={link.href} className="inline-flex items-center gap-3">
-                {index > 0 ? <span className="text-white/30" aria-hidden="true">|</span> : null}
+                {index > 0 ? (
+                  <span className="text-white/30" aria-hidden="true">
+                    |
+                  </span>
+                ) : null}
                 <Link href={link.href} className="hover:text-house-gold">
                   {link.label}
                 </Link>
@@ -90,7 +90,11 @@ export function HouseNav() {
           <nav className="flex flex-wrap items-center gap-x-3 gap-y-1" aria-label="Account links">
             {utilityRight.map((link, index) => (
               <span key={link.href} className="inline-flex items-center gap-3">
-                {index > 0 ? <span className="text-white/30" aria-hidden="true">|</span> : null}
+                {index > 0 ? (
+                  <span className="text-white/30" aria-hidden="true">
+                    |
+                  </span>
+                ) : null}
                 <Link href={link.href} className="hover:text-house-gold">
                   {link.label}
                 </Link>
@@ -134,10 +138,7 @@ export function HouseNav() {
                 placeholder="Search for products"
                 className="min-w-0 flex-1 bg-transparent px-5 py-2.5 text-sm text-ink outline-none"
               />
-              <button
-                type="submit"
-                className="m-1 rounded-full bg-house-gold px-4 text-sm font-medium text-ink"
-              >
+              <button type="submit" className="m-1 rounded-full bg-house-gold px-4 text-sm font-medium text-ink">
                 Search
               </button>
             </div>
@@ -181,65 +182,122 @@ export function HouseNav() {
       </div>
 
       <nav className="hidden bg-deep-gold text-white md:block" aria-label="Main">
-        <div className="mx-auto flex max-w-7xl items-center gap-1 px-4">
-          {mainLinks.map((link) => (
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-1 px-4">
+          <Link
+            href="/"
+            className={`px-3 py-3 text-sm font-medium hover:bg-house-gold/30 ${pathname === "/" ? "bg-house-gold/25" : ""}`}
+          >
+            Home
+          </Link>
+          <Link
+            href="/shop"
+            className={`px-3 py-3 text-sm font-medium hover:bg-house-gold/30 ${pathname === "/shop" ? "bg-house-gold/25" : ""}`}
+          >
+            Shop
+          </Link>
+          {departments.map((department) => (
+            <div
+              key={department.href}
+              className="relative"
+              onMouseEnter={() => setOpenMenu(department.href)}
+              onMouseLeave={() => setOpenMenu((current) => (current === department.href ? null : current))}
+            >
+              <button
+                type="button"
+                className="inline-flex items-center gap-1 px-3 py-3 text-sm font-medium hover:bg-house-gold/30"
+                aria-expanded={openMenu === department.href}
+                onClick={() => setOpenMenu((current) => (current === department.href ? null : department.href))}
+              >
+                {department.label}
+                <span aria-hidden="true">▾</span>
+              </button>
+              {openMenu === department.href ? (
+                <div className="absolute left-0 top-full z-50 min-w-56 border border-soft-gold bg-white py-2 text-ink shadow-lg">
+                  <Link
+                    href={department.href}
+                    className="block px-4 py-2 text-sm font-medium hover:bg-ivory hover:text-deep-gold"
+                    onClick={() => setOpenMenu(null)}
+                  >
+                    All {department.label}
+                  </Link>
+                  {department.sections.map((section) => (
+                    <Link
+                      key={section.href}
+                      href={section.href}
+                      className="block px-4 py-2 text-sm hover:bg-ivory hover:text-deep-gold"
+                      onClick={() => setOpenMenu(null)}
+                    >
+                      {section.label}
+                    </Link>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          ))}
+          {quick.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className={`px-4 py-3 text-sm font-medium transition-colors hover:bg-house-gold/30 ${
+              className={`px-3 py-3 text-sm font-medium hover:bg-house-gold/30 ${
                 pathname === link.href ? "bg-house-gold/25" : ""
               }`}
             >
               {link.label}
             </Link>
           ))}
-          <div className="relative">
-            <button
-              type="button"
-              className="inline-flex items-center gap-1 px-4 py-3 text-sm font-medium hover:bg-house-gold/30"
-              aria-expanded={kindsOpen}
-              onClick={() => setKindsOpen((value) => !value)}
-            >
-              Shop by category
-              <span aria-hidden="true">▾</span>
-            </button>
-            {kindsOpen ? (
-              <div className="absolute left-0 top-full z-50 min-w-48 border border-soft-gold bg-white py-2 text-ink shadow-lg">
-                {shopByKind.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className="block px-4 py-2 text-sm hover:bg-ivory hover:text-deep-gold"
-                    onClick={() => setKindsOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
-            ) : null}
-          </div>
+          <Link href="/customize" className="px-3 py-3 text-sm font-medium hover:bg-house-gold/30">
+            Custom blend
+          </Link>
         </div>
       </nav>
 
       {open ? (
-        <nav
-          id="house-mobile-nav"
-          className="border-b border-soft-gold bg-white md:hidden"
-          aria-label="Mobile"
-        >
+        <nav id="house-mobile-nav" className="border-b border-soft-gold bg-white md:hidden" aria-label="Mobile">
           <div className="flex flex-col px-4 py-2">
-            {[...mainLinks, ...shopByKind, { href: "/cart", label: `Cart (${count})` }, ...utilityRight].map(
-              (link) => (
+            <Link href="/" className="min-h-11 border-b border-soft-gold/40 py-3 text-sm font-medium text-ink" onClick={() => setOpen(false)}>
+              Home
+            </Link>
+            {departments.map((department) => (
+              <div key={department.href} className="border-b border-soft-gold/40 py-2">
                 <Link
-                  key={`${link.href}-${link.label}`}
-                  href={link.href}
-                  className="min-h-11 border-b border-soft-gold/40 py-3 text-sm text-ink"
+                  href={department.href}
+                  className="block py-2 text-sm font-medium text-ink"
                   onClick={() => setOpen(false)}
                 >
-                  {link.label}
+                  {department.label}
                 </Link>
-              ),
-            )}
+                {department.sections.map((section) => (
+                  <Link
+                    key={section.href}
+                    href={section.href}
+                    className="block py-2 pl-4 text-sm text-muted"
+                    onClick={() => setOpen(false)}
+                  >
+                    {section.label}
+                  </Link>
+                ))}
+              </div>
+            ))}
+            {quick.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="min-h-11 border-b border-soft-gold/40 py-3 text-sm text-ink"
+                onClick={() => setOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            {[...utilityExtras, { href: "/cart", label: `Cart (${count})` }, ...utilityRight].map((link) => (
+              <Link
+                key={`${link.href}-${link.label}`}
+                href={link.href}
+                className="min-h-11 border-b border-soft-gold/40 py-3 text-sm text-ink"
+                onClick={() => setOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </nav>
       ) : null}

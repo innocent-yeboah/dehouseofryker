@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { statusCustomerLabel } from "@/lib/availability";
-import { formatGhs, variantSizeLabel } from "@/lib/money";
+import { formatGhs } from "@/lib/money";
 import { whatsappHref } from "@/lib/site";
 import type { OwnerAction } from "@/lib/orders";
 import type { Order, Product } from "@/types/shop";
@@ -42,7 +42,7 @@ export function WalkInForm({ products }: { products: Product[] }) {
           {products.flatMap((product) =>
             product.variants.map((variant) => (
               <option key={variant.id} value={variant.id}>
-                {product.name} {variantSizeLabel(variant)} (shelf{" "}
+                {product.displayName} (shelf{" "}
                 {variant.stockOnHand - variant.stockReserved})
               </option>
             )),

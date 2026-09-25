@@ -52,7 +52,7 @@ export function CartView({ products }: { products: Product[] }) {
             <li key={variant.id} className="flex flex-col gap-2 border-b border-soft-gold/50 py-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <Link href={`/product/${product.slug}`} className="font-serif text-xl">
-                  {product.name}
+                  {product.displayName}
                 </Link>
                 <p className="text-sm text-muted">
                   {variantSizeLabel(variant)} · {availabilityLabel(status)}

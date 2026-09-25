@@ -10,7 +10,7 @@ export function sizeLabel(sizeMl: number | null): string {
   if (sizeMl === null) {
     return "One size";
   }
-  return `${sizeMl}ml`;
+  return `${sizeMl} ml`;
 }
 
 export function variantSizeLabel(variant: {

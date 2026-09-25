@@ -1,4 +1,5 @@
 import { seedProducts } from "@/data/seed-catalog";
+import { compareProducts } from "@/lib/ia";
 import { applyStock, findVariant, withState } from "@/lib/local-db";
 import type { Product } from "@/types/shop";
 
@@ -11,9 +12,18 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   return products.find((item) => item.slug === slug) ?? null;
 }
 
+/** Best sellers first. With none flagged, this is newest first. */
 export async function getFeatured(): Promise<Product[]> {
   const products = await getProducts();
-  return products.filter((item) => item.featured);
+  return [...products].sort((a, b) => compareProducts("featured", a, b));
+}
+
+export async function getRelated(product: Product, limit = 5): Promise<Product[]> {
+  const products = await getProducts();
+  return products
+    .filter((item) => item.section === product.section && item.id !== product.id)
+    .sort((a, b) => compareProducts("featured", a, b))
+    .slice(0, limit);
 }
 
 export async function getVariantContext(variantId: number) {

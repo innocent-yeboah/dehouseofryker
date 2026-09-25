@@ -21,7 +21,9 @@ export function ProductBuy({ product }: { product: Product }) {
   const unavailable = status === "unavailable";
 
   return (
-    <div className="mt-8 space-y-4">
+    <div className="mt-6 space-y-4">
+      <p className="font-serif text-3xl text-ink">{formatGhs(variant.priceGhs)}</p>
+      <p className="text-sm font-medium text-deep-gold">{availabilityLabel(status)}</p>
       <fieldset>
         <legend className="text-sm font-medium">Size</legend>
         <div className="mt-2 flex flex-wrap gap-2">
@@ -49,7 +51,6 @@ export function ProductBuy({ product }: { product: Product }) {
         </div>
       </fieldset>
 
-      <p className="text-sm text-deep-gold">{availabilityLabel(status)}</p>
       {status === "blend" ? <p className="text-sm text-ink">{copy.blendNotOnShelf}</p> : null}
 
       {unavailable ? (
@@ -59,7 +60,7 @@ export function ProductBuy({ product }: { product: Product }) {
             <a
               className="text-deep-gold underline"
               href={whatsappHref(
-                `Hello, I am looking for ${product.name}. Is a restock or wholesale carton available?`,
+                `Hello, I am looking for ${product.displayName}. Is a restock or wholesale carton available?`,
               )}
             >
               WhatsApp the house

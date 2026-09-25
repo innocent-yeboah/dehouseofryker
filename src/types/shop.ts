@@ -6,6 +6,21 @@ export type ProductKind =
   | "packaging"
   | "wellness";
 
+/** Shop departments. `resellers` stays out of the menu while it has no products. */
+export type DepartmentId = "fragrance" | "skincare" | "wellness" | "resellers";
+
+/** One section per product. Gift sets, empty bottles, and packaging may be empty. */
+export type SectionId =
+  | "perfumes"
+  | "perfume_oils"
+  | "gift_sets"
+  | "face"
+  | "lips_eyes"
+  | "body"
+  | "supplements"
+  | "empty_bottles"
+  | "packaging";
+
 export type Availability = "on_shelf" | "blend" | "unavailable";
 
 export type Fulfillment = "pickup" | "delivery";
@@ -44,9 +59,32 @@ export type Product = {
   slug: string;
   description: string;
   kind: ProductKind;
+  /** Merchandising department. Navigation uses this, not `kind`. */
+  department: DepartmentId;
+  /** Exactly one section. */
+  section: SectionId;
+  /**
+   * Printed brand. "House" groups tiles with no brand on the label.
+   * That word is not prefixed onto those titles.
+   */
+  brand: string;
+  /** Filter label such as "30 ml" or "100 g". Empty when no size is printed. */
+  size: string;
+  /** Shelf title: brand + product + format + size, without doubling words. */
+  displayName: string;
   images: string[];
   active: boolean;
   featured: boolean;
+  /**
+   * Merchandising flag.
+   * TODO: owner to pick best sellers
+   */
+  bestSeller: boolean;
+  /**
+   * Recency key used when Featured has no best sellers to rank.
+   * Higher is newer. Seed ids already increase by catalog batch.
+   */
+  addedRank: number;
   variants: Variant[];
 };
 
