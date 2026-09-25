@@ -1,7 +1,10 @@
+import { NextResponse } from "next/server";
 import { z } from "zod";
 import { normalizePhone, maskMomo } from "@/lib/local-db";
 import { paymentMode, requestToPay } from "@/lib/momo";
-import { createOrder, ShopError } from "@/lib/orders";
+import { withOrderViewCookie } from "@/lib/order-view";
+import { attachMomoRequest, createOrder, ShopError } from "@/lib/orders";
+import { clientIp, RATE_LIMITS, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 import { site } from "@/lib/site";
 import type { Fulfillment, PaymentMethod } from "@/types/shop";
 
@@ -14,6 +17,7 @@ const bodySchema = z.object({
   payment: z.enum(["momo", "cash_pickup", "merchant_reference"]),
   momoNumber: z.string().optional(),
   momoRef: z.string().optional(),
+  ghana: z.boolean(),
   lines: z.array(z.object({ variantId: z.number().int(), qty: z.number().int().min(1) })).min(1),
 });
 
@@ -43,6 +47,10 @@ async function notifyOwner(code: string, name: string, status: string): Promise<
 }
 
 export async function POST(request: Request) {
+  const limited = rateLimit(`checkout:${clientIp(request)}`, RATE_LIMITS.checkout);
+  if (!limited.ok) {
+    return tooManyRequests(limited.retryAfterSec);
+  }
   try {
     const json: unknown = await request.json();
     const parsed = bodySchema.safeParse(json);
@@ -50,6 +58,12 @@ export async function POST(request: Request) {
       return Response.json({ error: "Please check the form and try again." }, { status: 400 });
     }
     const data = parsed.data;
+    if (!data.ghana) {
+      return Response.json(
+        { error: "Checkout is Ghana only. WhatsApp us if you are abroad." },
+        { status: 400 },
+      );
+    }
     const phone = normalizePhone(data.phone);
     if (!phone) {
       return Response.json({ error: "Enter a Ghana phone number." }, { status: 400 });
@@ -103,21 +117,30 @@ export async function POST(request: Request) {
         externalId: order.code,
       });
       if (!pay.ok) {
-        return Response.json(
-          {
-            code: order.code,
-            viewToken: order.viewToken,
-            status: order.status,
-            warning:
-              "Order is saved. The MoMo prompt failed — send the product total by MTN MoMo and tell us the reference.",
-          },
-          { status: 201 },
+        return withOrderViewCookie(
+          NextResponse.json(
+            {
+              code: order.code,
+              viewToken: order.viewToken,
+              status: order.status,
+              warning:
+                "Order is saved. The MoMo prompt failed — send the product total by MTN MoMo and tell us the reference.",
+            },
+            { status: 201 },
+          ),
+          order.code,
+          order.viewToken,
         );
       }
+      await attachMomoRequest(order.id, pay.referenceId);
     }
 
     await notifyOwner(order.code, order.customerName, order.status);
-    return Response.json({ code: order.code, viewToken: order.viewToken, status: order.status });
+    return withOrderViewCookie(
+      NextResponse.json({ code: order.code, viewToken: order.viewToken, status: order.status }),
+      order.code,
+      order.viewToken,
+    );
   } catch (error) {
     if (error instanceof ShopError) {
       return Response.json({ error: error.message }, { status: error.status });

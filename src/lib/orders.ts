@@ -90,12 +90,10 @@ export async function createOrder(input: {
     let status: OrderStatus;
     if (input.payment === "cash_pickup") {
       status = "reserved_pay_at_shop";
-    } else if (input.fulfillment === "delivery") {
-      status = input.payment === "merchant_reference" ? "awaiting_momo" : "paid_waiting_delivery_agree";
-    } else if (input.payment === "merchant_reference") {
-      status = "awaiting_momo";
     } else {
-      status = "paid_awaiting_ready";
+      // Pay-to-number and API MoMo both wait here. HTTP 202 only means MTN
+      // accepted a prompt; it is not proof the customer paid.
+      status = "awaiting_momo";
     }
 
     const now = new Date().toISOString();
@@ -273,8 +271,66 @@ export async function applyOwnerAction(
   });
 }
 
+export async function attachMomoRequest(orderId: string, referenceId: string): Promise<void> {
+  await withState((state) => {
+    const order = state.orders.find((item) => item.id === orderId);
+    if (!order || order.payment !== "momo") {
+      return;
+    }
+    order.momoRequestId = referenceId;
+    order.updatedAt = new Date().toISOString();
+  });
+}
+
+/**
+ * Mark an API MoMo order paid only after MTN's own status check says SUCCESSFUL.
+ * Pay-to-number orders (`merchant_reference`) are left for the owner's confirm.
+ */
+export async function confirmVerifiedMomo(input: {
+  code: string;
+  referenceId: string;
+  amount: string;
+  currency: string;
+  expectedCurrency: string;
+}): Promise<"confirmed" | "already" | "not_found" | "rejected"> {
+  return withState((state) => {
+    const code = input.code.trim();
+    if (!code) {
+      return "rejected";
+    }
+    const order = state.orders.find((item) => item.code.toUpperCase() === code.toUpperCase());
+    if (!order) {
+      return "not_found";
+    }
+    if (order.payment !== "momo") {
+      return "rejected";
+    }
+    if (order.momoRequestId && order.momoRequestId !== input.referenceId) {
+      return "rejected";
+    }
+    const paid = Number(input.amount);
+    if (!Number.isFinite(paid) || Math.abs(paid - order.goodsTotalGhs) > 0.001) {
+      return "rejected";
+    }
+    if (input.currency.toUpperCase() !== input.expectedCurrency.toUpperCase()) {
+      return "rejected";
+    }
+    if (order.status !== "awaiting_momo") {
+      return "already";
+    }
+    order.momoRequestId = input.referenceId;
+    order.status =
+      order.fulfillment === "delivery" ? "paid_waiting_delivery_agree" : "paid_awaiting_ready";
+    order.updatedAt = new Date().toISOString();
+    return "confirmed";
+  });
+}
+
 export async function recordWalkIn(variantId: number, qty: number): Promise<void> {
-  if (qty < 1) {
+  if (!Number.isInteger(variantId) || variantId < 1) {
+    throw new ShopError("Product not found.", 404);
+  }
+  if (!Number.isInteger(qty) || qty < 1) {
     throw new ShopError("Quantity must be at least 1.");
   }
   return withState((state) => {

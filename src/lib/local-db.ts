@@ -164,9 +164,11 @@ export function findVariant(
 }
 
 export function newOrderCode(): string {
+  // 12 characters from a 32-letter alphabet. Lookup is an exact match, so
+  // orders already issued as DH- plus 4 characters still resolve.
   const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let body = "";
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 12; i += 1) {
     body += alphabet[randomInt(alphabet.length)];
   }
   return `DH-${body}`;

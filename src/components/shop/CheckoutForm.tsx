@@ -62,6 +62,7 @@ export function CheckoutForm({ paymentMode, merchantNumber }: CheckoutFormProps)
           payment,
           momoNumber: String(form.get("momoNumber") ?? ""),
           momoRef: String(form.get("momoRef") ?? ""),
+          ghana: form.get("ghana") === "yes",
           lines,
         };
         const response = await fetch("/api/checkout", {
@@ -80,7 +81,7 @@ export function CheckoutForm({ paymentMode, merchantNumber }: CheckoutFormProps)
           return;
         }
         clear();
-        router.push(`/order/${json.code}?t=${json.viewToken}`);
+        router.push(`/order/${json.code}`);
       }}
     >
       <label className="block text-sm">

@@ -26,7 +26,7 @@ export function FindOrderForm() {
           setError(json.error ?? "Let’s try that again together.");
           return;
         }
-        router.push(`/order/${json.code}?t=${json.viewToken}`);
+        router.push(`/order/${json.code}`);
       }}
     >
       <label className="block text-sm">

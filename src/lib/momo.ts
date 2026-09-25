@@ -1,3 +1,6 @@
+const REFERENCE_ID =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+
 function momoConfigured(): boolean {
   return Boolean(
     process.env.MOMO_COLLECTION_SUBSCRIPTION_KEY &&
@@ -10,22 +13,30 @@ export function paymentMode(): "momo_api" | "merchant_pay" {
   return momoConfigured() ? "momo_api" : "merchant_pay";
 }
 
-/**
- * MTN MoMo Collections RequestToPay (sandbox) when keys exist.
- * Without keys, checkout asks the customer to send MoMo to the shop number and enter the reference.
- */
-export async function requestToPay(input: {
-  amountGhs: number;
-  msisdn: string;
-  externalId: string;
-}): Promise<{ ok: boolean; message: string }> {
+export function isMomoReferenceId(value: string): boolean {
+  return REFERENCE_ID.test(value);
+}
+
+/** Sandbox collections use EUR. Production (`mtnghana`) uses GHS. */
+export function expectedMomoCurrency(): string {
+  return (process.env.MOMO_TARGET_ENVIRONMENT ?? "sandbox") === "sandbox" ? "EUR" : "GHS";
+}
+
+function momoBase(): string {
+  return process.env.MOMO_TARGET_ENVIRONMENT === "mtnghana"
+    ? "https://proxy.momoapi.mtn.com"
+    : "https://sandbox.momodeveloper.mtn.com";
+}
+
+type MomoSession =
+  | { ok: true; access: string; base: string; sub: string; env: string }
+  | { ok: false; message: string };
+
+async function momoSession(): Promise<MomoSession> {
   if (!momoConfigured()) {
     return { ok: false, message: "MoMo API is not configured." };
   }
-  const base =
-    process.env.MOMO_TARGET_ENVIRONMENT === "mtnghana"
-      ? "https://proxy.momoapi.mtn.com"
-      : "https://sandbox.momodeveloper.mtn.com";
+  const base = momoBase();
   const user = process.env.MOMO_API_USER ?? "";
   const key = process.env.MOMO_API_KEY ?? "";
   const sub = process.env.MOMO_COLLECTION_SUBSCRIPTION_KEY ?? "";
@@ -44,20 +55,50 @@ export async function requestToPay(input: {
   if (!access) {
     return { ok: false, message: "MoMo token missing." };
   }
+  return {
+    ok: true,
+    access,
+    base,
+    sub,
+    env: process.env.MOMO_TARGET_ENVIRONMENT ?? "sandbox",
+  };
+}
+
+export type VerifiedCollection = {
+  referenceId: string;
+  status: string;
+  externalId: string;
+  amount: string;
+  currency: string;
+};
+
+/**
+ * MTN MoMo Collections RequestToPay when keys exist.
+ * HTTP 202 means the prompt was accepted, not that the customer has paid.
+ * Without keys, checkout asks the customer to send MoMo to the shop number and enter the reference.
+ */
+export async function requestToPay(input: {
+  amountGhs: number;
+  msisdn: string;
+  externalId: string;
+}): Promise<{ ok: true; referenceId: string } | { ok: false; message: string }> {
+  const session = await momoSession();
+  if (!session.ok) {
+    return session;
+  }
   const referenceId = crypto.randomUUID();
-  const env = process.env.MOMO_TARGET_ENVIRONMENT ?? "sandbox";
-  const payRes = await fetch(`${base}/collection/v1_0/requesttopay`, {
+  const payRes = await fetch(`${session.base}/collection/v1_0/requesttopay`, {
     method: "POST",
     headers: {
-      Authorization: `Bearer ${access}`,
+      Authorization: `Bearer ${session.access}`,
       "X-Reference-Id": referenceId,
-      "X-Target-Environment": env,
-      "Ocp-Apim-Subscription-Key": sub,
+      "X-Target-Environment": session.env,
+      "Ocp-Apim-Subscription-Key": session.sub,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
       amount: input.amountGhs.toFixed(2),
-      currency: env === "sandbox" ? "EUR" : "GHS",
+      currency: session.env === "sandbox" ? "EUR" : "GHS",
       externalId: input.externalId,
       payer: { partyIdType: "MSISDN", partyId: input.msisdn },
       payerMessage: "De House of Ryker",
@@ -67,5 +108,48 @@ export async function requestToPay(input: {
   if (payRes.status !== 202) {
     return { ok: false, message: "MoMo did not accept the payment request." };
   }
-  return { ok: true, message: referenceId };
+  return { ok: true, referenceId };
+}
+
+/** Live status from MTN. Callers must not trust the callback body in place of this. */
+export async function getRequestToPayStatus(
+  referenceId: string,
+): Promise<{ ok: true; payment: VerifiedCollection } | { ok: false; message: string }> {
+  if (!isMomoReferenceId(referenceId)) {
+    return { ok: false, message: "Payment reference is not valid." };
+  }
+  const session = await momoSession();
+  if (!session.ok) {
+    return session;
+  }
+  const statusRes = await fetch(`${session.base}/collection/v1_0/requesttopay/${referenceId}`, {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${session.access}`,
+      "X-Target-Environment": session.env,
+      "Ocp-Apim-Subscription-Key": session.sub,
+    },
+  });
+  if (!statusRes.ok) {
+    return { ok: false, message: "Could not verify this payment with MTN." };
+  }
+  const body = (await statusRes.json()) as {
+    status?: unknown;
+    externalId?: unknown;
+    amount?: unknown;
+    currency?: unknown;
+  };
+  if (typeof body.status !== "string" || typeof body.externalId !== "string") {
+    return { ok: false, message: "MTN did not return a payment status." };
+  }
+  return {
+    ok: true,
+    payment: {
+      referenceId,
+      status: body.status,
+      externalId: body.externalId,
+      amount: typeof body.amount === "string" ? body.amount : String(body.amount ?? ""),
+      currency: typeof body.currency === "string" ? body.currency : "",
+    },
+  };
 }

@@ -2,8 +2,13 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { ownerCredentialsOk } from "@/lib/owner-auth";
 import { COOKIE, createOwnerSession } from "@/lib/owner-session";
+import { clientIp, RATE_LIMITS, rateLimit, tooManyRequests } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const limited = rateLimit(`login:${clientIp(request)}`, RATE_LIMITS.login);
+  if (!limited.ok) {
+    return tooManyRequests(limited.retryAfterSec);
+  }
   const form = await request.formData();
   const email = String(form.get("email") ?? "");
   const password = String(form.get("password") ?? "");

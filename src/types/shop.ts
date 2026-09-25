@@ -119,6 +119,8 @@ export type Order = {
   deliveryAgreedAt: string | null;
   momoRef: string | null;
   momoNumberMasked: string | null;
+  /** MTN RequestToPay id for API collections. Older saved orders omit it. */
+  momoRequestId?: string | null;
   items: OrderItem[];
   createdAt: string;
   updatedAt: string;

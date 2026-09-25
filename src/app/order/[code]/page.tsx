@@ -1,7 +1,9 @@
 import { OrderLedger } from "@/components/house/OrderLedger";
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
+import { ORDER_VIEW_COOKIE, orderViewTokenFromCookie } from "@/lib/order-view";
 import { getOrderByCodeAndToken } from "@/lib/orders";
 import { whatsappHref } from "@/lib/site";
+import { cookies } from "next/headers";
 import Link from "next/link";
 
 type PageProps = {
@@ -12,7 +14,10 @@ type PageProps = {
 export default async function OrderPage({ params, searchParams }: PageProps) {
   const { code } = await params;
   const { t } = await searchParams;
-  if (!t) {
+  const decoded = decodeURIComponent(code);
+  const jar = await cookies();
+  const token = t || orderViewTokenFromCookie(jar.get(ORDER_VIEW_COOKIE)?.value, decoded);
+  if (!token) {
     return (
       <StorefrontChrome>
         <h1 className="font-serif text-3xl sm:text-4xl">Look up this order</h1>
@@ -26,7 +31,7 @@ export default async function OrderPage({ params, searchParams }: PageProps) {
     );
   }
 
-  const order = await getOrderByCodeAndToken(decodeURIComponent(code), t);
+  const order = await getOrderByCodeAndToken(decoded, token);
   if (!order) {
     return (
       <StorefrontChrome>
