@@ -6,7 +6,7 @@ import { getProducts } from "@/lib/catalog";
 import Link from "next/link";
 import type { ProductKind } from "@/types/shop";
 
-const order: ProductKind[] = ["oil", "spray", "format", "empty_bottle", "packaging"];
+const order: ProductKind[] = ["oil", "spray", "format", "wellness", "empty_bottle", "packaging"];
 
 type PageProps = {
   searchParams: Promise<{ q?: string }>;

@@ -30,6 +30,9 @@ export function HouseFooter() {
             <Link href={`/shop/${kindPaths.format}`} className="hover:text-house-gold">
               {kindLabels.format}
             </Link>
+            <Link href={`/shop/${kindPaths.wellness}`} className="hover:text-house-gold">
+              {kindLabels.wellness}
+            </Link>
             <Link href="/customize" className="hover:text-house-gold">
               Custom blend
             </Link>

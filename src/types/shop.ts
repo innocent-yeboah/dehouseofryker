@@ -3,7 +3,8 @@ export type ProductKind =
   | "spray"
   | "format"
   | "empty_bottle"
-  | "packaging";
+  | "packaging"
+  | "wellness";
 
 export type Availability = "on_shelf" | "blend" | "unavailable";
 

@@ -9,14 +9,17 @@ import type { Product, Variant } from "@/types/shop";
  * placeholder band as the other format SKUs (about 40–55 GHS, near the 100 g scrubs).
  * Perfume oils (Play Blue, the crystal flacon, the YZS bottles, Veyes 9 am, Veyes Dawn,
  * Miss Candy, ZARR Forget Me Not, the 30 ml eaux de parfum, Nine Black, Al Kausar Aqua 212,
- * Almas 121 VIP, Silver Black, and Almas Royal Black)
+ * Almas 121 VIP, Silver Black, Almas Royal Black, Almas Real XX, Almas d'nill, Almas Bushra,
+ * Almas Chocolate Musk, and Almas Crimson Chandelier)
  * use a placeholder band of about 80–150 GHS. They are not Accra prices.
  * ZARR Forget Me Not and Nine Black are 120. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
  * Red Blossom, Coral Floral, Plum Swirl, Ivory Floral, Navy & Silver, Maroon & Gold, Dusty Rose,
  * and Red Sunburst are 80. YZS Wilderness, YZS Carpet of Flowers, YZS Black Crow, YZS Red Gemstone,
  * and YZS Sunshine Amber are 90.
- * Al Kausar Aqua 212 concentrated attar is 100. Almas 121 VIP, Silver Black, and Almas Royal Black
+ * Al Kausar Aqua 212 concentrated attar is 100. Almas 121 VIP, Silver Black, Almas Royal Black,
+ * Almas Real XX, Almas d'nill, Almas Bushra, Almas Chocolate Musk, and Almas Crimson Chandelier
  * concentrated perfume oils are 100.
+ * OEM Fruits+ and OEM Veggies+ (90 capsules, wellness shelf) are 120.
  * TODO: owner to set real price.
  * Maison Crivelli Hibiscus Mahajád and Oud Maracujá sit at 150, the top of that band.
  * TODO: owner to set real price (genuine luxury item).
@@ -32,7 +35,10 @@ import type { Product, Variant } from "@/types/shop";
  * Nine Black is 100 ml. YZS Wilderness, YZS Carpet of Flowers, YZS Black Crow, YZS Red Gemstone,
  * and YZS Sunshine Amber are 35 ml.
  * Al Kausar Aqua 212 is an alcohol-free concentrated attar, 100 g.
- * Almas 121 VIP, Silver Black, and Almas Royal Black are alcohol-free concentrated perfume oils, 100 g.
+ * Almas 121 VIP, Silver Black, Almas Royal Black, Almas Real XX, Almas d'nill, Almas Bushra,
+ * and Almas Chocolate Musk are alcohol-free concentrated perfume oils, 100 g.
+ * Almas Crimson Chandelier is a concentrated perfume oil, 100 g.
+ * OEM Fruits+ and OEM Veggies+ are bottles of 90 capsules.
  * The vitamin C shower gel is Net 1000 ml. Miss Candy has no printed volume, so sizeText is omitted.
  * Maison Crivelli extraits are 50 ml (printed on the box).
  * Masks use sizeText "25 ml" (Net 25 ml sachets). YZS bottles and the crystal flacon use "50 ml".
@@ -1664,6 +1670,172 @@ export const seedProducts: Product[] = [
       ),
     ],
   },
+  {
+    id: 90,
+    name: "Almas Real XX Concentrated Perfume Oil (alcohol-free)",
+    slug: "oil-almas-real-xx",
+    description:
+      "Almas Real XX concentrated perfume oil, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("oil-almas-real-xx.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1090,
+        90,
+        "DHR-OIL-ALM-RXX-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 91,
+    name: "Almas d'nill Concentrated Perfume Oil (alcohol-free)",
+    slug: "oil-almas-dnill",
+    description:
+      "Almas d'nill concentrated perfume oil, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("oil-almas-dnill.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1091,
+        91,
+        "DHR-OIL-ALM-DNL-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 92,
+    name: "Almas Bushra Concentrated Perfume Oil (alcohol-free)",
+    slug: "oil-almas-bushra",
+    description:
+      "Almas Bushra concentrated perfume oil, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("oil-almas-bushra.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1092,
+        92,
+        "DHR-OIL-ALM-BSH-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 93,
+    name: "Almas Chocolate Musk Concentrated Perfume Oil (alcohol-free)",
+    slug: "oil-almas-chocolate-musk",
+    description:
+      "Almas Chocolate Musk concentrated perfume oil, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("oil-almas-chocolate-musk.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1093,
+        93,
+        "DHR-OIL-ALM-CMK-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 94,
+    name: "Almas Crimson Chandelier Concentrated Perfume Oil 100 g",
+    slug: "oil-almas-crimson-chandelier",
+    description:
+      "Almas Crimson Chandelier concentrated perfume oil. 100 g.",
+    kind: "oil",
+    images: [photo("oil-almas-crimson-chandelier.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1094,
+        94,
+        "DHR-OIL-CRIMSON-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 95,
+    name: "OEM Fruits+ Whole Food Formula (90 capsules)",
+    slug: "supplement-fruits-plus",
+    description: "OEM Fruits+ Whole Food Formula. A bottle of 90 capsules.",
+    kind: "wellness",
+    images: [photo("supplement-fruits-plus.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1095,
+        95,
+        "DHR-WEL-FRUITS-90",
+        // TODO: owner to set real price
+        120,
+        6,
+        {
+          sizeText: "90 capsules",
+        },
+      ),
+    ],
+  },
+  {
+    id: 96,
+    name: "OEM Veggies+ Whole Food Formula (90 capsules)",
+    slug: "supplement-veggies-plus",
+    description: "OEM Veggies+ Whole Food Formula. A bottle of 90 capsules.",
+    kind: "wellness",
+    images: [photo("supplement-veggies-plus.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1096,
+        96,
+        "DHR-WEL-VEGGIES-90",
+        // TODO: owner to set real price
+        120,
+        6,
+        {
+          sizeText: "90 capsules",
+        },
+      ),
+    ],
+  },
 ];
 
 export const kindLabels: Record<Product["kind"], string> = {
@@ -1672,6 +1844,7 @@ export const kindLabels: Record<Product["kind"], string> = {
   format: "Skin care & mists",
   empty_bottle: "Empty bottles",
   packaging: "Packaging",
+  wellness: "Wellness",
 };
 
 export const kindPaths: Record<Product["kind"], string> = {
@@ -1680,6 +1853,7 @@ export const kindPaths: Record<Product["kind"], string> = {
   format: "formats",
   empty_bottle: "bottles",
   packaging: "packaging",
+  wellness: "wellness",
 };
 
 export function kindFromPath(category: string): Product["kind"] | null {
@@ -1690,6 +1864,7 @@ export function kindFromPath(category: string): Product["kind"] | null {
     cosmetics: "format",
     bottles: "empty_bottle",
     packaging: "packaging",
+    wellness: "wellness",
   };
   return map[category] ?? null;
 }

@@ -32,6 +32,7 @@ const shopByKind = [
   { href: `/shop/${kindPaths.oil}`, label: kindLabels.oil },
   { href: `/shop/${kindPaths.spray}`, label: kindLabels.spray },
   { href: `/shop/${kindPaths.format}`, label: kindLabels.format },
+  { href: `/shop/${kindPaths.wellness}`, label: kindLabels.wellness },
 ];
 
 function formatHotline(raw: string): string {
