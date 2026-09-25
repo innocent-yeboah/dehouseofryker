@@ -27,6 +27,10 @@ body {
   font-family: var(--font-serif);
 }
 
+.house-wordmark {
+  font-family: var(--font-cormorant), ui-serif, Georgia, serif;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

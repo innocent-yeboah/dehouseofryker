@@ -97,7 +97,7 @@ export function HouseNav({
       </div>
 
       <div className="bg-ink text-white">
-        <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 md:gap-6 md:py-4">
+        <div className="mx-auto flex max-w-7xl flex-nowrap items-center gap-2 px-3 py-2.5 md:gap-6 md:px-4 md:py-4">
           <button
             type="button"
             className="inline-flex min-h-11 min-w-11 items-center justify-center text-white md:hidden"
@@ -113,8 +113,24 @@ export function HouseNav({
             </span>
           </button>
 
-          <Link href="/" className="shrink-0" aria-label="De House of Ryker home">
-            <GoldMark className="brightness-110" />
+          <Link
+            href="/"
+            className="flex shrink-0 items-center gap-3"
+            aria-label="De House of Ryker home"
+          >
+            <GoldMark
+              showWord={false}
+              className="brightness-110"
+              imgClassName="h-9 w-9 object-contain sm:h-11 sm:w-11 md:h-12 md:w-12"
+            />
+            <span className="flex flex-col justify-center leading-none">
+              <span className="house-wordmark whitespace-nowrap text-base font-semibold tracking-[0.01em] text-ivory min-[390px]:text-[17px] sm:text-xl md:text-[1.65rem]">
+                {site.name}
+              </span>
+              <span className="mt-1 hidden text-[10px] font-medium uppercase tracking-[0.32em] text-house-gold md:block">
+                Accra
+              </span>
+            </span>
           </Link>
 
           <form onSubmit={onSearch} className="hidden min-w-0 flex-1 md:block md:max-w-xl lg:mx-8 lg:max-w-2xl">
@@ -136,14 +152,27 @@ export function HouseNav({
             </div>
           </form>
 
-          <div className="ml-auto flex shrink-0 items-center gap-4 md:ml-0">
+          <div className="ml-auto flex shrink-0 items-center gap-1.5 md:ml-0 md:gap-4">
             {hotline ? (
-              <a href={tel} className="text-right leading-tight">
-                <span className="block text-[10px] uppercase tracking-[0.16em] text-house-gold sm:tracking-[0.2em]">
-                  Hotline
-                </span>
-                <span className="whitespace-nowrap text-[11px] font-medium text-white sm:text-sm">{hotline}</span>
-              </a>
+              <>
+                <a href={tel} className="hidden text-right leading-tight md:block">
+                  <span className="block text-[10px] uppercase tracking-[0.2em] text-house-gold">Hotline</span>
+                  <span className="whitespace-nowrap text-sm font-medium text-white">{hotline}</span>
+                </a>
+                <a
+                  href={tel}
+                  className="inline-flex h-10 w-10 items-center justify-center text-white md:hidden"
+                  aria-label={`Hotline ${hotline}`}
+                >
+                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5" fill="currentColor">
+                    <path
+                      fillRule="evenodd"
+                      d="M1.5 4.5a3 3 0 0 1 3-3h1.372c.86 0 1.61.586 1.819 1.42l1.105 4.423a1.875 1.875 0 0 1-.694 1.955l-1.293.97c-.135.101-.164.249-.126.352a11.285 11.285 0 0 0 6.697 6.697c.103.038.25.009.352-.126l.97-1.293a1.875 1.875 0 0 1 1.955-.694l4.423 1.105c.834.209 1.42.959 1.42 1.82V19.5a3 3 0 0 1-3 3h-2.25C8.552 22.5 1.5 15.448 1.5 6.75V4.5Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </a>
+              </>
             ) : null}
             <Link
               href="/cart"
@@ -157,7 +186,7 @@ export function HouseNav({
           </div>
         </div>
 
-        <form onSubmit={onSearch} className="border-t border-white/10 bg-deep-gold px-4 py-2.5 md:hidden">
+        <form onSubmit={onSearch} className="border-t border-white/10 bg-deep-gold px-3 py-2.5 md:hidden">
           <label className="sr-only" htmlFor="house-search-mobile">
             Search for products
           </label>
