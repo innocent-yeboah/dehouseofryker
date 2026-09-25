@@ -8,12 +8,15 @@ import type { Product, Variant } from "@/types/shop";
  * Mask sachets, lip masks, the eye-mask sachet, and the KORMESIC soaps use the same
  * placeholder band as the other format SKUs (about 40–55 GHS, near the 100 g scrubs).
  * Perfume oils (Play Blue, the crystal flacon, the YZS bottles, Veyes 9 am, Veyes Dawn,
- * Miss Candy, ZARR Forget Me Not, the 30 ml eaux de parfum, Nine Black, and Al Kausar Aqua 212)
+ * Miss Candy, ZARR Forget Me Not, the 30 ml eaux de parfum, Nine Black, Al Kausar Aqua 212,
+ * Almas 121 VIP, Silver Black, and Almas Royal Black)
  * use a placeholder band of about 80–150 GHS. They are not Accra prices.
  * ZARR Forget Me Not and Nine Black are 120. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
  * Red Blossom, Coral Floral, Plum Swirl, Ivory Floral, Navy & Silver, Maroon & Gold, Dusty Rose,
- * and Red Sunburst are 80. YZS Wilderness and YZS Carpet of Flowers are 90.
- * Al Kausar Aqua 212 concentrated attar is 100.
+ * and Red Sunburst are 80. YZS Wilderness, YZS Carpet of Flowers, YZS Black Crow, YZS Red Gemstone,
+ * and YZS Sunshine Amber are 90.
+ * Al Kausar Aqua 212 concentrated attar is 100. Almas 121 VIP, Silver Black, and Almas Royal Black
+ * concentrated perfume oils are 100.
  * TODO: owner to set real price.
  * Maison Crivelli Hibiscus Mahajád and Oud Maracujá sit at 150, the top of that band.
  * TODO: owner to set real price (genuine luxury item).
@@ -26,8 +29,10 @@ import type { Product, Variant } from "@/types/shop";
  * ZARR Forget Me Not by Veyes is 100 ml. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
  * Red Blossom, Coral Floral, Plum Swirl, Ivory Floral, Navy & Silver, Maroon & Gold, Dusty Rose,
  * and Red Sunburst are one 30 ml eau de parfum bottle each (not a display box).
- * Nine Black is 100 ml. YZS Wilderness and YZS Carpet of Flowers are 35 ml.
+ * Nine Black is 100 ml. YZS Wilderness, YZS Carpet of Flowers, YZS Black Crow, YZS Red Gemstone,
+ * and YZS Sunshine Amber are 35 ml.
  * Al Kausar Aqua 212 is an alcohol-free concentrated attar, 100 g.
+ * Almas 121 VIP, Silver Black, and Almas Royal Black are alcohol-free concentrated perfume oils, 100 g.
  * The vitamin C shower gel is Net 1000 ml. Miss Candy has no printed volume, so sizeText is omitted.
  * Maison Crivelli extraits are 50 ml (printed on the box).
  * Masks use sizeText "25 ml" (Net 25 ml sachets). YZS bottles and the crystal flacon use "50 ml".
@@ -1511,6 +1516,150 @@ export const seedProducts: Product[] = [
         8,
         {
           sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 84,
+    name: "YZS Perfumer Perfume Black Crow (\"Overnight Off-Road\")",
+    slug: "perfume-yzs-black-crow",
+    description:
+      "YZS Perfumer Perfume Black Crow eau de parfum spray. 35 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-black-crow.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1084,
+        84,
+        "DHR-OIL-YZS-BCR-35",
+        // TODO: owner to set real price
+        90,
+        7,
+        {
+          sizeText: "35 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 85,
+    name: "YZS Perfumer Perfume Red Gemstone (Ruby)",
+    slug: "perfume-yzs-red-gemstone",
+    description:
+      "YZS Perfumer Perfume Red Gemstone eau de parfum spray. 35 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-red-gemstone.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1085,
+        85,
+        "DHR-OIL-YZS-RGM-35",
+        // TODO: owner to set real price
+        90,
+        7,
+        {
+          sizeText: "35 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 86,
+    name: "YZS Perfumer Perfume Sunshine Amber",
+    slug: "perfume-yzs-sunshine-amber",
+    description:
+      "YZS Perfumer Perfume Sunshine Amber eau de parfum spray. 35 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-sunshine-amber.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1086,
+        86,
+        "DHR-OIL-YZS-SAM-35",
+        // TODO: owner to set real price
+        90,
+        7,
+        {
+          sizeText: "35 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 87,
+    name: "Almas 121 VIP Concentrated Perfume Oil (alcohol-free)",
+    slug: "oil-almas-121-vip",
+    description:
+      "Almas 121 VIP concentrated perfume oil, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("oil-almas-121-vip.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1087,
+        87,
+        "DHR-OIL-ALM-121-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 88,
+    name: "Silver Black Concentrated Perfume Oil (alcohol-free)",
+    slug: "oil-silver-black",
+    description:
+      "Silver Black concentrated perfume oil, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("oil-silver-black.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1088,
+        88,
+        "DHR-OIL-SLV-BLK-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 89,
+    name: "Almas Royal Black Concentrated Perfume Oil (alcohol-free)",
+    slug: "oil-almas-royal-black",
+    description:
+      "Almas Royal Black concentrated perfume oil, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("oil-almas-royal-black.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1089,
+        89,
+        "DHR-OIL-ALM-RBK-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
         },
       ),
     ],
