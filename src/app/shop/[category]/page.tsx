@@ -29,9 +29,11 @@ export default async function CategoryPage({ params }: PageProps) {
       ) : null}
       {kind === "oil" ? (
         <p className="mt-2 max-w-2xl text-sm text-muted">
-          Almas Play Blue concentrated perfume oil (100 g), Crystal Amber inspired perfume, YZS
-          50 ml eaux de parfum, Veyes 9 am and Dawn eaux de parfum (100 ml), ZARR Forget Me Not
-          by Veyes (100 ml), Pink Floral, Gold Drip, Black & Gold, Orange Floral, and Red Blossom
+          Almas Play Blue concentrated perfume oil (100 g), Al Kausar Aqua 212 concentrated attar
+          (100 g, alcohol-free), Crystal Amber inspired perfume, YZS 50 ml eaux de parfum, YZS
+          Wilderness and Carpet of Flowers (35 ml), Veyes 9 am and Dawn eaux de parfum (100 ml),
+          ZARR Forget Me Not by Veyes (100 ml), Nine Black eau de parfum (100 ml), Pink Floral,
+          Gold Drip, Black & Gold, Orange Floral, Red Blossom, Coral Floral, and Plum Swirl
           eaux de parfum (one 30 ml bottle each), Miss Candy perfume, and Maison Crivelli extraits
           (50 ml).
         </p>
