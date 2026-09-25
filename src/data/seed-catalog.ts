@@ -8,7 +8,10 @@ import type { Product, Variant } from "@/types/shop";
  * Mask sachets, lip masks, the eye-mask sachet, and the KORMESIC soaps use the same
  * placeholder band as the other format SKUs (about 40–55 GHS, near the 100 g scrubs).
  * Perfume oils (Play Blue, the crystal flacon, the YZS bottles, Veyes 9 am, Veyes Dawn,
- * and Miss Candy) use a placeholder band of about 80–150 GHS. They are not Accra prices.
+ * Miss Candy, ZARR Forget Me Not, and the 30 ml eaux de parfum) use a placeholder band of
+ * about 80–150 GHS. They are not Accra prices.
+ * ZARR Forget Me Not is 120. Pink Floral, Gold Drip, Black & Gold, Orange Floral, and Red Blossom are 80.
+ * TODO: owner to set real price.
  * Maison Crivelli Hibiscus Mahajád and Oud Maracujá sit at 150, the top of that band.
  * TODO: owner to set real price (genuine luxury item).
  * The vitamin C shower gel uses 85, the same large-format liquid placeholder as the 290 ml mists.
@@ -17,6 +20,8 @@ import type { Product, Variant } from "@/types/shop";
  * The niacinamide soap is 110 g. FAYANKÔU lip masks and the SADOER orange lip mask are 4.5 g sachets.
  * SADOER strawberry and POUQUR cherry pink lip masks are one sachet (no printed net on the tile).
  * Eye masks are one sachet, two patches. Play Blue is 100 g. Veyes 9 am and Veyes Dawn are 100 ml.
+ * ZARR Forget Me Not by Veyes is 100 ml. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
+ * and Red Blossom are one 30 ml eau de parfum bottle each.
  * The vitamin C shower gel is Net 1000 ml. Miss Candy has no printed volume, so sizeText is omitted.
  * Maison Crivelli extraits are 50 ml (printed on the box).
  * Masks use sizeText "25 ml" (Net 25 ml sachets). YZS bottles and the crystal flacon use "50 ml".
@@ -1106,6 +1111,144 @@ export const seedProducts: Product[] = [
         4,
         {
           sizeText: "50 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 67,
+    name: "ZARR Forget Me Not Eau de Parfum",
+    slug: "perfume-zarr-forget-me-not",
+    description: "ZARR Forget Me Not eau de parfum by Veyes. 100 ml spray.",
+    kind: "oil",
+    images: [photo("perfume-zarr-forget-me-not.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1067,
+        67,
+        "DHR-OIL-ZARR-FMN-100",
+        // TODO: owner to set real price
+        120,
+        6,
+        {
+          sizeText: "100 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 68,
+    name: "Pink Floral Eau de Parfum",
+    slug: "perfume-30ml-pink-floral",
+    description: "Pink floral eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-pink-floral.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1068,
+        68,
+        "DHR-OIL-PNK-FLR-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 69,
+    name: "Gold Drip Eau de Parfum",
+    slug: "perfume-30ml-gold-drip",
+    description: "Gold drip eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-gold-drip.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1069,
+        69,
+        "DHR-OIL-GLD-DRP-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 70,
+    name: "Black & Gold Eau de Parfum",
+    slug: "perfume-30ml-black-gold",
+    description: "Black and gold eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-black-gold.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1070,
+        70,
+        "DHR-OIL-BLK-GLD-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 71,
+    name: "Orange Floral Eau de Parfum",
+    slug: "perfume-30ml-orange-floral",
+    description: "Orange floral eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-orange-floral.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1071,
+        71,
+        "DHR-OIL-ORG-FLR-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 72,
+    name: "Red Blossom Eau de Parfum",
+    slug: "perfume-30ml-red-blossom",
+    description: "Red blossom eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-red-blossom.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1072,
+        72,
+        "DHR-OIL-RED-BLS-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
         },
       ),
     ],
