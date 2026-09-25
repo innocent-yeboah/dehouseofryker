@@ -8,9 +8,11 @@ import type { Product, Variant } from "@/types/shop";
  * Mask sachets, lip masks, the eye-mask sachet, and the KORMESIC soaps use the same
  * placeholder band as the other format SKUs (about 40–55 GHS, near the 100 g scrubs).
  * Perfume oils (Play Blue, the crystal flacon, the YZS bottles, Veyes 9 am, Veyes Dawn,
- * Miss Candy, ZARR Forget Me Not, and the 30 ml eaux de parfum) use a placeholder band of
- * about 80–150 GHS. They are not Accra prices.
- * ZARR Forget Me Not is 120. Pink Floral, Gold Drip, Black & Gold, Orange Floral, and Red Blossom are 80.
+ * Miss Candy, ZARR Forget Me Not, the 30 ml eaux de parfum, Nine Black, and Al Kausar Aqua 212)
+ * use a placeholder band of about 80–150 GHS. They are not Accra prices.
+ * ZARR Forget Me Not and Nine Black are 120. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
+ * Red Blossom, Coral Floral, and Plum Swirl are 80. YZS Wilderness and YZS Carpet of Flowers are 90.
+ * Al Kausar Aqua 212 concentrated attar is 100.
  * TODO: owner to set real price.
  * Maison Crivelli Hibiscus Mahajád and Oud Maracujá sit at 150, the top of that band.
  * TODO: owner to set real price (genuine luxury item).
@@ -21,7 +23,9 @@ import type { Product, Variant } from "@/types/shop";
  * SADOER strawberry and POUQUR cherry pink lip masks are one sachet (no printed net on the tile).
  * Eye masks are one sachet, two patches. Play Blue is 100 g. Veyes 9 am and Veyes Dawn are 100 ml.
  * ZARR Forget Me Not by Veyes is 100 ml. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
- * and Red Blossom are one 30 ml eau de parfum bottle each.
+ * Red Blossom, Coral Floral, and Plum Swirl are one 30 ml eau de parfum bottle each (not a display box).
+ * Nine Black is 100 ml. YZS Wilderness and YZS Carpet of Flowers are 35 ml.
+ * Al Kausar Aqua 212 is an alcohol-free concentrated attar, 100 g.
  * The vitamin C shower gel is Net 1000 ml. Miss Candy has no printed volume, so sizeText is omitted.
  * Maison Crivelli extraits are 50 ml (printed on the box).
  * Masks use sizeText "25 ml" (Net 25 ml sachets). YZS bottles and the crystal flacon use "50 ml".
@@ -1249,6 +1253,147 @@ export const seedProducts: Product[] = [
         8,
         {
           sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 73,
+    name: "Coral Floral Eau de Parfum",
+    slug: "perfume-30ml-coral-floral",
+    description: "Coral floral eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-coral-floral.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1073,
+        73,
+        "DHR-OIL-CRL-FLR-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 74,
+    name: "Plum Swirl Eau de Parfum",
+    slug: "perfume-30ml-plum-swirl",
+    description: "Plum swirl eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-plum-swirl.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1074,
+        74,
+        "DHR-OIL-PLM-SWL-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 75,
+    name: "Nine Black Eau de Parfum",
+    slug: "perfume-nine-black",
+    description: "Nine Black eau de parfum spray. 100 ml.",
+    kind: "oil",
+    images: [photo("perfume-nine-black.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1075,
+        75,
+        "DHR-OIL-NINE-BLK-100",
+        // TODO: owner to set real price
+        120,
+        6,
+        {
+          sizeText: "100 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 76,
+    name: "YZS Perfumer Perfume Wilderness (\"Strive Forward with Determination\")",
+    slug: "perfume-yzs-wilderness",
+    description:
+      "YZS Perfumer Perfume Wilderness eau de parfum spray. 35 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-wilderness.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1076,
+        76,
+        "DHR-OIL-YZS-WLD-35",
+        // TODO: owner to set real price
+        90,
+        7,
+        {
+          sizeText: "35 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 77,
+    name: "YZS Perfumer Perfume Carpet of Flowers",
+    slug: "perfume-yzs-carpet-of-flowers",
+    description:
+      "YZS Perfumer Perfume Carpet of Flowers eau de parfum spray. 35 ml.",
+    kind: "oil",
+    images: [photo("perfume-yzs-carpet-of-flowers.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1077,
+        77,
+        "DHR-OIL-YZS-COF-35",
+        // TODO: owner to set real price
+        90,
+        7,
+        {
+          sizeText: "35 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 78,
+    name: "Al Kausar Aqua 212 Concentrated Attar (alcohol-free)",
+    slug: "attar-al-kausar-aqua-212",
+    description:
+      "Al Kausar Aqua 212 concentrated attar, alcohol-free. 100 g.",
+    kind: "oil",
+    images: [photo("attar-al-kausar-aqua-212.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1078,
+        78,
+        "DHR-OIL-KAUSAR-212-100",
+        // TODO: owner to set real price
+        100,
+        8,
+        {
+          sizeText: "100 g",
         },
       ),
     ],
