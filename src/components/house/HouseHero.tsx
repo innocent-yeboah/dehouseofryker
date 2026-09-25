@@ -39,20 +39,20 @@ const slides: HeroSlide[] = [
       {
         src: "/hero/oil-almas-bushra.png",
         alt: "Almas Bushra Perfume Oil 100 g",
-        frame: "bottom-0 left-[8%] z-10 h-[84%] w-[30%] lg:left-[4%] lg:h-[88%] lg:w-[31%]",
+        frame: "bottom-0 left-0 z-10 h-[92%] w-[32%]",
         sizes: "(min-width: 1024px) 200px, 120px",
       },
       {
         src: "/hero/oil-almas-royal-black.png",
         alt: "Almas Royal Black Perfume Oil 100 g",
-        frame: "bottom-0 left-[35%] z-20 h-[96%] w-[30%] lg:left-[34%] lg:w-[32%]",
+        frame: "bottom-0 left-[34%] z-10 h-[98%] w-[32%]",
         sizes: "(min-width: 1024px) 220px, 130px",
         priority: true,
       },
       {
         src: "/hero/oil-almas-crimson-chandelier.png",
         alt: "Almas Crimson Chandelier Perfume Oil 100 g",
-        frame: "bottom-0 right-[8%] z-10 h-[84%] w-[30%] lg:right-[4%] lg:h-[88%] lg:w-[31%]",
+        frame: "bottom-0 right-0 z-10 h-[92%] w-[32%]",
         sizes: "(min-width: 1024px) 200px, 120px",
       },
     ],
@@ -70,19 +70,19 @@ const slides: HeroSlide[] = [
       {
         src: "/hero/mask-24k-gold.png",
         alt: "PUQIANNA 24K Gold Whitening Facial Mask 25 ml",
-        frame: "bottom-[2%] left-[6%] z-10 h-[78%] w-[30%] lg:left-[3%] lg:h-[82%] lg:w-[30%]",
+        frame: "bottom-0 left-0 z-10 h-[92%] w-[30%]",
         sizes: "(min-width: 1024px) 190px, 120px",
       },
       {
         src: "/hero/scrub-24k-gold.png",
         alt: "KÖRMESIC 24K Gold Exfoliating Scrub 100 g",
-        frame: "bottom-0 left-[32%] z-20 h-[94%] w-[34%] lg:left-[33%] lg:w-[34%]",
+        frame: "bottom-0 left-[32%] z-10 h-[98%] w-[32%]",
         sizes: "(min-width: 1024px) 220px, 140px",
       },
       {
         src: "/hero/lip-cherry.png",
         alt: "FAYANKÔU Cherry Moisturizing Soft Lip Mask 4.5 g",
-        frame: "bottom-[7%] right-[4%] z-30 h-[36%] w-[40%] lg:right-[3%] lg:h-[32%] lg:w-[40%]",
+        frame: "bottom-[18%] right-0 z-10 h-[46%] w-[34%] lg:bottom-[22%] lg:h-[40%]",
         sizes: "(min-width: 1024px) 260px, 160px",
       },
     ],
@@ -97,19 +97,19 @@ const slides: HeroSlide[] = [
       {
         src: "/hero/supplement-fruits-plus.png",
         alt: "OEM Fruits+ Whole Food Formula 90 capsules",
-        frame: "bottom-[1%] left-[7%] z-10 h-[78%] w-[28%] lg:left-[5%] lg:h-[80%] lg:w-[28%]",
+        frame: "bottom-0 left-0 z-10 h-[90%] w-[31%]",
         sizes: "(min-width: 1024px) 180px, 110px",
       },
       {
         src: "/hero/oil-almas-crimson-chandelier.png",
         alt: "Almas Crimson Chandelier Perfume Oil 100 g",
-        frame: "bottom-0 left-[34%] z-20 h-[96%] w-[32%] lg:left-[34%] lg:w-[32%]",
+        frame: "bottom-0 left-[34%] z-10 h-[98%] w-[32%]",
         sizes: "(min-width: 1024px) 220px, 130px",
       },
       {
         src: "/hero/supplement-veggies-plus.png",
         alt: "OEM Veggies+ Whole Food Formula 90 capsules",
-        frame: "bottom-[1%] right-[7%] z-10 h-[78%] w-[28%] lg:right-[5%] lg:h-[80%] lg:w-[28%]",
+        frame: "bottom-0 right-0 z-10 h-[90%] w-[31%]",
         sizes: "(min-width: 1024px) 180px, 110px",
       },
     ],
@@ -140,7 +140,7 @@ function Stage({ shots, eager }: { shots: HeroShot[]; eager: boolean }) {
             fill
             sizes={shot.sizes}
             draggable={false}
-            className="object-contain object-bottom [filter:drop-shadow(0_14px_12px_rgba(62,42,18,0.28))]"
+            className="object-contain object-bottom mix-blend-multiply"
             {...(eager && shot.priority
               ? { priority: true, fetchPriority: "high" as const }
               : { loading: "lazy" as const })}
@@ -318,48 +318,41 @@ export function HouseHero() {
             );
           })}
 
-          <button
-            type="button"
-            aria-label="Previous slide"
-            className="absolute left-2 top-[5.75rem] z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-ink/70 text-white backdrop-blur-sm motion-safe:transition-colors motion-safe:hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-house-gold sm:top-[6.75rem] lg:left-[52%] lg:top-1/2 lg:-translate-y-1/2"
-            onClick={() => go(-1)}
-          >
-            <span aria-hidden="true" className="text-lg leading-none">
-              ‹
-            </span>
-          </button>
-          <button
-            type="button"
-            aria-label="Next slide"
-            className="absolute right-2 top-[5.75rem] z-30 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/40 bg-ink/70 text-white backdrop-blur-sm motion-safe:transition-colors motion-safe:hover:bg-ink focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-house-gold sm:top-[6.75rem] lg:right-4 lg:top-1/2 lg:-translate-y-1/2"
-            onClick={() => go(1)}
-          >
-            <span aria-hidden="true" className="text-lg leading-none">
-              ›
-            </span>
-          </button>
-
-          <div
-            className="absolute bottom-2 left-3 z-30 flex items-center sm:left-6 lg:left-10"
-            role="group"
-            aria-label="Choose a slide"
-          >
-            {slides.map((slide, slideIndex) => (
-              <button
-                key={slide.id}
-                type="button"
-                aria-label={`Show ${slide.eyebrow}`}
-                aria-current={slideIndex === index ? "true" : undefined}
-                className="inline-flex h-11 w-8 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-house-gold"
-                onClick={() => setIndex(slideIndex)}
-              >
-                <span
-                  className={`block rounded-full ${
-                    slideIndex === index ? "h-2 w-6 bg-house-gold" : "h-2 w-2 bg-white/70"
-                  }`}
-                />
-              </button>
-            ))}
+          <div className="absolute bottom-1 left-2 z-30 flex items-center sm:left-5 lg:left-8">
+            <button
+              type="button"
+              aria-label="Previous slide"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-lg leading-none text-white motion-safe:transition-colors motion-safe:hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-house-gold"
+              onClick={() => go(-1)}
+            >
+              <span aria-hidden="true">‹</span>
+            </button>
+            <div className="flex items-center" role="group" aria-label="Choose a slide">
+              {slides.map((slide, slideIndex) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  aria-label={`Show ${slide.eyebrow}`}
+                  aria-current={slideIndex === index ? "true" : undefined}
+                  className="inline-flex h-11 w-8 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-house-gold"
+                  onClick={() => setIndex(slideIndex)}
+                >
+                  <span
+                    className={`block rounded-full ${
+                      slideIndex === index ? "h-2 w-6 bg-house-gold" : "h-2 w-2 bg-white/70"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+            <button
+              type="button"
+              aria-label="Next slide"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/30 text-lg leading-none text-white motion-safe:transition-colors motion-safe:hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-house-gold"
+              onClick={() => go(1)}
+            >
+              <span aria-hidden="true">›</span>
+            </button>
           </div>
         </div>
 
