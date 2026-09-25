@@ -11,7 +11,8 @@ import type { Product, Variant } from "@/types/shop";
  * Miss Candy, ZARR Forget Me Not, the 30 ml eaux de parfum, Nine Black, and Al Kausar Aqua 212)
  * use a placeholder band of about 80–150 GHS. They are not Accra prices.
  * ZARR Forget Me Not and Nine Black are 120. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
- * Red Blossom, Coral Floral, and Plum Swirl are 80. YZS Wilderness and YZS Carpet of Flowers are 90.
+ * Red Blossom, Coral Floral, Plum Swirl, Ivory Floral, Navy & Silver, Maroon & Gold, Dusty Rose,
+ * and Red Sunburst are 80. YZS Wilderness and YZS Carpet of Flowers are 90.
  * Al Kausar Aqua 212 concentrated attar is 100.
  * TODO: owner to set real price.
  * Maison Crivelli Hibiscus Mahajád and Oud Maracujá sit at 150, the top of that band.
@@ -23,7 +24,8 @@ import type { Product, Variant } from "@/types/shop";
  * SADOER strawberry and POUQUR cherry pink lip masks are one sachet (no printed net on the tile).
  * Eye masks are one sachet, two patches. Play Blue is 100 g. Veyes 9 am and Veyes Dawn are 100 ml.
  * ZARR Forget Me Not by Veyes is 100 ml. Pink Floral, Gold Drip, Black & Gold, Orange Floral,
- * Red Blossom, Coral Floral, and Plum Swirl are one 30 ml eau de parfum bottle each (not a display box).
+ * Red Blossom, Coral Floral, Plum Swirl, Ivory Floral, Navy & Silver, Maroon & Gold, Dusty Rose,
+ * and Red Sunburst are one 30 ml eau de parfum bottle each (not a display box).
  * Nine Black is 100 ml. YZS Wilderness and YZS Carpet of Flowers are 35 ml.
  * Al Kausar Aqua 212 is an alcohol-free concentrated attar, 100 g.
  * The vitamin C shower gel is Net 1000 ml. Miss Candy has no printed volume, so sizeText is omitted.
@@ -1394,6 +1396,121 @@ export const seedProducts: Product[] = [
         8,
         {
           sizeText: "100 g",
+        },
+      ),
+    ],
+  },
+  {
+    id: 79,
+    name: "Ivory Floral Eau de Parfum",
+    slug: "perfume-30ml-ivory-floral",
+    description: "Ivory floral eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-ivory-floral.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1079,
+        79,
+        "DHR-OIL-IVY-FLR-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 80,
+    name: "Navy & Silver Eau de Parfum",
+    slug: "perfume-30ml-navy-silver",
+    description: "Navy and silver eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-navy-silver.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1080,
+        80,
+        "DHR-OIL-NVY-SLV-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 81,
+    name: "Maroon & Gold Eau de Parfum",
+    slug: "perfume-30ml-maroon-gold",
+    description: "Maroon and gold eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-maroon-gold.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1081,
+        81,
+        "DHR-OIL-MRN-GLD-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 82,
+    name: "Dusty Rose Eau de Parfum",
+    slug: "perfume-30ml-dusty-rose",
+    description: "Dusty rose eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-dusty-rose.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1082,
+        82,
+        "DHR-OIL-DST-RSE-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 83,
+    name: "Red Sunburst Eau de Parfum",
+    slug: "perfume-30ml-red-sunburst",
+    description: "Red sunburst eau de parfum spray. One 30 ml bottle.",
+    kind: "oil",
+    images: [photo("perfume-30ml-red-sunburst.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1083,
+        83,
+        "DHR-OIL-RED-SNB-30",
+        // TODO: owner to set real price
+        80,
+        8,
+        {
+          sizeText: "30 ml",
         },
       ),
     ],

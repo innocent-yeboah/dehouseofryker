@@ -33,9 +33,9 @@ export default async function CategoryPage({ params }: PageProps) {
           (100 g, alcohol-free), Crystal Amber inspired perfume, YZS 50 ml eaux de parfum, YZS
           Wilderness and Carpet of Flowers (35 ml), Veyes 9 am and Dawn eaux de parfum (100 ml),
           ZARR Forget Me Not by Veyes (100 ml), Nine Black eau de parfum (100 ml), Pink Floral,
-          Gold Drip, Black & Gold, Orange Floral, Red Blossom, Coral Floral, and Plum Swirl
-          eaux de parfum (one 30 ml bottle each), Miss Candy perfume, and Maison Crivelli extraits
-          (50 ml).
+          Gold Drip, Black & Gold, Orange Floral, Red Blossom, Coral Floral, Plum Swirl,
+          Ivory Floral, Navy & Silver, Maroon & Gold, Dusty Rose, and Red Sunburst eaux de parfum
+          (one 30 ml bottle each), Miss Candy perfume, and Maison Crivelli extraits (50 ml).
         </p>
       ) : null}
       {products.length === 0 ? (
