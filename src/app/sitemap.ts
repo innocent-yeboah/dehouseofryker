@@ -5,7 +5,9 @@ import { site } from "@/lib/site";
 export default function sitemap(): MetadataRoute.Sitemap {
   const configured = site.siteUrl.replace(/\/$/, "");
   const base =
-    configured.startsWith("http://localhost") || configured.startsWith("http://127.0.0.1")
+    !configured ||
+    configured.startsWith("http://localhost") ||
+    configured.startsWith("http://127.0.0.1")
       ? "https://dehouseofryker.vercel.app"
       : configured;
   const paths = [
