@@ -12,8 +12,8 @@ import type { DepartmentId, SectionId } from "@/types/shop";
  * (the YZS 35 ml and 50 ml lines are different scents), so none are grouped
  * into a shared size picker.
  *
- * Face scrubs are filed under Body because that section is soaps, scrubs,
- * and body mists. Their descriptions still say the tube is for the face.
+ * The KÖRMESIC 24K Gold, Vitamin C, and Avocado scrubs are Face:
+ * their descriptions say the tube is for the face.
  */
 export type Taxonomy = {
   department: DepartmentId;
@@ -28,9 +28,9 @@ type Entry = Taxonomy & { id: number };
 const entries: Entry[] = [
   { id: 1, department: "fragrance", section: "perfumes", brand: "House", size: "50 ml", displayName: "Blue Glass Spray 50 ml" },
   { id: 2, department: "fragrance", section: "perfumes", brand: "House", size: "50 ml", displayName: "Red Glass Spray 50 ml" },
-  { id: 3, department: "skincare", section: "body", brand: "KÖRMESIC", size: "100 g", displayName: "KÖRMESIC 24K Gold Exfoliating Scrub 100 g" },
-  { id: 4, department: "skincare", section: "body", brand: "KÖRMESIC", size: "100 g", displayName: "KÖRMESIC Vitamin C Exfoliating Scrub 100 g" },
-  { id: 5, department: "skincare", section: "body", brand: "KÖRMESIC", size: "100 g", displayName: "KÖRMESIC Avocado Exfoliating Scrub 100 g" },
+  { id: 3, department: "skincare", section: "face", brand: "KÖRMESIC", size: "100 g", displayName: "KÖRMESIC 24K Gold Exfoliating Scrub 100 g" },
+  { id: 4, department: "skincare", section: "face", brand: "KÖRMESIC", size: "100 g", displayName: "KÖRMESIC Vitamin C Exfoliating Scrub 100 g" },
+  { id: 5, department: "skincare", section: "face", brand: "KÖRMESIC", size: "100 g", displayName: "KÖRMESIC Avocado Exfoliating Scrub 100 g" },
   { id: 6, department: "skincare", section: "body", brand: "Kormesic", size: "290 ml", displayName: "Kormesic Sexy Bomb Hair & Body Mist 290 ml" },
   { id: 7, department: "skincare", section: "body", brand: "Kormesic", size: "290 ml", displayName: "Kormesic White Tea Mist 290 ml" },
   { id: 8, department: "skincare", section: "body", brand: "Kormesic", size: "290 ml", displayName: "Kormesic Encounter Huayang Hair & Body Mist 290 ml" },

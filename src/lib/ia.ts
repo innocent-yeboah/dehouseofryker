@@ -68,7 +68,7 @@ export const sectionCatalog: Record<SectionId, SectionDef> = {
     slug: "face",
     department: "skincare",
     hideWhenEmpty: false,
-    intro: "Sheet masks and whitening care.",
+    intro: "Sheet masks, face scrubs, and whitening care.",
   },
   lips_eyes: {
     id: "lips_eyes",
@@ -84,7 +84,7 @@ export const sectionCatalog: Record<SectionId, SectionDef> = {
     slug: "body",
     department: "skincare",
     hideWhenEmpty: false,
-    intro: "Soaps, scrubs, shower gel, and hair and body mists.",
+    intro: "Soaps, shower gel, and hair and body mists.",
   },
   supplements: {
     id: "supplements",
