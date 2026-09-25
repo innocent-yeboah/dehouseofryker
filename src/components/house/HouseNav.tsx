@@ -206,7 +206,7 @@ export function HouseNav({
                 type="button"
                 className="inline-flex items-center gap-1 px-3 py-3 text-sm font-medium hover:bg-house-gold/30"
                 aria-expanded={openMenu === department.href}
-                onClick={() => setOpenMenu((current) => (current === department.href ? null : department.href))}
+                onClick={() => setOpenMenu(department.href)}
               >
                 {department.label}
                 <span aria-hidden="true">▾</span>

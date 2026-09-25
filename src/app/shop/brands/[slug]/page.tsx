@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -15,8 +16,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return { title: brand ? brand.label : "Brand" };
 }
 
-export default async function BrandPage({ params }: PageProps) {
+export default async function BrandPage({ params, searchParams }: PageProps) {
   const { slug } = await params;
+  const search = await searchParams;
   const products = await getProducts();
   const brand = brandIndex(products).find((item) => item.slug === slug);
   if (!brand) {
@@ -40,6 +42,7 @@ export default async function BrandPage({ params }: PageProps) {
       ]}
       products={scoped}
       facetSections={present}
+      searchParams={search}
     />
   );
 }

@@ -13,6 +13,7 @@ import { notFound } from "next/navigation";
 
 type PageProps = {
   params: Promise<{ category: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 const specials: Record<string, { title: string; intro: string; sort: "featured" | "newest" }> = {
@@ -41,8 +42,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return { title: department.label };
 }
 
-export default async function CategoryPage({ params }: PageProps) {
+export default async function CategoryPage({ params, searchParams }: PageProps) {
   const { category } = await params;
+  const search = await searchParams;
   const products = await getProducts();
   const special = specials[category];
 
@@ -64,6 +66,7 @@ export default async function CategoryPage({ params }: PageProps) {
           current: false,
         }))}
         defaultSort={special.sort}
+        searchParams={search}
       />
     );
   }
@@ -88,6 +91,7 @@ export default async function CategoryPage({ params }: PageProps) {
         department: department.id,
         allHref: departmentPath(department.id),
       })}
+      searchParams={search}
     />
   );
 }

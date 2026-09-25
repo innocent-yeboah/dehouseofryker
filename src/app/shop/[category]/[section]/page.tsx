@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 
 type PageProps = {
   params: Promise<{ category: string; section: string }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -18,8 +19,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return { title: section.label };
 }
 
-export default async function SectionPage({ params }: PageProps) {
+export default async function SectionPage({ params, searchParams }: PageProps) {
   const { category, section: sectionSlug } = await params;
+  const search = await searchParams;
   const department = departmentFromSlug(category);
   if (!department) {
     notFound();
@@ -48,6 +50,7 @@ export default async function SectionPage({ params }: PageProps) {
         current: section.id,
         allHref: departmentPath(department.id),
       })}
+      searchParams={search}
     />
   );
 }

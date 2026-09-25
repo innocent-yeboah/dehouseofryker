@@ -338,6 +338,80 @@ export function sectionLinks(
   return links;
 }
 
+export type ListingQuery = {
+  section: string;
+  brand: string;
+  size: string;
+  min: string;
+  max: string;
+  stock: boolean;
+  sort: SortKey;
+  q: string;
+};
+
+export function normalizeSearch(
+  raw: Record<string, string | string[] | undefined> | undefined,
+  defaultSort: SortKey,
+): ListingQuery {
+  const one = (key: string) => {
+    const value = raw?.[key];
+    return (Array.isArray(value) ? value[0] : value)?.trim() ?? "";
+  };
+  const sortValue = one("sort");
+  const sort: SortKey =
+    sortValue === "featured" || sortValue === "newest" || sortValue === "price-asc" || sortValue === "price-desc"
+      ? sortValue
+      : defaultSort;
+  return {
+    section: one("section"),
+    brand: one("brand"),
+    size: one("size"),
+    min: one("min"),
+    max: one("max"),
+    stock: one("stock") === "1",
+    sort,
+    q: one("q"),
+  };
+}
+
+export function filterProducts(products: Product[], query: ListingQuery): Product[] {
+  const min = query.min === "" ? null : Number(query.min);
+  const max = query.max === "" ? null : Number(query.max);
+  const q = query.q.trim().toLowerCase();
+  return products
+    .filter((product) => {
+      if (query.section && product.section !== query.section) {
+        return false;
+      }
+      if (query.brand && brandSlug(product.brand) !== query.brand) {
+        return false;
+      }
+      if (query.size && product.size !== query.size) {
+        return false;
+      }
+      const price = minPrice(product);
+      if (min !== null && !Number.isNaN(min) && price < min) {
+        return false;
+      }
+      if (max !== null && !Number.isNaN(max) && price > max) {
+        return false;
+      }
+      if (query.stock && !isPurchasable(product)) {
+        return false;
+      }
+      if (q) {
+        const haystack = [product.displayName, product.name, product.description, product.brand, product.size]
+          .join(" ")
+          .toLowerCase();
+        if (!haystack.includes(q)) {
+          return false;
+        }
+      }
+      return true;
+    })
+    .sort((a, b) => compareProducts(query.sort, a, b));
+}
+
 export function homeRails(products: Product[]): { bestSellers: Product[]; newArrivals: Product[] } {
   const featured = [...products].sort((a, b) => compareProducts("featured", a, b));
   const newest = [...products].sort((a, b) => compareProducts("newest", a, b));

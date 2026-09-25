@@ -2,20 +2,11 @@
 
 import { AtelierCard } from "@/components/house/AtelierCard";
 import { shopTileGrid } from "@/components/house/shop-grid";
-import {
-  PAGE_SIZE,
-  brandIndex,
-  brandSlug,
-  compareProducts,
-  isPurchasable,
-  minPrice,
-  type SectionLink,
-  type SortKey,
-} from "@/lib/ia";
+import { PAGE_SIZE, brandIndex, type ListingQuery, type SectionLink, type SortKey } from "@/lib/ia";
 import type { Product } from "@/types/shop";
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 const sorts: Array<{ id: SortKey; label: string }> = [
   { id: "featured", label: "Featured" },
@@ -30,99 +21,61 @@ function sizeRank(size: string): number {
 }
 
 export function ShopListing({
+  universe,
   products,
+  query,
   sectionLinks = [],
   facetSections = [],
   defaultSort = "featured",
 }: {
+  /** Unfiltered products on this shelf, used to build filter choices. */
+  universe: Product[];
   products: Product[];
+  query: ListingQuery;
   sectionLinks?: SectionLink[];
-  /** Filter by section inside this listing, without leaving the page. */
   facetSections?: Array<{ id: string; label: string }>;
   defaultSort?: SortKey;
 }) {
   const router = useRouter();
   const pathname = usePathname();
-  const params = useSearchParams();
   const [shown, setShown] = useState(PAGE_SIZE);
-
-  const section = params.get("section") ?? "";
-  const brand = params.get("brand") ?? "";
-  const size = params.get("size") ?? "";
-  const minRaw = params.get("min") ?? "";
-  const maxRaw = params.get("max") ?? "";
-  const inStock = params.get("stock") === "1";
-  const query = (params.get("q") ?? "").trim().toLowerCase();
-  const sortParam = params.get("sort");
-  const sort: SortKey = sorts.some((item) => item.id === sortParam)
-    ? (sortParam as SortKey)
-    : defaultSort;
-
-  const filterKey = `${section}|${brand}|${size}|${minRaw}|${maxRaw}|${inStock}|${sort}|${query}|${pathname}`;
+  const [minDraft, setMinDraft] = useState(query.min);
+  const [maxDraft, setMaxDraft] = useState(query.max);
 
   useEffect(() => {
     setShown(PAGE_SIZE);
-  }, [filterKey]);
-
-  const brands = useMemo(() => brandIndex(products), [products]);
-  const sizes = useMemo(
-    () =>
-      [...new Set(products.map((item) => item.size).filter(Boolean))].sort(
-        (a, b) => sizeRank(a) - sizeRank(b) || a.localeCompare(b),
-      ),
-    [products],
+    setMinDraft(query.min);
+    setMaxDraft(query.max);
+  }, [query.section, query.brand, query.size, query.min, query.max, query.stock, query.sort, query.q]);
+  const brands = brandIndex(universe);
+  const sizes = [...new Set(universe.map((item) => item.size).filter(Boolean))].sort(
+    (a, b) => sizeRank(a) - sizeRank(b) || a.localeCompare(b),
   );
+  const visible = products.slice(0, shown);
 
-  const filtered = useMemo(() => {
-    const min = minRaw === "" ? null : Number(minRaw);
-    const max = maxRaw === "" ? null : Number(maxRaw);
-    return products
-      .filter((product) => {
-        if (section && product.section !== section) {
-          return false;
-        }
-        if (brand && brandSlug(product.brand) !== brand) {
-          return false;
-        }
-        if (size && product.size !== size) {
-          return false;
-        }
-        const price = minPrice(product);
-        if (min !== null && !Number.isNaN(min) && price < min) {
-          return false;
-        }
-        if (max !== null && !Number.isNaN(max) && price > max) {
-          return false;
-        }
-        if (inStock && !isPurchasable(product)) {
-          return false;
-        }
-        if (query) {
-          const haystack = [product.displayName, product.name, product.description, product.brand, product.size]
-            .join(" ")
-            .toLowerCase();
-          if (!haystack.includes(query)) {
-            return false;
-          }
-        }
-        return true;
-      })
-      .sort((a, b) => compareProducts(sort, a, b));
-  }, [products, section, brand, size, minRaw, maxRaw, inStock, query, sort]);
-
-  const visible = filtered.slice(0, shown);
-
-  function update(next: Record<string, string | null>) {
-    const sp = new URLSearchParams(params.toString());
-    for (const [key, value] of Object.entries(next)) {
-      if (!value) {
-        sp.delete(key);
-      } else {
+  function update(next: Partial<Record<"section" | "brand" | "size" | "min" | "max" | "stock" | "sort" | "q", string>>) {
+    const merged = {
+      section: query.section,
+      brand: query.brand,
+      size: query.size,
+      min: query.min,
+      max: query.max,
+      stock: query.stock ? "1" : "",
+      sort: query.sort === defaultSort ? "" : query.sort,
+      q: query.q,
+      ...next,
+    };
+    if (merged.sort === defaultSort) {
+      merged.sort = "";
+    }
+    const sp = new URLSearchParams();
+    for (const [key, value] of Object.entries(merged)) {
+      if (value) {
         sp.set(key, value);
       }
     }
     const qs = sp.toString();
-    router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    router.push(qs ? `${pathname}?${qs}` : pathname);
   }
 
   const selectClass =
@@ -134,20 +87,20 @@ export function ShopListing({
         <div>
           <p className="mb-2 text-xs uppercase tracking-[0.14em] text-muted">Section</p>
           <div className="flex flex-wrap gap-2" role="navigation" aria-label="Sections">
-          {sectionLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              aria-current={link.current ? "page" : undefined}
-              className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm ${
-                link.current
-                  ? "border-deep-gold bg-deep-gold text-white"
-                  : "border-soft-gold bg-white text-ink"
-              }`}
-            >
-              {link.label}
-            </Link>
-          ))}
+            {sectionLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={link.current ? "page" : undefined}
+                className={`inline-flex min-h-11 items-center rounded-full border px-4 text-sm ${
+                  link.current
+                    ? "border-deep-gold bg-deep-gold text-white"
+                    : "border-soft-gold bg-white text-ink"
+                }`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       ) : null}
@@ -158,8 +111,8 @@ export function ShopListing({
             <span className="mb-1 block text-xs uppercase tracking-[0.14em] text-muted">Section</span>
             <select
               className={selectClass}
-              value={section}
-              onChange={(event) => update({ section: event.target.value || null })}
+              value={query.section}
+              onChange={(event) => update({ section: event.target.value })}
             >
               <option value="">All sections</option>
               {facetSections.map((item) => (
@@ -172,11 +125,7 @@ export function ShopListing({
         ) : null}
         <label className="block min-w-0 lg:w-44">
           <span className="mb-1 block text-xs uppercase tracking-[0.14em] text-muted">Brand</span>
-          <select
-            className={selectClass}
-            value={brand}
-            onChange={(event) => update({ brand: event.target.value || null })}
-          >
+          <select className={selectClass} value={query.brand} onChange={(event) => update({ brand: event.target.value })}>
             <option value="">All brands</option>
             {brands.map((item) => (
               <option key={item.slug} value={item.slug}>
@@ -187,11 +136,7 @@ export function ShopListing({
         </label>
         <label className="block min-w-0 lg:w-40">
           <span className="mb-1 block text-xs uppercase tracking-[0.14em] text-muted">Size</span>
-          <select
-            className={selectClass}
-            value={size}
-            onChange={(event) => update({ size: event.target.value || null })}
-          >
+          <select className={selectClass} value={query.size} onChange={(event) => update({ size: event.target.value })}>
             <option value="">All sizes</option>
             {sizes.map((item) => (
               <option key={item} value={item}>
@@ -208,8 +153,13 @@ export function ShopListing({
             type="number"
             min={0}
             placeholder="0"
-            value={minRaw}
-            onChange={(event) => update({ min: event.target.value || null })}
+            value={minDraft}
+            onChange={(event) => setMinDraft(event.target.value)}
+            onBlur={() => {
+              if (minDraft !== query.min) {
+                update({ min: minDraft });
+              }
+            }}
           />
         </label>
         <label className="block min-w-0 lg:w-28">
@@ -220,28 +170,27 @@ export function ShopListing({
             type="number"
             min={0}
             placeholder="Any"
-            value={maxRaw}
-            onChange={(event) => update({ max: event.target.value || null })}
+            value={maxDraft}
+            onChange={(event) => setMaxDraft(event.target.value)}
+            onBlur={() => {
+              if (maxDraft !== query.max) {
+                update({ max: maxDraft });
+              }
+            }}
           />
         </label>
         <label className="col-span-2 flex min-h-11 items-center gap-2 self-end rounded-lg border border-soft-gold bg-white px-3 text-sm lg:w-auto">
           <input
             type="checkbox"
             className="h-4 w-4 accent-[#8c6a2b]"
-            checked={inStock}
-            onChange={(event) => update({ stock: event.target.checked ? "1" : null })}
+            checked={query.stock}
+            onChange={(event) => update({ stock: event.target.checked ? "1" : "" })}
           />
           In stock only
         </label>
         <label className="col-span-2 block min-w-0 lg:w-52">
           <span className="mb-1 block text-xs uppercase tracking-[0.14em] text-muted">Sort</span>
-          <select
-            className={selectClass}
-            value={sort}
-            onChange={(event) =>
-              update({ sort: event.target.value === defaultSort ? null : event.target.value })
-            }
-          >
+          <select className={selectClass} value={query.sort} onChange={(event) => update({ sort: event.target.value })}>
             {sorts.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.label}
@@ -253,20 +202,20 @@ export function ShopListing({
 
       <div className="mt-4 flex flex-wrap items-baseline justify-between gap-2">
         <p className="text-sm text-muted">
-          {filtered.length} {filtered.length === 1 ? "product" : "products"}
-          {query ? (
+          {products.length} {products.length === 1 ? "product" : "products"}
+          {query.q ? (
             <>
               {" "}
-              for “{params.get("q")}”.{" "}
-              <button type="button" className="text-deep-gold underline" onClick={() => update({ q: null })}>
+              for “{query.q}”.{" "}
+              <button type="button" className="text-deep-gold underline" onClick={() => update({ q: "" })}>
                 Clear search
               </button>
             </>
           ) : null}
         </p>
-        {filtered.length > PAGE_SIZE ? (
+        {products.length > PAGE_SIZE ? (
           <p className="text-sm text-muted">
-            Showing {Math.min(shown, filtered.length)} of {filtered.length}
+            Showing {Math.min(shown, products.length)} of {products.length}
           </p>
         ) : null}
       </div>
@@ -281,7 +230,7 @@ export function ShopListing({
         </div>
       )}
 
-      {shown < filtered.length ? (
+      {shown < products.length ? (
         <div className="mt-8 flex justify-center">
           <button
             type="button"
