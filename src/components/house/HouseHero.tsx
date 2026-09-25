@@ -9,8 +9,8 @@ const AUTOPLAY_MS = 6500;
 type HeroShot = {
   src: string;
   alt: string;
-  /** Position inside the composition stage. Full class strings so Tailwind can see them. */
-  frame: string;
+  /** Flex item inside the centred cluster. Full class strings so Tailwind can see them. */
+  item: string;
   sizes: string;
   /** LCP image on the first slide. */
   priority?: boolean;
@@ -21,6 +21,8 @@ type HeroSlide = {
   eyebrow: string;
   title: string;
   support: string;
+  /** Height of the product cluster as a fraction of the image panel. */
+  cluster: string;
   shots: HeroShot[];
   ctas: Array<{ href: string; label: string; tone: "primary" | "secondary" }>;
 };
@@ -31,6 +33,7 @@ const slides: HeroSlide[] = [
     eyebrow: "Fragrance",
     title: "Signature scents, delivered across Accra",
     support: "Perfumes, perfume oils, and attars. Pay with MoMo.",
+    cluster: "h-[76%]",
     ctas: [
       { href: "/shop/fragrance/perfumes", label: "Shop Perfumes", tone: "primary" },
       { href: "/shop/fragrance/perfume-oils", label: "Shop Oils & Attars", tone: "secondary" },
@@ -39,21 +42,21 @@ const slides: HeroSlide[] = [
       {
         src: "/hero/oil-almas-bushra.png",
         alt: "Almas Bushra Perfume Oil 100 g",
-        frame: "bottom-0 left-0 z-10 h-[92%] w-[32%]",
-        sizes: "(min-width: 1024px) 200px, 120px",
+        item: "z-10 h-[86%] -mr-[8%] self-end aspect-[505/617]",
+        sizes: "(min-width: 1024px) 280px, 120px",
       },
       {
         src: "/hero/oil-almas-royal-black.png",
         alt: "Almas Royal Black Perfume Oil 100 g",
-        frame: "bottom-0 left-[34%] z-10 h-[98%] w-[32%]",
-        sizes: "(min-width: 1024px) 220px, 130px",
+        item: "z-20 h-full aspect-[673/640]",
+        sizes: "(min-width: 1024px) 340px, 150px",
         priority: true,
       },
       {
         src: "/hero/oil-almas-crimson-chandelier.png",
         alt: "Almas Crimson Chandelier Perfume Oil 100 g",
-        frame: "bottom-0 right-0 z-10 h-[92%] w-[32%]",
-        sizes: "(min-width: 1024px) 200px, 120px",
+        item: "z-10 h-[84%] -ml-[10%] self-start aspect-[754/634]",
+        sizes: "(min-width: 1024px) 300px, 140px",
       },
     ],
   },
@@ -62,6 +65,7 @@ const slides: HeroSlide[] = [
     eyebrow: "Skincare",
     title: "Scrubs, masks, and lip masks",
     support: "Face, lips and eyes, and body. Genuine products.",
+    cluster: "h-[82%]",
     ctas: [
       { href: "/shop/skincare/face", label: "Shop Face", tone: "primary" },
       { href: "/shop/skincare", label: "Shop Skincare", tone: "secondary" },
@@ -70,20 +74,20 @@ const slides: HeroSlide[] = [
       {
         src: "/hero/mask-24k-gold.png",
         alt: "PUQIANNA 24K Gold Whitening Facial Mask 25 ml",
-        frame: "bottom-0 left-0 z-10 h-[92%] w-[30%]",
-        sizes: "(min-width: 1024px) 190px, 120px",
+        item: "z-10 h-[92%] -mr-[6%] self-end aspect-[413/672]",
+        sizes: "(min-width: 1024px) 220px, 110px",
       },
       {
         src: "/hero/scrub-24k-gold.png",
         alt: "KÖRMESIC 24K Gold Exfoliating Scrub 100 g",
-        frame: "bottom-0 left-[32%] z-10 h-[98%] w-[32%]",
-        sizes: "(min-width: 1024px) 220px, 140px",
+        item: "z-20 h-full aspect-[473/693]",
+        sizes: "(min-width: 1024px) 260px, 130px",
       },
       {
         src: "/hero/lip-cherry.png",
         alt: "FAYANKÔU Cherry Moisturizing Soft Lip Mask 4.5 g",
-        frame: "bottom-[18%] right-0 z-10 h-[46%] w-[34%] lg:bottom-[22%] lg:h-[40%]",
-        sizes: "(min-width: 1024px) 260px, 160px",
+        item: "z-30 h-[40%] -ml-[28%] self-end aspect-[791/361]",
+        sizes: "(min-width: 1024px) 280px, 150px",
       },
     ],
   },
@@ -92,25 +96,26 @@ const slides: HeroSlide[] = [
     eyebrow: "New arrivals",
     title: "Newest on the shelf",
     support: "Perfume oils and wellness supplements. Delivery across Accra.",
+    cluster: "h-[80%]",
     ctas: [{ href: "/shop/new-arrivals", label: "See New Arrivals", tone: "primary" }],
     shots: [
       {
         src: "/hero/supplement-fruits-plus.png",
         alt: "OEM Fruits+ Whole Food Formula 90 capsules",
-        frame: "bottom-0 left-0 z-10 h-[90%] w-[31%]",
-        sizes: "(min-width: 1024px) 180px, 110px",
+        item: "z-10 h-[90%] -mr-[8%] self-end aspect-[284/616]",
+        sizes: "(min-width: 1024px) 160px, 80px",
       },
       {
         src: "/hero/oil-almas-crimson-chandelier.png",
         alt: "Almas Crimson Chandelier Perfume Oil 100 g",
-        frame: "bottom-0 left-[34%] z-10 h-[98%] w-[32%]",
-        sizes: "(min-width: 1024px) 220px, 130px",
+        item: "z-20 h-full aspect-[754/634]",
+        sizes: "(min-width: 1024px) 340px, 160px",
       },
       {
         src: "/hero/supplement-veggies-plus.png",
         alt: "OEM Veggies+ Whole Food Formula 90 capsules",
-        frame: "bottom-0 right-0 z-10 h-[90%] w-[31%]",
-        sizes: "(min-width: 1024px) 180px, 110px",
+        item: "z-10 h-[90%] -ml-[8%] self-start aspect-[286/615]",
+        sizes: "(min-width: 1024px) 160px, 80px",
       },
     ],
   },
@@ -125,28 +130,30 @@ const chips = [
   { href: "/shop/wellness", label: "Wellness" },
 ];
 
-function Stage({ shots, eager }: { shots: HeroShot[]; eager: boolean }) {
+function Stage({ shots, cluster, eager }: { shots: HeroShot[]; cluster: string; eager: boolean }) {
   return (
-    <div className="relative h-full w-full bg-[radial-gradient(ellipse_at_50%_38%,#fbf6ec_0%,#f1e3c9_52%,#e6d2ab_100%)]">
-      <div
-        className="pointer-events-none absolute bottom-[5%] left-1/2 h-5 w-[72%] -translate-x-1/2 rounded-[100%] bg-[#8c6a2b]/20 blur-md"
-        aria-hidden="true"
-      />
-      {shots.map((shot) => (
-        <div key={shot.src + shot.alt} className={`absolute ${shot.frame}`}>
-          <Image
-            src={shot.src}
-            alt={shot.alt}
-            fill
-            sizes={shot.sizes}
-            draggable={false}
-            className="object-contain object-bottom mix-blend-multiply"
-            {...(eager && shot.priority
-              ? { priority: true, fetchPriority: "high" as const }
-              : { loading: "lazy" as const })}
-          />
-        </div>
-      ))}
+    <div className="relative h-full w-full bg-[radial-gradient(ellipse_at_50%_42%,#fbf6ec_0%,#f3e6cc_58%,#e7d3ac_100%)]">
+      <div className={`absolute inset-x-1 top-1/2 flex -translate-y-1/2 items-center justify-center sm:inset-x-3 ${cluster}`}>
+        {shots.map((shot) => (
+          <div key={shot.src + shot.alt} className={`relative shrink-0 ${shot.item}`}>
+            <div
+              className="pointer-events-none absolute bottom-[1%] left-1/2 h-[7%] w-[62%] -translate-x-1/2 rounded-[100%] bg-[#4a341c]/25 blur-[5px]"
+              aria-hidden="true"
+            />
+            <Image
+              src={shot.src}
+              alt={shot.alt}
+              fill
+              sizes={shot.sizes}
+              draggable={false}
+              className="object-contain object-bottom"
+              {...(eager && shot.priority
+                ? { priority: true, fetchPriority: "high" as const }
+                : { loading: "lazy" as const })}
+            />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
@@ -200,7 +207,7 @@ export function HouseHero() {
     <section className="bg-[#f3f1ec] px-3 pt-3 sm:px-4 sm:pt-5">
       <div className="mx-auto max-w-7xl">
         <div
-          className="relative overflow-hidden rounded-2xl bg-[#14110e] text-white shadow-[0_18px_40px_rgba(20,17,14,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-house-gold lg:h-[520px]"
+          className="relative overflow-hidden rounded-2xl bg-[#14110e] text-white shadow-[0_18px_40px_rgba(20,17,14,0.16)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-house-gold lg:h-[460px]"
           aria-roledescription="carousel"
           aria-label="Featured"
           tabIndex={0}
@@ -285,11 +292,11 @@ export function HouseHero() {
                     : "pointer-events-none absolute inset-0 z-0 opacity-0"
                 }`}
               >
-                <div className="flex flex-col lg:grid lg:h-full lg:grid-cols-2 lg:items-center">
-                  <div className="relative h-[228px] shrink-0 sm:h-[260px] lg:order-2 lg:h-full">
-                    <Stage shots={slide.shots} eager={slideIndex === 0} />
+                <div className="flex flex-col lg:grid lg:h-full lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:items-center">
+                  <div className="relative h-[200px] shrink-0 sm:h-[220px] lg:order-2 lg:h-full">
+                    <Stage shots={slide.shots} cluster={slide.cluster} eager={slideIndex === 0} />
                   </div>
-                  <div className="flex flex-col justify-center px-5 pb-16 pt-4 sm:px-8 lg:order-1 lg:px-12 lg:py-10 lg:pb-16">
+                  <div className="flex flex-col justify-center px-5 pb-16 pt-4 sm:px-8 lg:order-1 lg:px-8 lg:py-8 lg:pb-16">
                     <p className="text-[11px] uppercase tracking-[0.22em] text-soft-gold">{slide.eyebrow}</p>
                     <Title className="mt-2 min-h-[4.4rem] max-w-[16ch] text-balance font-serif text-[1.7rem] font-medium leading-[1.12] text-white sm:min-h-[5.25rem] sm:max-w-md sm:text-4xl lg:min-h-0 lg:text-[3.15rem] lg:leading-[1.05]">
                       {slide.title}

@@ -25,12 +25,16 @@ const utilityExtras = [
   { href: "/customize", label: "Custom blend" },
 ];
 
-function formatHotline(raw: string): string {
-  const digits = raw.replace(/\D/g, "");
+function formatHotline(raw: string): string | null {
+  const trimmed = raw.trim();
+  const digits = trimmed.replace(/\D/g, "");
+  if (digits.length < 9) {
+    return null;
+  }
   if (digits.startsWith("233") && digits.length >= 12) {
     return `+${digits.slice(0, 3)} ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`;
   }
-  return raw;
+  return trimmed;
 }
 
 export function HouseNav({
@@ -48,7 +52,7 @@ export function HouseNav({
   const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
   const hotline = formatHotline(site.whatsapp);
-  const tel = `tel:+${site.whatsapp.replace(/\D/g, "")}`;
+  const tel = hotline ? `tel:+${site.whatsapp.replace(/\D/g, "")}` : "";
 
   useEffect(() => {
     setCount(countStored);
@@ -145,10 +149,12 @@ export function HouseNav({
           </form>
 
           <div className="ml-auto flex shrink-0 items-center gap-4 md:ml-0">
-            <a href={tel} className="hidden text-right lg:block">
-              <span className="block text-[10px] uppercase tracking-[0.2em] text-house-gold">Hotline</span>
-              <span className="text-sm font-medium text-white">{hotline}</span>
-            </a>
+            {hotline ? (
+              <a href={tel} className="hidden text-right lg:block">
+                <span className="block text-[10px] uppercase tracking-[0.2em] text-house-gold">Hotline</span>
+                <span className="text-sm font-medium text-white">{hotline}</span>
+              </a>
+            ) : null}
             <Link
               href="/cart"
               className="relative inline-flex min-h-11 items-center gap-2 text-sm text-white hover:text-house-gold"
