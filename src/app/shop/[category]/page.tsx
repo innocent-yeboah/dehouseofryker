@@ -24,13 +24,14 @@ export default async function CategoryPage({ params }: PageProps) {
         <p className="mt-2 max-w-2xl text-sm text-muted">
           KÖRMESIC face scrubs (100 g), PUQIANNA facial masks (25 ml), KORMESIC soap,
           HANYUTANG, POUQUR, and SADOER eye masks, FAYANKÔU, SADOER, and POUQUR lip masks,
-          and alcohol-free hair and body mists (290 ml).
+          vitamin C shower gel (1000 ml), and alcohol-free hair and body mists (290 ml).
         </p>
       ) : null}
       {kind === "oil" ? (
         <p className="mt-2 max-w-2xl text-sm text-muted">
           Almas Play Blue concentrated perfume oil (100 g), Crystal Amber inspired perfume, YZS
-          50 ml eaux de parfum, and Veyes 9 am eau de parfum (100 ml).
+          50 ml eaux de parfum, Veyes 9 am and Dawn eaux de parfum (100 ml), Miss Candy perfume,
+          and Maison Crivelli extraits (50 ml).
         </p>
       ) : null}
       {products.length === 0 ? (

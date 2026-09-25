@@ -7,19 +7,25 @@ import type { Product, Variant } from "@/types/shop";
  * priceGhs and stockOnHand are PLACEHOLDERS. The owner has not set final Accra prices.
  * Mask sachets, lip masks, the eye-mask sachet, and the KORMESIC soaps use the same
  * placeholder band as the other format SKUs (about 40–55 GHS, near the 100 g scrubs).
- * Perfume oils (Play Blue, the crystal flacon, the YZS bottles, and Veyes 9 am) use a
- * placeholder band of about 80–150 GHS. They are not Accra prices.
+ * Perfume oils (Play Blue, the crystal flacon, the YZS bottles, Veyes 9 am, Veyes Dawn,
+ * and Miss Candy) use a placeholder band of about 80–150 GHS. They are not Accra prices.
+ * Maison Crivelli Hibiscus Mahajád and Oud Maracujá sit at 150, the top of that band.
+ * TODO: owner to set real price (genuine luxury item).
+ * The vitamin C shower gel uses 85, the same large-format liquid placeholder as the 290 ml mists.
  * Spray sizeMl is a visual estimate (50): the photos do not show a printed volume.
  * Scrub tubes and the shea soap are sold by weight (100 g), so sizeMl is null and sizeText is "100 g".
  * The niacinamide soap is 110 g. FAYANKÔU lip masks and the SADOER orange lip mask are 4.5 g sachets.
  * SADOER strawberry and POUQUR cherry pink lip masks are one sachet (no printed net on the tile).
- * Eye masks are one sachet, two patches. Play Blue is 100 g. Veyes 9 am is 100 ml.
+ * Eye masks are one sachet, two patches. Play Blue is 100 g. Veyes 9 am and Veyes Dawn are 100 ml.
+ * The vitamin C shower gel is Net 1000 ml. Miss Candy has no printed volume, so sizeText is omitted.
+ * Maison Crivelli extraits are 50 ml (printed on the box).
  * Masks use sizeText "25 ml" (Net 25 ml sachets). YZS bottles and the crystal flacon use "50 ml".
  *
  * White Tea Mist is the house title for the white-tea hair & body mist bottle.
  * Crystal Amber Inspired Perfume is the house title for the faceted crystal bottle.
  * Do not sell that flacon under the name printed on the glass.
- * Finished scrubs, mists, masks, lip masks, the eye mask, soap, and perfume oils
+ * Hibiscus Mahajád and Oud Maracujá are genuine Maison Crivelli extraits; keep the real names.
+ * Finished scrubs, mists, masks, lip masks, the eye mask, soap, the shower gel, and perfume oils
  * are not blend-to-order (blendWhenZero: false).
  * The two glass sprays keep the house spray pattern (blendWhenZero: true).
  * Featured masks are a small set only: 24K Gold, Niacinamide, and Coffee, plus the KORMESIC soaps.
@@ -994,6 +1000,114 @@ export const seedProducts: Product[] = [
       unit(1060, 60, "DHR-OIL-VEYES-100", 120, 6, {
         sizeText: "100 ml",
       }),
+    ],
+  },
+  {
+    id: 61,
+    name: "Veyes \"Dawn\" Eau de Parfum 100 ml",
+    slug: "perfume-veyes-dawn",
+    description: "Veyes Dawn eau de parfum. 100 ml.",
+    kind: "oil",
+    images: [photo("perfume-veyes-dawn.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1061, 61, "DHR-OIL-VEYES-DWN-100", 120, 6, {
+        sizeText: "100 ml",
+      }),
+    ],
+  },
+  {
+    id: 62,
+    name: "Vitamin C Anti-Aging Shower Gel 1000 ml",
+    slug: "gel-vitamin-c-shower",
+    description: "Vitamin C anti-aging shower gel. Net 1000 ml.",
+    kind: "format",
+    images: [photo("gel-vitamin-c-shower.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1062, 62, "DHR-GEL-VC-1000", 85, 8, {
+        sizeMl: 1000,
+        sizeText: "1000 ml",
+      }),
+    ],
+  },
+  {
+    id: 63,
+    name: "SADOER Caviar Essence Eye Mask",
+    slug: "eye-sadoer-caviar",
+    description:
+      "SADOER caviar essence eye mask, Eye Care series. One sachet, two patches.",
+    kind: "format",
+    images: [photo("eye-sadoer-caviar.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1063, 63, "DHR-EYE-SAD-CAV", 52, 9, {
+        sizeText: "1 sachet (2 patches)",
+      }),
+    ],
+  },
+  {
+    id: 64,
+    name: "Miss Candy Perfume",
+    slug: "perfume-miss-candy",
+    description:
+      "Miss Candy perfume. The tile does not show a printed volume.",
+    kind: "oil",
+    images: [photo("perfume-miss-candy.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(1064, 64, "DHR-OIL-CANDY", 110, 6),
+    ],
+  },
+  {
+    id: 65,
+    name: "Maison Crivelli Hibiscus Mahajád Extrait de Parfum",
+    slug: "perfume-crivelli-hibiscus-mahajad",
+    description:
+      "Maison Crivelli Hibiscus Mahajád extrait de parfum. 50 ml.",
+    kind: "oil",
+    images: [photo("perfume-crivelli-hibiscus.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1065,
+        65,
+        "DHR-OIL-CRIV-HIB-50",
+        // TODO: owner to set real price (genuine luxury item)
+        150,
+        4,
+        {
+          sizeText: "50 ml",
+        },
+      ),
+    ],
+  },
+  {
+    id: 66,
+    name: "Maison Crivelli Oud Maracujá Extrait de Parfum",
+    slug: "perfume-crivelli-oud-maracuja",
+    description: "Maison Crivelli Oud Maracujá extrait de parfum. 50 ml.",
+    kind: "oil",
+    images: [photo("perfume-crivelli-oud.png")],
+    active: true,
+    featured: false,
+    variants: [
+      unit(
+        1066,
+        66,
+        "DHR-OIL-CRIV-OUD-50",
+        // TODO: owner to set real price (genuine luxury item)
+        150,
+        4,
+        {
+          sizeText: "50 ml",
+        },
+      ),
     ],
   },
 ];
