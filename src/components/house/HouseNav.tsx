@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { GoldMark } from "@/components/house/GoldMark";
 import type { NavGroup } from "@/lib/ia";
-import { site } from "@/lib/site";
+import { formatShopPhone, shopTelHref, site } from "@/lib/site";
 import { useCart } from "@/store/cart";
 
 const utilityLeft = [
@@ -25,18 +25,6 @@ const utilityExtras = [
   { href: "/customize", label: "Custom blend" },
 ];
 
-function formatHotline(raw: string): string | null {
-  const trimmed = raw.trim();
-  const digits = trimmed.replace(/\D/g, "");
-  if (digits.length < 9) {
-    return null;
-  }
-  if (digits.startsWith("233") && digits.length >= 12) {
-    return `+${digits.slice(0, 3)} ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`;
-  }
-  return trimmed;
-}
-
 export function HouseNav({
   departments,
   quick,
@@ -51,8 +39,8 @@ export function HouseNav({
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [count, setCount] = useState(0);
   const [query, setQuery] = useState("");
-  const hotline = formatHotline(site.whatsapp);
-  const tel = hotline ? `tel:+${site.whatsapp.replace(/\D/g, "")}` : "";
+  const hotline = formatShopPhone(site.whatsapp);
+  const tel = hotline ? shopTelHref(site.whatsapp) : "";
 
   useEffect(() => {
     setCount(countStored);
@@ -150,9 +138,11 @@ export function HouseNav({
 
           <div className="ml-auto flex shrink-0 items-center gap-4 md:ml-0">
             {hotline ? (
-              <a href={tel} className="hidden text-right lg:block">
-                <span className="block text-[10px] uppercase tracking-[0.2em] text-house-gold">Hotline</span>
-                <span className="text-sm font-medium text-white">{hotline}</span>
+              <a href={tel} className="text-right leading-tight">
+                <span className="block text-[10px] uppercase tracking-[0.16em] text-house-gold sm:tracking-[0.2em]">
+                  Hotline
+                </span>
+                <span className="whitespace-nowrap text-[11px] font-medium text-white sm:text-sm">{hotline}</span>
               </a>
             ) : null}
             <Link

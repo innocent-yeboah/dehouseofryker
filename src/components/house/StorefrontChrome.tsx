@@ -1,11 +1,12 @@
 import { HouseNav } from "@/components/house/HouseNav";
 import { MobileDock } from "@/components/house/MobileDock";
 import { storefrontMenu } from "@/lib/ia";
-import { site, whatsappHref } from "@/lib/site";
+import { formatShopPhone, shopTelHref, site, whatsappHref } from "@/lib/site";
 import Link from "next/link";
 
 export function HouseFooter() {
   const menu = storefrontMenu();
+  const phone = formatShopPhone(site.whatsapp);
   return (
     <footer className="mt-10 border-t border-black/5 bg-ink text-white sm:mt-16">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 md:grid-cols-4">
@@ -62,6 +63,11 @@ export function HouseFooter() {
           <div className="mt-3 space-y-2 text-sm text-white/80">
             <p>{site.address}</p>
             <p>{site.hours}</p>
+            {phone ? (
+              <a className="inline-block text-house-gold" href={shopTelHref()}>
+                {phone}
+              </a>
+            ) : null}
             <a className="inline-block text-house-gold" href={site.mapsUrl}>
               Open map
             </a>

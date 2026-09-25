@@ -1,15 +1,38 @@
+/** Shop line for calls, WhatsApp, and manual MoMo. Digits only, no leading plus. */
+export const SHOP_MSISDN = "233533304602";
+
+function envOr(value: string | undefined, fallback: string): string {
+  return value?.trim() || fallback;
+}
+
+export function formatShopPhone(raw: string): string | null {
+  const trimmed = raw.trim();
+  const digits = trimmed.replace(/\D/g, "");
+  if (digits.length < 9) {
+    return null;
+  }
+  if (digits.startsWith("233") && digits.length >= 12) {
+    return `+${digits.slice(0, 3)} ${digits.slice(3, 5)} ${digits.slice(5, 8)} ${digits.slice(8)}`;
+  }
+  return trimmed;
+}
+
 export const site = {
   name: "De House of Ryker",
   tagline:
     "Glass sprays, scrubs, and hair and body mists from our Accra shop. Shop what is ready, or WhatsApp a custom blend and pay when you smell it.",
   heroPromise: "Smell it here. Wear it as yours.",
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "233000000000",
-  momoMerchant: process.env.NEXT_PUBLIC_MOMO_MERCHANT ?? "233000000000",
+  whatsapp: envOr(process.env.NEXT_PUBLIC_WHATSAPP, SHOP_MSISDN),
+  momoMerchant: envOr(process.env.NEXT_PUBLIC_MOMO_MERCHANT, SHOP_MSISDN),
   address: process.env.NEXT_PUBLIC_SHOP_ADDRESS ?? "Accra, Ghana",
   hours: process.env.NEXT_PUBLIC_SHOP_HOURS ?? "Monday–Saturday, 10:00–19:00",
   mapsUrl: process.env.NEXT_PUBLIC_MAPS_URL ?? "https://maps.google.com/?q=Accra",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
 } as const;
+
+export function shopTelHref(raw: string = site.whatsapp): string {
+  return `tel:+${raw.replace(/\D/g, "")}`;
+}
 
 export function whatsappHref(message: string): string {
   const digits = site.whatsapp.replace(/\D/g, "");

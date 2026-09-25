@@ -1,7 +1,8 @@
 import { StorefrontChrome } from "@/components/house/StorefrontChrome";
-import { site, whatsappHref } from "@/lib/site";
+import { formatShopPhone, shopTelHref, site, whatsappHref } from "@/lib/site";
 
 export default function ContactPage() {
+  const phone = formatShopPhone(site.whatsapp);
   return (
     <StorefrontChrome>
       <h1 className="font-serif text-3xl sm:text-4xl">Contact</h1>
@@ -13,7 +14,14 @@ export default function ContactPage() {
       <a className="mt-2 inline-block text-deep-gold" href={site.mapsUrl}>
         Open map
       </a>
-      <p className="mt-6">
+      {phone ? (
+        <p className="mt-6 text-sm">
+          <a className="text-deep-gold" href={shopTelHref()}>
+            {phone}
+          </a>
+        </p>
+      ) : null}
+      <p className="mt-2">
         <a className="text-deep-gold" href={whatsappHref("Hello, I have a question.")}>
           WhatsApp the house
         </a>
