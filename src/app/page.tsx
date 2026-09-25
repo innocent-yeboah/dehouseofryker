@@ -50,7 +50,7 @@ export default async function HomePage() {
         <>
           <HouseHero />
           <div className="bg-[#f3f1ec] pb-6 pt-4">
-            <CategoryPromos />
+            <CategoryPromos products={products} />
           </div>
         </>
       }
