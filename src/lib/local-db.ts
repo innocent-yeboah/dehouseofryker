@@ -14,6 +14,8 @@ type LocalState = {
   stock: Record<string, StockRow>;
   orders: Order[];
   walkIns: WalkInSale[];
+  /** Owner price edits. Missing keys keep the catalog price. */
+  prices: Record<string, number>;
 };
 
 /**
@@ -70,7 +72,7 @@ function defaultStock(): Record<string, StockRow> {
 }
 
 function emptyState(): LocalState {
-  return { stock: defaultStock(), orders: [], walkIns: [] };
+  return { stock: defaultStock(), orders: [], walkIns: [], prices: {} };
 }
 
 let writeQueue: Promise<void> = Promise.resolve();
@@ -84,6 +86,7 @@ async function readState(): Promise<LocalState> {
         stock: { ...defaultStock(), ...parsed.stock },
         orders: parsed.orders ?? [],
         walkIns: parsed.walkIns ?? [],
+        prices: parsed.prices ?? {},
       };
     } catch (error) {
       if (isMissingFile(error) || isReadOnlyFs(error) || error instanceof SyntaxError) {
@@ -146,6 +149,19 @@ export function applyStock(products: Product[], stock: Record<string, StockRow>)
         stockOnHand: row.stockOnHand,
         stockReserved: row.stockReserved,
       };
+    }),
+  }));
+}
+
+export function applyCommerce(products: Product[], state: Pick<LocalState, "stock" | "prices">): Product[] {
+  return applyStock(products, state.stock).map((product) => ({
+    ...product,
+    variants: product.variants.map((variant) => {
+      const price = state.prices[String(variant.id)];
+      if (price === undefined || Number.isNaN(price)) {
+        return variant;
+      }
+      return { ...variant, priceGhs: price };
     }),
   }));
 }

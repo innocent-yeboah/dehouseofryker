@@ -9,6 +9,8 @@ import { brandIndex, homeRails } from "@/lib/ia";
 import { site, whatsappHref } from "@/lib/site";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 function ProductRail({
   title,
   href,

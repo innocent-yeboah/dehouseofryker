@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { ownerSessionValid } from "@/lib/owner-session";
-import { applyOwnerAction, listOrders, recordWalkIn, ShopError } from "@/lib/orders";
+import { applyOwnerAction, listOrders, recordWalkIn, ShopError, updateVariantCommercials } from "@/lib/orders";
 import type { OwnerAction } from "@/lib/orders";
 
 export async function GET() {
@@ -22,10 +22,16 @@ export async function POST(request: Request) {
     deliveryFeeGhs?: number | null;
     variantId?: number;
     qty?: number;
+    priceGhs?: number;
+    stockOnHand?: number;
   };
   try {
     if (json.type === "walk_in") {
       await recordWalkIn(Number(json.variantId), Number(json.qty));
+      return NextResponse.json({ ok: true });
+    }
+    if (json.type === "stock") {
+      await updateVariantCommercials(Number(json.variantId), Number(json.priceGhs), Number(json.stockOnHand));
       return NextResponse.json({ ok: true });
     }
     if (json.type === "order" && json.orderId && json.action) {

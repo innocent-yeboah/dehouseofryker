@@ -1,10 +1,39 @@
 import { seedProducts } from "@/data/seed-catalog";
+import { warnIfFileStore, usingDatabase } from "@/lib/db/config";
+import { loadVariantRows } from "@/lib/db/shop-db";
 import { compareProducts } from "@/lib/ia";
-import { applyStock, findVariant, withState } from "@/lib/local-db";
+import { applyCommerce, findVariant, withState } from "@/lib/local-db";
 import type { Product } from "@/types/shop";
 
+function overlayDatabase(
+  products: Product[],
+  rows: Awaited<ReturnType<typeof loadVariantRows>>,
+): Product[] {
+  const byId = new Map(rows.map((row) => [row.variantId, row]));
+  return products.map((product) => ({
+    ...product,
+    variants: product.variants.map((variant) => {
+      const row = byId.get(variant.id);
+      if (!row) {
+        return variant;
+      }
+      return {
+        ...variant,
+        priceGhs: row.priceGhs,
+        stockOnHand: row.stockOnHand,
+        stockReserved: row.stockReserved,
+      };
+    }),
+  }));
+}
+
 export async function getProducts(): Promise<Product[]> {
-  return withState((state) => applyStock(seedProducts.filter((item) => item.active), state.stock));
+  const active = seedProducts.filter((item) => item.active);
+  if (usingDatabase()) {
+    return overlayDatabase(active, await loadVariantRows());
+  }
+  warnIfFileStore();
+  return withState((state) => applyCommerce(active, state));
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {

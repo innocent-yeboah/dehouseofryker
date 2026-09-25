@@ -5,6 +5,8 @@ import { brandIndex } from "@/lib/ia";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Shop by Brand",
 };

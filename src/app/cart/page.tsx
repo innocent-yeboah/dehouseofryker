@@ -2,6 +2,8 @@ import { StorefrontChrome } from "@/components/house/StorefrontChrome";
 import { CartView } from "@/components/shop/CartView";
 import { getProducts } from "@/lib/catalog";
 
+export const dynamic = "force-dynamic";
+
 export default async function CartPage() {
   const products = await getProducts();
   return (

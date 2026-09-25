@@ -133,3 +133,34 @@ export type WalkInSale = {
   qty: number;
   createdAt: string;
 };
+
+export type OwnerAction =
+  | "confirm_merchant"
+  | "ready"
+  | "paid_in_shop"
+  | "picked_up"
+  | "delivery_agreed"
+  | "dispatched"
+  | "switch_to_pickup"
+  | "refund"
+  | "release_hold";
+
+export type StockMovementKind =
+  | "sale"
+  | "walk_in"
+  | "manual_adjustment"
+  | "restock"
+  | "reservation"
+  | "release";
+
+export type StockMovement = {
+  id: string;
+  variantId: number;
+  kind: StockMovementKind;
+  qtyDelta: number;
+  reservedDelta: number;
+  priceGhs: number | null;
+  note: string | null;
+  orderId: string | null;
+  createdAt: string;
+};

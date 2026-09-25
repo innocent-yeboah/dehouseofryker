@@ -1,46 +1,35 @@
 import { availabilityFor, shelfQty } from "@/lib/availability";
-import { applyStock, findVariant, newId, newOrderCode, newViewToken, phonesMatch, withState } from "@/lib/local-db";
+import { warnIfFileStore, usingDatabase } from "@/lib/db/config";
+import {
+  applyOwnerActionDb,
+  attachMomoRequestDb,
+  confirmVerifiedMomoDb,
+  createOrderDb,
+  findOrderDb,
+  getOrderByCodeAndTokenDb,
+  getOrderByIdDb,
+  listMovementsDb,
+  listOrdersDb,
+  recordWalkInDb,
+  updateVariantDb,
+} from "@/lib/db/shop-db";
+import { applyCommerce, applyStock, findVariant, newId, newOrderCode, newViewToken, phonesMatch, withState } from "@/lib/local-db";
 import { seedProducts } from "@/data/seed-catalog";
 import { variantSizeLabel } from "@/lib/money";
+import { reserveLine, ShopError } from "@/lib/reserve";
 import type {
   CartLine,
   Fulfillment,
   Order,
   OrderItem,
   OrderStatus,
+  OwnerAction,
   PaymentMethod,
+  StockMovement,
 } from "@/types/shop";
 
-export class ShopError extends Error {
-  constructor(
-    message: string,
-    readonly status = 400,
-  ) {
-    super(message);
-    this.name = "ShopError";
-  }
-}
-
-function reserveLine(
-  stock: { stockOnHand: number; stockReserved: number },
-  qty: number,
-  blendOk: boolean,
-): "on_shelf" | "blend" {
-  const available = shelfQty(stock);
-  if (available >= qty) {
-    stock.stockReserved += qty;
-    return "on_shelf";
-  }
-  if (blendOk && available === 0) {
-    return "blend";
-  }
-  if (blendOk && available > 0 && available < qty) {
-    throw new ShopError(
-      "That size is partly on the shelf. Reduce the quantity, or add a second line after this one is gone.",
-    );
-  }
-  throw new ShopError("That item is unavailable.");
-}
+export { ShopError };
+export type { OwnerAction };
 
 export async function createOrder(input: {
   customerName: string;
@@ -53,8 +42,12 @@ export async function createOrder(input: {
   momoRef?: string | null;
   momoNumberMasked?: string | null;
 }): Promise<Order> {
+  if (usingDatabase()) {
+    return createOrderDb(input);
+  }
+  warnIfFileStore();
   return withState((state) => {
-    const products = applyStock(seedProducts, state.stock);
+    const products = applyCommerce(seedProducts, state);
     const items: OrderItem[] = [];
     let goodsTotalGhs = 0;
 
@@ -149,10 +142,18 @@ function confirmSale(state: { stock: Record<string, { stockReserved: number; sto
 }
 
 export async function getOrderById(id: string): Promise<Order | null> {
+  if (usingDatabase()) {
+    return getOrderByIdDb(id);
+  }
+  warnIfFileStore();
   return withState((state) => state.orders.find((item) => item.id === id) ?? null);
 }
 
 export async function getOrderByCodeAndToken(code: string, token: string): Promise<Order | null> {
+  if (usingDatabase()) {
+    return getOrderByCodeAndTokenDb(code, token);
+  }
+  warnIfFileStore();
   return withState((state) => {
     const order = state.orders.find((item) => item.code.toUpperCase() === code.toUpperCase());
     if (!order || order.viewToken !== token) {
@@ -163,6 +164,10 @@ export async function getOrderByCodeAndToken(code: string, token: string): Promi
 }
 
 export async function findOrder(phone: string, code: string): Promise<Order | null> {
+  if (usingDatabase()) {
+    return findOrderDb(phone, code);
+  }
+  warnIfFileStore();
   return withState((state) => {
     return (
       state.orders.find(
@@ -174,25 +179,22 @@ export async function findOrder(phone: string, code: string): Promise<Order | nu
 }
 
 export async function listOrders(): Promise<Order[]> {
+  if (usingDatabase()) {
+    return listOrdersDb();
+  }
+  warnIfFileStore();
   return withState((state) => state.orders);
 }
-
-export type OwnerAction =
-  | "confirm_merchant"
-  | "ready"
-  | "paid_in_shop"
-  | "picked_up"
-  | "delivery_agreed"
-  | "dispatched"
-  | "switch_to_pickup"
-  | "refund"
-  | "release_hold";
 
 export async function applyOwnerAction(
   orderId: string,
   action: OwnerAction,
   extra?: { deliveryFeeGhs?: number | null },
 ): Promise<Order> {
+  if (usingDatabase()) {
+    return applyOwnerActionDb(orderId, action, extra);
+  }
+  warnIfFileStore();
   return withState((state) => {
     const order = state.orders.find((item) => item.id === orderId);
     if (!order) {
@@ -272,6 +274,11 @@ export async function applyOwnerAction(
 }
 
 export async function attachMomoRequest(orderId: string, referenceId: string): Promise<void> {
+  if (usingDatabase()) {
+    await attachMomoRequestDb(orderId, referenceId);
+    return;
+  }
+  warnIfFileStore();
   await withState((state) => {
     const order = state.orders.find((item) => item.id === orderId);
     if (!order || order.payment !== "momo") {
@@ -293,6 +300,10 @@ export async function confirmVerifiedMomo(input: {
   currency: string;
   expectedCurrency: string;
 }): Promise<"confirmed" | "already" | "not_found" | "rejected"> {
+  if (usingDatabase()) {
+    return confirmVerifiedMomoDb(input);
+  }
+  warnIfFileStore();
   return withState((state) => {
     const code = input.code.trim();
     if (!code) {
@@ -333,6 +344,11 @@ export async function recordWalkIn(variantId: number, qty: number): Promise<void
   if (!Number.isInteger(qty) || qty < 1) {
     throw new ShopError("Quantity must be at least 1.");
   }
+  if (usingDatabase()) {
+    await recordWalkInDb(variantId, qty);
+    return;
+  }
+  warnIfFileStore();
   return withState((state) => {
     const products = applyStock(seedProducts, state.stock);
     const found = findVariant(products, variantId);
@@ -355,6 +371,49 @@ export async function recordWalkIn(variantId: number, qty: number): Promise<void
       createdAt: new Date().toISOString(),
     });
   });
+}
+
+export async function updateVariantCommercials(
+  variantId: number,
+  priceGhs: number,
+  stockOnHand: number,
+): Promise<void> {
+  if (!Number.isInteger(variantId) || variantId < 1) {
+    throw new ShopError("Product not found.", 404);
+  }
+  if (!Number.isFinite(priceGhs) || priceGhs < 0) {
+    throw new ShopError("Enter a price of zero or more.");
+  }
+  if (!Number.isInteger(stockOnHand) || stockOnHand < 0) {
+    throw new ShopError("On hand must be a whole number.");
+  }
+  if (usingDatabase()) {
+    await updateVariantDb(variantId, priceGhs, stockOnHand);
+    return;
+  }
+  warnIfFileStore();
+  await withState((state) => {
+    if (!findVariant(seedProducts, variantId)) {
+      throw new ShopError("Product not found.", 404);
+    }
+    const stock = state.stock[String(variantId)];
+    if (!stock) {
+      throw new ShopError("Stock row missing.");
+    }
+    if (stockOnHand < stock.stockReserved) {
+      throw new ShopError("On hand cannot be lower than the quantity already reserved.");
+    }
+    stock.stockOnHand = stockOnHand;
+    state.prices[String(variantId)] = Math.round(priceGhs * 100) / 100;
+  });
+}
+
+export async function listStockMovements(): Promise<StockMovement[]> {
+  if (usingDatabase()) {
+    return listMovementsDb();
+  }
+  warnIfFileStore();
+  return [];
 }
 
 export { availabilityFor };
